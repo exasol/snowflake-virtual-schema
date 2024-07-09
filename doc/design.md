@@ -1,0 +1,1 @@
+# Design for the Snowflake Virtual Schema adapter

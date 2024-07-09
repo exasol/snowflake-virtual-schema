@@ -1,0 +1,5 @@
+error-tags:
+  VSSF:
+    packages:
+      - com.exasol.closeafterall
+    highest-index: 9

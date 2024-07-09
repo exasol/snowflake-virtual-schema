@@ -1,0 +1,15 @@
+sources:
+  - type: maven
+    path: pom.xml
+    modules:
+      - integration_tests
+      - udf_coverage
+      - jar_artifact
+version:
+  fromSource: pom.xml
+build:
+  runnerOs: ubuntu-20.04
+  freeDiskSpace: false
+  exasolDbVersions:
+    - "7.1.25"
+    - "8.24.0"  
