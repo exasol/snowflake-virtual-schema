@@ -38,3 +38,7 @@ venv/
 /.apt_generated_tests/
 *.flattened-pom.xml
 /bin/
+
+username.txt
+password.txt
+accountname.txt
