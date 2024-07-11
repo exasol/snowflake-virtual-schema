@@ -32,7 +32,7 @@ class SnowflakeSqlDialectIT {
     @CloseAfterAll
     private static final SnowflakeVirtualSchemaIntegrationTestSetup SETUP = new SnowflakeVirtualSchemaIntegrationTestSetup();
     private static final String SCHEMA_SNOWFLAKE = "SCHEMA_SNOWFLAKE";
-    private static final String SCHEMA_SNOWFLAKE_UPPERCASE_TABLE = "schema_snowflake_upper";
+    private static final String SCHEMA_SNOWFLAKE_UPPERCASE_TABLE = "SCHEMA_SNOWFLAKE_UPPER";
     private static final String TABLE_SNOWFLAKE_SIMPLE = "table_snowflake_simple";
     private static final String TABLE_SNOWFLAKE_MIXED_CASE = "Table_Snowflake_Mixed_Case";
     private static final String TABLE_SNOWFLAKE_LOWER_CASE = "table_snowflake_lower_case";
@@ -55,7 +55,7 @@ class SnowflakeSqlDialectIT {
         statementSnowflake.execute("CREATE SCHEMA " + SCHEMA_SNOWFLAKE);
         statementSnowflake.execute("CREATE SCHEMA " + SCHEMA_SNOWFLAKE_UPPERCASE_TABLE);
         createSnowflakeTestTableSimple(statementSnowflake);
-        // createSnowflakeTestTableAllDataTypes(statementSnowflake);
+        createSnowflakeTestTableAllDataTypes(statementSnowflake);
         // createSnowflakeTestTableMixedCase(statementSnowflake);
         // createSnowflakeTestTableLowerCase(statementSnowflake);
         // createTestTablesForJoinTests(SCHEMA_SNOWFLAKE);
@@ -93,7 +93,7 @@ class SnowflakeSqlDialectIT {
                 + "myDate DATE, " //
                 + "myDouble DOUBLE PRECISION, " //
                 + "myInet INET, " //
-                + "myInteger INTEGER, " //
+                + "myInteger NUMBER(36,0), " //
                 + "myInterval INTERVAL, " //
                 + "myJson JSON, " //
                 + "myJsonB JSONB, " //

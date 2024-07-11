@@ -162,7 +162,8 @@ public class SnowflakeSqlDialect extends AbstractSqlDialect {
         return super.quoteIdentifierWithDoubleQuotes(identifier);
     }
 
-
+    //Changing this to true fixes java.sql.SQLException: ETL-5402: JDBC-Client-Error: Failed to initialize Query: Cannot perform SELECT. This session does not have a current database. Call 'USE DATABASE', or use a qualified name.
+    //By using database/catalog name as a prefix.
     @Override
     public boolean requiresCatalogQualifiedTableNames(final SqlGenerationContext context) {
         return true;
