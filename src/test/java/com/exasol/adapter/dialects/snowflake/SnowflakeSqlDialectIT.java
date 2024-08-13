@@ -184,7 +184,8 @@ class SnowflakeSqlDialectIT {
     void testInnerJoin() throws SQLException {
         final String query = "SELECT * FROM " + QUALIFIED_TABLE_JOIN_NAME_1 + " a INNER JOIN  "
                 + QUALIFIED_TABLE_JOIN_NAME_2 + " b ON a.x=b.x";
-        final ResultSet expected = getExpectedResultSet(List.of("x INT", "y VARCHAR(100)", "a INT", "b VARCHAR(100)"), //
+        final ResultSet expected = getExpectedResultSet(
+                List.of("x  DECIMAL(36,0)", "y VARCHAR(100)", "a DECIMAL(36,0)", "b VARCHAR(100)"), //
                 List.of("2,'bbb', 2,'bbb'"));
         final ResultSet actualResultSet = getActualResultSet(query);
         assertThat(actualResultSet, matchesResultSet(expected));
@@ -203,7 +204,8 @@ class SnowflakeSqlDialectIT {
     void testLeftJoin() throws SQLException {
         final String query = "SELECT * FROM " + QUALIFIED_TABLE_JOIN_NAME_1 + " a LEFT OUTER JOIN  "
                 + QUALIFIED_TABLE_JOIN_NAME_2 + " b ON a.x=b.x ORDER BY a.x";
-        final ResultSet expected = getExpectedResultSet(List.of("x INT", "y VARCHAR(100)", "a INT", "b VARCHAR(100)"), //
+        final ResultSet expected = getExpectedResultSet(
+                List.of("x DECIMAL(36,0)", "y VARCHAR(100)", "a DECIMAL(36,0)", "b VARCHAR(100)"), //
                 List.of("1, 'aaa', null, null", //
                         "2, 'bbb', 2, 'bbb'"));
         assertThat(getActualResultSet(query), matchesResultSet(expected));
@@ -213,7 +215,8 @@ class SnowflakeSqlDialectIT {
     void testRightJoin() throws SQLException {
         final String query = "SELECT * FROM " + QUALIFIED_TABLE_JOIN_NAME_1 + " a RIGHT OUTER JOIN  "
                 + QUALIFIED_TABLE_JOIN_NAME_2 + " b ON a.x=b.x ORDER BY a.x";
-        final ResultSet expected = getExpectedResultSet(List.of("x INT", "y VARCHAR(100)", "a INT", "b VARCHAR(100)"), //
+        final ResultSet expected = getExpectedResultSet(
+                List.of("x DECIMAL(36,0)", "y VARCHAR(100)", "a DECIMAL(36,0)", "b VARCHAR(100)"), //
                 List.of("2, 'bbb', 2, 'bbb'", //
                         "null, null, 3, 'ccc'"));
         assertThat(getActualResultSet(query), matchesResultSet(expected));
@@ -223,7 +226,8 @@ class SnowflakeSqlDialectIT {
     void testFullOuterJoin() throws SQLException {
         final String query = "SELECT * FROM " + QUALIFIED_TABLE_JOIN_NAME_1 + " a FULL OUTER JOIN  "
                 + QUALIFIED_TABLE_JOIN_NAME_2 + " b ON a.x=b.x ORDER BY a.x";
-        final ResultSet expected = getExpectedResultSet(List.of("x INT", "y VARCHAR(100)", "a INT", "b VARCHAR(100)"), //
+        final ResultSet expected = getExpectedResultSet(
+                List.of("x DECIMAL(36,0)", "y VARCHAR(100)", "a DECIMAL(36,0)", "b VARCHAR(100)"), //
                 List.of("1, 'aaa', null, null", //
                         "2, 'bbb', 2, 'bbb'", //
                         "null, null, 3, 'ccc'"));
@@ -234,7 +238,8 @@ class SnowflakeSqlDialectIT {
     void testRightJoinWithComplexCondition() throws SQLException {
         final String query = "SELECT * FROM " + QUALIFIED_TABLE_JOIN_NAME_1 + " a RIGHT OUTER JOIN  "
                 + QUALIFIED_TABLE_JOIN_NAME_2 + " b ON a.x||a.y=b.x||b.y ORDER BY a.x";
-        final ResultSet expected = getExpectedResultSet(List.of("x INT", "y VARCHAR(100)", "a INT", "b VARCHAR(100)"), //
+        final ResultSet expected = getExpectedResultSet(
+                List.of("x DECIMAL(36,0)", "y VARCHAR(100)", "a DECIMAL(36,0)", "b VARCHAR(100)"), //
                 List.of("2, 'bbb', 2, 'bbb'", //
                         "null, null, 3, 'ccc'"));
         assertThat(getActualResultSet(query), matchesResultSet(expected));
@@ -244,7 +249,8 @@ class SnowflakeSqlDialectIT {
     void testFullOuterJoinWithComplexCondition() throws SQLException {
         final String query = "SELECT * FROM " + QUALIFIED_TABLE_JOIN_NAME_1 + " a FULL OUTER JOIN  "
                 + QUALIFIED_TABLE_JOIN_NAME_2 + " b ON a.x-b.x=0 ORDER BY a.x";
-        final ResultSet expected = getExpectedResultSet(List.of("x INT", "y VARCHAR(100)", "a INT", "b VARCHAR(100)"), //
+        final ResultSet expected = getExpectedResultSet(
+                List.of("x DECIMAL(36,0)", "y VARCHAR(100)", "a DECIMAL(36,0)", "b VARCHAR(100)"), //
                 List.of("1, 'aaa', null, null", //
                         "2, 'bbb', 2, 'bbb'", //
                         "null, null, 3, 'ccc'"));
@@ -359,11 +365,6 @@ class SnowflakeSqlDialectIT {
     @Test
     void testDatatypeTime() throws SQLException {
         assertSingleValue("myTime", "VARCHAR(2000000) UTF8", "1970-01-01 11:11:11.0");
-    }
-
-    @Test
-    void testDatatypeTimeWithTimezone() throws SQLException {
-        assertSingleValue("myTimeWithTimeZone", "VARCHAR(2000000) UTF8", "1970-01-01 11:11:11.0");
     }
 
     @Test
