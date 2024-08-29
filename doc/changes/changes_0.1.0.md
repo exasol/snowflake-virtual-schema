@@ -4,9 +4,11 @@ Code name: First version
 
 ## Summary
 
-## Features / Enhancements
+This is the MVP release.
 
-* #1: Something Something #TO DO
+## Features
+
+* #1: Releasing the MVP
 
 ## Dependency Updates
 
