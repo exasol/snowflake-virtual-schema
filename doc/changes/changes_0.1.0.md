@@ -6,7 +6,8 @@ Code name: First version
 
 ## Features / Enhancements
 
-* #1: SomethingSomething #TO DO
+* #1: Something Something #TO DO
+
 ## Dependency Updates
 
 ### Compile Dependency Updates
