@@ -58,7 +58,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
     SnowflakeVirtualSchemaIntegrationTestSetup() {
         try {
             this.exasolContainer.start();
-            // TODO add localstack support + cleanup
+            // TODO add localstack support
             // this.snowflakeContainer.start();
             final Bucket bucket = this.exasolContainer.getDefaultBucket();
             uploadDriverToBucket(this.exasolContainer);
