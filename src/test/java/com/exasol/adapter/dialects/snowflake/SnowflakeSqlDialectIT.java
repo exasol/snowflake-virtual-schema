@@ -383,9 +383,10 @@ class SnowflakeSqlDialectIT {
 
     private void assertSingleValue(final String columnName, final String expectedColumnType, final Object expectedValue)
             throws SQLException {
-        final ResultSet actual = statementExasol.executeQuery("SELECT " + columnName + " FROM "
-                + virtualSchemaSnowflake.getName() + "." + TABLE_SNOWFLAKE_ALL_DATA_TYPES);
-        MatcherAssert.assertThat(actual, table().row(expectedValue).matches(TypeMatchMode.NO_JAVA_TYPE_CHECK));
+        final String getActualValueQuery = "SELECT " + columnName + " FROM " + virtualSchemaSnowflake.getName() + "."
+                + TABLE_SNOWFLAKE_ALL_DATA_TYPES;
+        final ResultSet actualResultSet = statementExasol.executeQuery(getActualValueQuery);
+        MatcherAssert.assertThat(actualResultSet, table().row(expectedValue).matches(TypeMatchMode.NO_JAVA_TYPE_CHECK));
     }
 
     // TODO refactor to use table().row().matches()
