@@ -13,3 +13,21 @@ build:
   exasolDbVersions:
     - "7.1.25"
     - "8.24.0"  
+  workflows:
+    - name: ci-build.yml
+      stepCustomizations:
+        # Configure Snowflake credentials
+        - action: INSERT_AFTER
+          stepId: enable-testcontainer-reuse
+          content:
+            name: Configure Snowflake credentials
+            id: configure-snowflake-credentials
+            run: |
+              echo "$USERNAME" > username.txt
+              echo "$ACCOUNTNAME" > accountname.txt
+              echo "$PASSWORD" > password.txt
+            env: {
+              USERNAME: '${{ secrets.USERNAME }}',
+              ACCOUNTNAME: '${{ secrets.ACCOUNTNAME }}',
+              PASSWORD: '${{ secrets.PASSWORD }}'
+            }

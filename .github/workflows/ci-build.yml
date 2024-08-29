@@ -67,6 +67,17 @@ jobs:
         id: enable-testcontainer-reuse,
         run: echo 'testcontainers.reuse.enable=true' > "$HOME/.testcontainers.properties"
       }
+      - name: Configure Snowflake credentials
+        id: configure-snowflake-credentials
+        run: |
+          echo "$USERNAME" > username.txt
+          echo "$ACCOUNTNAME" > accountname.txt
+          echo "$PASSWORD" > password.txt
+        env: {
+          USERNAME: '${{ secrets.USERNAME }}',
+          ACCOUNTNAME: '${{ secrets.ACCOUNTNAME }}',
+          PASSWORD: '${{ secrets.PASSWORD }}'
+        }
       - name: Run tests and build with Maven
         id: build-pk-verify
         run: |
