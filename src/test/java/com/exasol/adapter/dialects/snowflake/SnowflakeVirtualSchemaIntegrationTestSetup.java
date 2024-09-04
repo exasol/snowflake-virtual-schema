@@ -198,10 +198,6 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
         return schema.createAdapterScript(ADAPTER_SCRIPT_EXASOL, JAVA, content);
     }
 
-    // public SnowflakeObjectFactory getSnowflakeFactory() {
-    // return this.snowflakeFactory;
-    // }
-
     public Statement getSnowflakeStatement() {
         return this.snowflakeStatement;
     }
@@ -219,7 +215,6 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
         // TODO add localstack support + cleanup
         final Map<String, String> properties = new HashMap<>(Map.of("CATALOG_NAME", "TESTDB", //
                 "SCHEMA_NAME", forSnowflakeSchema)); //
-        // "ACCOUNT_NAME", "bfcxnza-jg09523"));
         properties.putAll(additionalProperties);
         return this.exasolFactory
                 .createVirtualSchemaBuilder("SNOWFLAKE_VIRTUAL_SCHEMA_" + (this.virtualSchemaCounter++))
