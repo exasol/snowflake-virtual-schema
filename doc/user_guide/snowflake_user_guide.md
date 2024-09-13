@@ -24,7 +24,10 @@ DRIVERMAIN=net.snowflake.client.jdbc.SnowflakeDriver
 PREFIX=jdbc:snowflake:
 FETCHSIZE=100000
 INSERTSIZE=-1
+NOSECURITY=YES
+
 ```
+Make sure there's a newline at the end of the `settings.cfg` file, as shown above, or it will not be properly read out, the EXALoader will display an error message.
 
 | Variable | Description                 |
 |----------|-----------------------------|
@@ -44,9 +47,10 @@ The SQL statement below creates the adapter script, defines the Java class that 
 
 ```sql
 --/
-CREATE OR REPLACE JAVA ADAPTER SCRIPT ADAPTER.JDBC_ADAPTER AS
+CREATE OR REPLACE JAVA ADAPTER SCRIPT ADAPTER.SNOWFLAKE_JDBC_ADAPTER AS
   %scriptclass com.exasol.adapter.RequestDispatcher;
   %jar /buckets/<BFS service>/<bucket>/virtual-schema-dist-12.0.0-snowflake-0.1.0.jar;
+  %jar /buckets/<BFS service>/<bucket>/drivers/jdbc/snowflake-jdbc-<snowflake-driver-version>.jar;
 /
 ```
 
@@ -78,11 +82,11 @@ Use the following SQL command in Exasol database to create a Snowflake Virtual S
 
 ```sql
 CREATE VIRTUAL SCHEMA <virtual schema name>
-  USING ADAPTER.JDBC_ADAPTER
+  USING ADAPTER.SNOWFLAKE_JDBC_ADAPTER
   WITH
   CATALOG_NAME = '<catalog name>'
   SCHEMA_NAME = '<schema name>'
-  CONNECTION_NAME = 'SNOWFLAKECONNECTION';
+  CONNECTION_NAME = 'SNOWFLAKE_CONNECTION';
 ```
 
 | Variable | Description                                                                                         |
