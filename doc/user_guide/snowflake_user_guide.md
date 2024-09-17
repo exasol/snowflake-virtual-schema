@@ -15,7 +15,7 @@
 In order to enable the ExaLoader to fetch data from the external database you must register the driver for ExaLoader as described in the [Installation procedure for JDBC drivers](https://github.com/exasol/docker-db/#installing-custom-jdbc-drivers).
 1. ExaLoader expects the driver in BucketFS folder `default/drivers/jdbc`.<br />
    If you uploaded the driver for UDF to a different folder, then you need to [upload](#uploading-the-jdbc-driver-to-exasol-bucketfs) the driver again.
-2. Additionally  you need to create file `settings.cfg` and [upload](#uploading-the-jdbc-driver-to-exasol-bucketfs) it to the same folder in BucketFS:
+2. Additionally, you need to create file `settings.cfg` and [upload](#uploading-the-jdbc-driver-to-exasol-bucketfs) it to the same folder in BucketFS. Contents below:
 
 ```
 DRIVERNAME=SNOWFLAKE_JDBC_DRIVER
@@ -29,8 +29,8 @@ NOSECURITY=YES
 ```
 Make sure there's a newline at the end of the `settings.cfg` file, as shown above, or it will not be properly read out, the EXALoader will display an error message.
 
-| Variable | Description                 |
-|----------|-----------------------------|
+| Variable                                | Description                      |
+|-----------------------------------------|----------------------------------|
 | `<jar file containing the jdbc driver>` | E.g. `snowflake-jdbc-3.16.1.jar` |
 
 ## Installing the Adapter Script
@@ -89,11 +89,11 @@ CREATE VIRTUAL SCHEMA <virtual schema name>
   CONNECTION_NAME = 'SNOWFLAKE_CONNECTION';
 ```
 
-| Variable | Description                                                                                         |
-|----------|-----------------------------------------------------------------------------------------------------|
+| Variable                | Description                                                                                         |
+|-------------------------|-----------------------------------------------------------------------------------------------------|
 | `<virtual schema name>` | Name of the virtual schema you want to use.                                                         |
-| `<catalog name>` | Name of the catalog, usally equivalent to the name of the Snowflake database. Please use UPPERCASE. |
-| `<schema name>` | Name of the database schema you want to use in the Snowflake database. Please use UPPERCASE.        |
+| `<catalog name>`        | Name of the catalog, usally equivalent to the name of the Snowflake database. Please use UPPERCASE. |
+| `<schema name>`         | Name of the database schema you want to use in the Snowflake database. Please use UPPERCASE.        |
 
 
 For additional parameters coming from the base library see also [Adapter Properties for JDBC-Based Virtual Schemas](https://github.com/exasol/virtual-schema-common-jdbc#adapter-properties-for-jdbc-based-virtual-schemas).
@@ -101,43 +101,43 @@ For additional parameters coming from the base library see also [Adapter Propert
 ## Data Types Conversion
 
 | Snowflake Data Type      | Supported    | Converted Exasol Data Type | Known limitations                                                                                                                                |
-|--------------------------|--------------|---------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
-| BIGINT                   | ✓            | DECIMAL(19,0)             |                                                                                                                                                  |
-| BIGSERIAL                | ✓            | DECIMAL(19,0)             |                                                                                                                                                  |
-| BIT                      | ✓            | BOOLEAN                   |                                                                                                                                                  |
-| BIT VARYING              | ✓            | VARCHAR(5)                |                                                                                                                                                  |
-| BOX                      | ✓            | VARCHAR(2000000)          |                                                                                                                                                  |
-| BYTEA                    | ✓            | VARCHAR(2000000)          |                                                                                                                                                  |
-| BOOLEAN                  | ✓            | BOOLEAN                   |                                                                                                                                                  |
-| CHARACTER                | ✓            | CHAR                      |                                                                                                                                                  |
-| CHARACTER VARYING        | ✓            | VARCHAR                   |                                                                                                                                                  |
-| CIDR                     | ✓            | VARCHAR(2000000)          |                                                                                                                                                  |
-| CIRCLE                   | ✓            | VARCHAR(2000000)          |                                                                                                                                                  |
-| DATE                     | ✓            | DATE                      |                                                                                                                                                  |
-| DOUBLE PRECISION         | ✓            | DOUBLE                    |                                                                                                                                                  |
-| INET                     | ✓            | VARCHAR(2000000)          |                                                                                                                                                  |
-| INTEGER                  | ✓            | DECIMAL(10,0)             |                                                                                                                                                  |
-| INTERVAL                 | ✓            | VARCHAR(2000000)          |                                                                                                                                                  |
-| JSON                     | ✓            | VARCHAR(2000000)          |                                                                                                                                                  |
-| JSONB                    | ✓            | VARCHAR(2000000)          |                                                                                                                                                  |
-| LINE                     | ✓            | VARCHAR(2000000)          |                                                                                                                                                  |
-| LSEG                     | ✓            | VARCHAR(2000000)          |                                                                                                                                                  |
-| MACADDR                  | ✓            | VARCHAR(2000000)          |                                                                                                                                                  |
-| MONEY                    | ✓            | DOUBLE                    |                                                                                                                                                  |
-| NUMERIC                  | ✓            | VARCHAR(2000000)          | Stored in Exasol as VARCHAR, because Snowflake NUMERIC values can exceed  Exasol Decimal limit which makes it impossible to use Virtual Schemas. |
-| PATH                     | ✓            | VARCHAR(2000000)          |                                                                                                                                                  |
-| POINT                    | ✓            | VARCHAR(2000000)          |                                                                                                                                                  |
-| POLYGON                  | ✓            | VARCHAR(2000000)          |                                                                                                                                                  |
-| REAL                     | ✓            | DOUBLE                    |                                                                                                                                                  |
-| SMALLINT                 | ✓            | DECIMAL(5,0)              |                                                                                                                                                  |
-| SMALLSERIAL              | ? (untested) |                           |                                                                                                                                                  |
-| SERIAL                   | ? (untested) |                           |                                                                                                                                                  |
-| TEXT                     | ✓            | VARCHAR(2000000)          |                                                                                                                                                  |
-| TIME                     | ✓            | VARCHAR(2000000)          |                                                                                                                                                  |
-| TIME WITH TIME ZONE      | ✓            | VARCHAR(2000000)          |                                                                                                                                                  |
-| TIMESTAMP                | ✓            | TIMESTAMP                 |                                                                                                                                                  |
-| TIMESTAMP WITH TIME ZONE | ✓            | TIMESTAMP                 |                                                                                                                                                  |
-| TSQUERY                  | ✓            | VARCHAR(2000000)          |                                                                                                                                                  |
-| TSVECTOR                 | ✓            | VARCHAR(2000000)          |                                                                                                                                                  |
-| UUID                     | ✓            | VARCHAR(2000000)          |                                                                                                                                                  |
-| XML                      | ✓            | VARCHAR(2000000)          |                                                                                                                                                  |
+|--------------------------|--------------|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| BIGINT                   | ✓            | DECIMAL(19,0)              |                                                                                                                                                  |
+| BIGSERIAL                | ✓            | DECIMAL(19,0)              |                                                                                                                                                  |
+| BIT                      | ✓            | BOOLEAN                    |                                                                                                                                                  |
+| BIT VARYING              | ✓            | VARCHAR(5)                 |                                                                                                                                                  |
+| BOX                      | ✓            | VARCHAR(2000000)           |                                                                                                                                                  |
+| BYTEA                    | ✓            | VARCHAR(2000000)           |                                                                                                                                                  |
+| BOOLEAN                  | ✓            | BOOLEAN                    |                                                                                                                                                  |
+| CHARACTER                | ✓            | CHAR                       |                                                                                                                                                  |
+| CHARACTER VARYING        | ✓            | VARCHAR                    |                                                                                                                                                  |
+| CIDR                     | ✓            | VARCHAR(2000000)           |                                                                                                                                                  |
+| CIRCLE                   | ✓            | VARCHAR(2000000)           |                                                                                                                                                  |
+| DATE                     | ✓            | DATE                       |                                                                                                                                                  |
+| DOUBLE PRECISION         | ✓            | DOUBLE                     |                                                                                                                                                  |
+| INET                     | ✓            | VARCHAR(2000000)           |                                                                                                                                                  |
+| INTEGER                  | ✓            | DECIMAL(10,0)              |                                                                                                                                                  |
+| INTERVAL                 | ✓            | VARCHAR(2000000)           |                                                                                                                                                  |
+| JSON                     | ✓            | VARCHAR(2000000)           |                                                                                                                                                  |
+| JSONB                    | ✓            | VARCHAR(2000000)           |                                                                                                                                                  |
+| LINE                     | ✓            | VARCHAR(2000000)           |                                                                                                                                                  |
+| LSEG                     | ✓            | VARCHAR(2000000)           |                                                                                                                                                  |
+| MACADDR                  | ✓            | VARCHAR(2000000)           |                                                                                                                                                  |
+| MONEY                    | ✓            | DOUBLE                     |                                                                                                                                                  |
+| NUMERIC                  | ✓            | VARCHAR(2000000)           | Stored in Exasol as VARCHAR, because Snowflake NUMERIC values can exceed  Exasol Decimal limit which makes it impossible to use Virtual Schemas. |
+| PATH                     | ✓            | VARCHAR(2000000)           |                                                                                                                                                  |
+| POINT                    | ✓            | VARCHAR(2000000)           |                                                                                                                                                  |
+| POLYGON                  | ✓            | VARCHAR(2000000)           |                                                                                                                                                  |
+| REAL                     | ✓            | DOUBLE                     |                                                                                                                                                  |
+| SMALLINT                 | ✓            | DECIMAL(5,0)               |                                                                                                                                                  |
+| SMALLSERIAL              | ? (untested) |                            |                                                                                                                                                  |
+| SERIAL                   | ? (untested) |                            |                                                                                                                                                  |
+| TEXT                     | ✓            | VARCHAR(2000000)           |                                                                                                                                                  |
+| TIME                     | ✓            | VARCHAR(2000000)           |                                                                                                                                                  |
+| TIME WITH TIME ZONE      | ✓            | VARCHAR(2000000)           |                                                                                                                                                  |
+| TIMESTAMP                | ✓            | TIMESTAMP                  |                                                                                                                                                  |
+| TIMESTAMP WITH TIME ZONE | ✓            | TIMESTAMP                  |                                                                                                                                                  |
+| TSQUERY                  | ✓            | VARCHAR(2000000)           |                                                                                                                                                  |
+| TSVECTOR                 | ✓            | VARCHAR(2000000)           |                                                                                                                                                  |
+| UUID                     | ✓            | VARCHAR(2000000)           |                                                                                                                                                  |
+| XML                      | ✓            | VARCHAR(2000000)           |                                                                                                                                                  |
