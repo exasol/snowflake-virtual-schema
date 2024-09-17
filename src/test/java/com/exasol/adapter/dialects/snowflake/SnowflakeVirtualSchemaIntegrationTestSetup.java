@@ -38,8 +38,6 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
     private static final String PASSWORD_FILE = "password.txt";
     private static final String ACCOUNTNAME_FILE = "accountname.txt";
     private final Statement snowflakeStatement;
-    // private final LocalStackContainer snowflakeContainer = new
-    // LocalStackContainer(DockerImageName.parse("localstack/snowflake"));
     private final ExasolContainer<? extends ExasolContainer<?>> exasolContainer = new ExasolContainer<>(
             EXASOL_DOCKER_IMAGE_REFERENCE).withRequiredServices(ExasolService.BUCKETFS, ExasolService.UDF)
             .withReuse(true);
@@ -104,9 +102,6 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
 
     // TODO add localstack support + cleanup
     private String getSnowflakeConnectionString(final String accountname) {
-        // final String connectionString = "jdbc:snowflake://" + this.exasolContainer.getHostIp() + ":"
-        // + this.snowflakeContainer.getMappedPort(SNOWFLAKE_PORT) + "/"
-        // + this.snowflakeContainer.getDatabaseName();
         final String connectionString = "jdbc:snowflake://" + accountname + ".snowflakecomputing.com";
         return connectionString;
     }

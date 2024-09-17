@@ -34,10 +34,6 @@ public class SnowflakeColumnMetadataReader extends BaseColumnMetadataReader {
      *
      * @return catalog name or <code>null</code> if metadata lookups are not limited by catalog
      */
-//    @Override
-//    public String getCatalogNameFilter() {
-//        return this.properties.getDatabaseName();
-//    }
     @Override
     public DataType mapJdbcType(final JDBCTypeDescription jdbcTypeDescription) {
         switch (jdbcTypeDescription.getJdbcType()) {
@@ -70,20 +66,11 @@ public class SnowflakeColumnMetadataReader extends BaseColumnMetadataReader {
 
     @Override
     public String readColumnName(final ResultSet columns) throws SQLException {
-//        if (getIdentifierMapping().equals(CaseFolding.CONVERT_TO_UPPER)) {
-//            return super.readColumnName(columns).toUpperCase();
-//        } else {
             return super.readColumnName(columns);
-//        }
     }
 
     @Override
     public String getSchemaNameFilter() {
         return this.properties.getSchemaName().toUpperCase();
-        //return this.properties.getSchemaName().replace("_","\\_").toUpperCase();
     }
-
-//    CaseFolding getIdentifierMapping() {
-//        return SnowflakeIdentifierMapping.from(this.properties);
-//    }
 }

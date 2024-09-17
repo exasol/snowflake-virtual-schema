@@ -90,18 +90,6 @@ class SnowflakeSqlGenerationVisitorTest {
         assertSqlNodeConvertedToOne(sqlSelectList, this.visitor);
     }
 
-/*    @Test
-    void testVisitSqlStatementSelect() throws AdapterException {
-        final SqlStatementSelect select = (SqlStatementSelect) DialectTestData.getTestSqlNode();
-        assertThat(this.visitor.visit(select), //
-                equalTo("SELECT \"user_id\", " //
-                        + "COUNT(\"url\") FROM \"test_schema\".\"clicks\" " //
-                        + "WHERE 1 < \"user_id\" " //
-                        + "GROUP BY \"user_id\" " //
-                        + "HAVING 1 < COUNT(\"url\") " //
-                        + "ORDER BY \"user_id\" LIMIT 10"));
-    }*/
-
     @Test
     void testVisitSqlFunctionAggregateGroupConcat() throws AdapterException {
         final SqlLiteralString argument = new SqlLiteralString("test");
