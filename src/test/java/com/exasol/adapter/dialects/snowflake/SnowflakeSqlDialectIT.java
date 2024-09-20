@@ -45,7 +45,7 @@ class SnowflakeSqlDialectIT {
     static void beforeAll() throws SQLException {
         final Statement statementSnowflake = SETUP.getSnowflakeStatement();
         try {
-            statementSnowflake.execute("CREATE DATABASE " + "TESTDB");
+            statementSnowflake.execute("CREATE DATABASE " + SETUP.getDatabaseName());
         } catch (final Exception e) {
 
         }
@@ -66,6 +66,16 @@ class SnowflakeSqlDialectIT {
         QUALIFIED_TABLE_JOIN_NAME_1 = virtualSchemaSnowflake.getName() + "." + TABLE_JOIN_1;
         QUALIFIED_TABLE_JOIN_NAME_2 = virtualSchemaSnowflake.getName() + "." + TABLE_JOIN_2;
         exasolSchema = SETUP.getExasolFactory().createSchema("EXASOL_TEST_SCHEMA");
+    }
+
+    @AfterAll
+    static void afterAll() throws SQLException {
+        final Statement statementSnowflake = SETUP.getSnowflakeStatement();
+        try {
+            statementSnowflake.execute("DROP DATABASE " + SETUP.getDatabaseName() + " CASCADE;");
+        } catch (final Exception e) {
+
+        }
     }
 
     private static void createSnowflakeTestTableSimple(final Statement statementSnowflake) throws SQLException {

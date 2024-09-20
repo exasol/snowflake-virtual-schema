@@ -52,9 +52,27 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
     private String userName;
     private String password;
     private String accountName;
+    private String databaseName;
+
+    public String randomDbAddendum() {
+        final int leftLimit = 97; // letter 'a'
+        final int rightLimit = 122; // letter 'z'
+        final int targetStringLength = 4;
+        final Random random = new Random();
+
+        final String generatedString = random.ints(leftLimit, rightLimit + 1).limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+
+        return generatedString;
+    }
+
+    public String getDatabaseName() {
+        return databaseName;
+    }
 
     SnowflakeVirtualSchemaIntegrationTestSetup() {
         try {
+            this.databaseName = "TESTDB" + randomDbAddendum().toUpperCase();
             this.exasolContainer.start();
             // TODO add localstack support
             // this.snowflakeContainer.start();
@@ -107,8 +125,8 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
     }
 
     // TODO add localstack support + cleanup
-    private static Connection getSnowflakeConnection(final String username, final String password,
-            final String accountname) throws SQLException {
+    private Connection getSnowflakeConnection(final String username, final String password, final String accountname)
+            throws SQLException {
         // TODO refactor this whole thing and remove secrets + add localstack support
         try {
             Class.forName("net.snowflake.client.jdbc.SnowflakeDriver");
@@ -121,7 +139,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
         properties.put("user", username); // replace "" with your username
         properties.put("password", password); // replace "" with your password
         properties.put("account", accountname); // replace "" with your account name
-        properties.put("db", "TESTDB"); // replace "" with target database name
+        properties.put("db", this.databaseName); // replace "" with target database name
         properties.put("schema", "TESTSCHEMA"); // replace "" with target schema name
         // properties.put("tracing", "on");
 
@@ -208,7 +226,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
     public VirtualSchema createVirtualSchema(final String forSnowflakeSchema,
             final Map<String, String> additionalProperties) {
         // TODO add localstack support + cleanup
-        final Map<String, String> properties = new HashMap<>(Map.of("CATALOG_NAME", "TESTDB", //
+        final Map<String, String> properties = new HashMap<>(Map.of("CATALOG_NAME", databaseName, //
                 "SCHEMA_NAME", forSnowflakeSchema)); //
         properties.putAll(additionalProperties);
         return this.exasolFactory
