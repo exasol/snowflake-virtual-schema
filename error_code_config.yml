@@ -1,5 +1,6 @@
 error-tags:
   VSSF:
     packages:
+      - com.exasol.adapter.dialects.snowflake
       - com.exasol.closeafterall
     highest-index: 9
