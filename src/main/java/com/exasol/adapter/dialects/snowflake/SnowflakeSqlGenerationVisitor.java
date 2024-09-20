@@ -3,9 +3,13 @@ package com.exasol.adapter.dialects.snowflake;
 import java.util.*;
 
 import com.exasol.adapter.AdapterException;
+import com.exasol.adapter.adapternotes.ColumnAdapterNotes;
+import com.exasol.adapter.adapternotes.ColumnAdapterNotesJsonConverter;
 import com.exasol.adapter.dialects.SqlDialect;
 import com.exasol.adapter.dialects.rewriting.SqlGenerationContext;
 import com.exasol.adapter.dialects.rewriting.SqlGenerationVisitor;
+import com.exasol.adapter.metadata.ColumnMetadata;
+import com.exasol.adapter.metadata.DataType;
 import com.exasol.adapter.sql.*;
 
 /**
@@ -48,9 +52,18 @@ public class SnowflakeSqlGenerationVisitor extends SqlGenerationVisitor {
 
     private String getColumnProjectionString(final SqlColumn column, final String projectionString)
             throws AdapterException {
-        return super.isDirectlyInSelectList(column) //
-                ? buildColumnProjectionString(getTypeNameFromColumn(column), projectionString) //
-                : projectionString;
+
+        if (super.isDirectlyInSelectList(column)) { //
+            final ColumnAdapterNotesJsonConverter converter = ColumnAdapterNotesJsonConverter.getInstance();
+            ColumnMetadata metaData = column.getMetadata();
+            DataType mappedType = metaData.getType();
+            ColumnAdapterNotes columnAdapterNotes= converter.convertFromJsonToColumnAdapterNotes(metaData.getAdapterNotes(), column.getName());
+                    String sourceTypeName = columnAdapterNotes.getTypeName();
+
+                return buildColumnProjectionString(sourceTypeName,mappedType, projectionString); //
+        } else {
+                return projectionString;
+        }
     }
 
     @Override
@@ -167,8 +180,14 @@ public class SnowflakeSqlGenerationVisitor extends SqlGenerationVisitor {
         return "EXTRACT(EPOCH FROM " + argumentsSql.get(0) + ")";
     }
 
-    private String buildColumnProjectionString(final String typeName, final String projectionString) {
-        if (checkIfNeedToCastToVarchar(typeName)) {
+    private String buildColumnProjectionString(final String typeName,DataType mappedType, final String projectionString) {
+        if (typeName.startsWith("NUMBER") && mappedType.getExaDataType() == DataType.ExaDataType.VARCHAR ){
+            return "'Number precision not supported'";
+        }
+        else if (typeName.startsWith("TIMESTAMPTZ")) {
+            return "TO_TIMESTAMP_NTZ(" + projectionString +")";
+        }
+        else if (checkIfNeedToCastToVarchar(typeName)) {
             return "CAST(" + projectionString + "  as VARCHAR )";
         } else if (typeName.startsWith("smallserial")) {
             return "CAST(" + projectionString + "  as SMALLINT )";

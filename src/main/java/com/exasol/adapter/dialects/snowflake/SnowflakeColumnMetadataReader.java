@@ -10,6 +10,8 @@ import com.exasol.adapter.jdbc.BaseColumnMetadataReader;
 import com.exasol.adapter.jdbc.JDBCTypeDescription;
 import com.exasol.adapter.metadata.DataType;
 
+import static com.exasol.adapter.metadata.DataType.ExaCharset.UTF8;
+
 /**
  * This class implements Snowflake-specific reading of column metadata.
  */
@@ -43,6 +45,8 @@ public class SnowflakeColumnMetadataReader extends BaseColumnMetadataReader {
         case Types.DISTINCT:
         case Types.BINARY:
             return DataType.createMaximumSizeVarChar(DataType.ExaCharset.UTF8);
+        case Types.TIMESTAMP_WITH_TIMEZONE:
+            return DataType.createTimestamp(false);
         default:
             return super.mapJdbcType(jdbcTypeDescription);
         }

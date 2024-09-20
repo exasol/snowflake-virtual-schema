@@ -7,8 +7,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.hamcrest.MatcherAssert;
@@ -85,7 +86,7 @@ class SnowflakeSqlDialectIT {
                 + "myBoolean BOOLEAN, " //
                 // + "myBox BOX, " //
                 // + "myBytea BYTEA, " //
-                + "myCharacter CHARACTER(1000), " //
+                + "myCharacter CHARACTER(1000), " // ALIAS FOR NVARCHAR IN SNOWFLAKE, SAME THING, NO PADDING
                 + "myCharacterVar CHARACTER, " //
                 // + "myCidr CIDR, " //
                 // + "myCircle CIRCLE, " //
@@ -306,7 +307,7 @@ class SnowflakeSqlDialectIT {
 
     @Test
     void testDatatypeBigint() throws SQLException {
-        assertSingleValue("myBigint", "DECIMAL(19,0)", "10000000000");
+        assertSingleValue("myBigint", "VARCHAR(2000000) UTF8", "Number precision not supported");
     }
 
     @Test
@@ -316,9 +317,8 @@ class SnowflakeSqlDialectIT {
 
     @Test
     void testDatatypeCharacter() throws SQLException {
-        final String empty = " ";
-        final String expected = "hajksdf" + String.join("", Collections.nCopies(993, empty));
-        assertSingleValue("myCharacter", "CHAR(1000) UTF8", expected);
+        final String expected = "hajksdf";
+        assertSingleValue("myCharacter", "VARCHAR(1000) UTF8", expected);
     }
 
     @Test
@@ -354,7 +354,7 @@ class SnowflakeSqlDialectIT {
 
     @Test
     void testDatatypeSmallInt() throws SQLException {
-        assertSingleValue("mySmallint", "DECIMAL(5,0)", 100);
+        assertSingleValue("mySmallint", "VARCHAR(2000000) UTF8", "Number precision not supported");
     }
 
     @Test
