@@ -104,6 +104,17 @@ jobs:
         env: {
           GITHUB_TOKEN: '${{ github.token }}'
         }
+      - name: Configure Snowflake credentials
+        id: configure-snowflake-credentials
+        run: |
+          echo "$USERNAME" > username.txt
+          echo "$ACCOUNTNAME" > accountname.txt
+          echo "$PASSWORD" > password.txt
+        env: {
+          USERNAME: '${{ secrets.USERNAME }}',
+          ACCOUNTNAME: '${{ secrets.ACCOUNTNAME }}',
+          PASSWORD: '${{ secrets.PASSWORD }}'
+        }
       - {
         name: Build project,
         id: build,

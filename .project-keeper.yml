@@ -31,3 +31,20 @@ build:
               ACCOUNTNAME: '${{ secrets.ACCOUNTNAME }}',
               PASSWORD: '${{ secrets.PASSWORD }}'
             }
+    - name: release.yml
+      stepCustomizations:
+        # Configure Snowflake credentials
+        - action: INSERT_AFTER
+          stepId: verify-release
+          content:
+            name: Configure Snowflake credentials
+            id: configure-snowflake-credentials
+            run: |
+              echo "$USERNAME" > username.txt
+              echo "$ACCOUNTNAME" > accountname.txt
+              echo "$PASSWORD" > password.txt
+            env: {
+              USERNAME: '${{ secrets.USERNAME }}',
+              ACCOUNTNAME: '${{ secrets.ACCOUNTNAME }}',
+              PASSWORD: '${{ secrets.PASSWORD }}'
+            }
