@@ -30,7 +30,6 @@ If you want to set up a Virtual Schema for a different database system, please h
 
 * [Virtual Schema User Guide](https://docs.exasol.com/database_concepts/virtual_schemas.htm)
 * [Snowflake Dialect User Guide](doc/user_guide/snowflake_user_guide.md)
-* [List of supported capabilities](doc/generated/capabilities.md)
 * [Changelog](doc/changes/changelog.md)
 * [Dependencies](dependencies.md)
 
