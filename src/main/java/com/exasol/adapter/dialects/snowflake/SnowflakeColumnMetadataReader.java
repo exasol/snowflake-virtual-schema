@@ -5,12 +5,9 @@ import java.util.logging.Logger;
 
 import com.exasol.adapter.AdapterProperties;
 import com.exasol.adapter.dialects.IdentifierConverter;
-//import com.exasol.adapter.dialects.snowflake.SnowflakeIdentifierMapping.CaseFolding;
 import com.exasol.adapter.jdbc.BaseColumnMetadataReader;
 import com.exasol.adapter.jdbc.JDBCTypeDescription;
 import com.exasol.adapter.metadata.DataType;
-
-import static com.exasol.adapter.metadata.DataType.ExaCharset.UTF8;
 
 /**
  * This class implements Snowflake-specific reading of column metadata.

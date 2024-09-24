@@ -100,7 +100,6 @@ public class SnowflakeSqlDialect extends AbstractSqlDialect {
      */
     public SnowflakeSqlDialect(final ConnectionFactory connectionFactory, final AdapterProperties properties) {
         super(connectionFactory, properties, //
-                //Set.of(SCHEMA_NAME_PROPERTY, DATABASE_NAME_PROPERTY, ACCOUNT_NAME_PROPERTY), //
                 Set.of(SCHEMA_NAME_PROPERTY, CATALOG_NAME_PROPERTY, ACCOUNT_NAME_PROPERTY), //
                 List.of());
     }

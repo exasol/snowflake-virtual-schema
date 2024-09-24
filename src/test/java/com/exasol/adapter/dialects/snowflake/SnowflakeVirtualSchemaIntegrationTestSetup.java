@@ -46,7 +46,6 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
     private final AdapterScript adapterScript;
     private final ConnectionDefinition connectionDefinition;
     private final ExasolObjectFactory exasolFactory;
-    // private final SnowflakeObjectFactory snowflakeFactory;
     private final Connection snowflakeConnection;
     private int virtualSchemaCounter = 0;
     private String userName;
@@ -74,18 +73,14 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
         try {
             this.databaseName = "TESTDB" + randomDbAddendum().toUpperCase();
             this.exasolContainer.start();
-            // TODO add localstack support
-            // this.snowflakeContainer.start();
             final Bucket bucket = this.exasolContainer.getDefaultBucket();
             uploadDriverToBucket(this.exasolContainer);
             uploadVsJarToBucket(bucket);
             this.exasolConnection = this.exasolContainer.createConnection("");
             this.exasolStatement = this.exasolConnection.createStatement();
             getTestCredentials();
-            // TODO add localstack support + cleanup
-            this.snowflakeConnection = getSnowflakeConnection(userName, password, accountName);// this.snowflakeContainer.createConnection("");
-            this.snowflakeStatement = snowflakeConnection.createStatement();// this.snowflakeConnection.createStatement();
-
+            this.snowflakeConnection = getSnowflakeConnection(userName, password, accountName);
+            this.snowflakeStatement = snowflakeConnection.createStatement();
             final String hostIpAddress = getTestHostIpFromInsideExasol();
             assert (hostIpAddress != null);
             final UdfTestSetup udfTestSetup = new UdfTestSetup(hostIpAddress, this.exasolContainer.getDefaultBucket(),
@@ -93,11 +88,8 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
             this.exasolFactory = new ExasolObjectFactory(this.exasolContainer.createConnection(""),
                     ExasolObjectConfiguration.builder().withJvmOptions(udfTestSetup.getJvmOptions()).build());
             final ExasolSchema exasolSchema = this.exasolFactory.createSchema(SCHEMA_EXASOL);
-            // this.snowflakeFactory = new SnowflakeObjectFactory(this.snowflakeConnection);
             this.adapterScript = createAdapterScript(exasolSchema);
-            // TODO add localstack support + cleanup
             final String connectionString = getSnowflakeConnectionString(accountName);
-            // TODO add localstack support + cleanup
             connectionDefinition = getSnowflakeConnectionDefinition(connectionString, userName, password);
         } catch (final SQLException | BucketAccessException | TimeoutException exception) {
             throw new IllegalStateException("Failed to created snowflake test setup.", exception);
@@ -109,25 +101,21 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
         }
     }
 
-    // TODO add localstack support + cleanup
     private ConnectionDefinition getSnowflakeConnectionDefinition(final String connectionString, final String username,
-            final String password) {
+                                                                  final String password) {
         final ConnectionDefinition connectionDefinition;
         connectionDefinition = this.exasolFactory.createConnectionDefinition("SNOWFLAKE_CONNECTION", connectionString,
                 username, password);
         return connectionDefinition;
     }
 
-    // TODO add localstack support + cleanup
     private String getSnowflakeConnectionString(final String accountname) {
         final String connectionString = "jdbc:snowflake://" + accountname + ".snowflakecomputing.com";
         return connectionString;
     }
 
-    // TODO add localstack support + cleanup
     private Connection getSnowflakeConnection(final String username, final String password, final String accountname)
             throws SQLException {
-        // TODO refactor this whole thing and remove secrets + add localstack support
         try {
             Class.forName("net.snowflake.client.jdbc.SnowflakeDriver");
         } catch (final ClassNotFoundException ex) {
@@ -147,8 +135,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
         String connectStr = System.getenv("SF_JDBC_CONNECT_STRING");
         // use the default connection string if it is not set in environment
         if (connectStr == null) {
-            connectStr = "jdbc:snowflake://" + accountname + ".snowflakecomputing.com"; // replace accountName with your
-            // account name
+            connectStr = "jdbc:snowflake://" + accountname + ".snowflakecomputing.com"; // replace accountName with your account name
         }
         return DriverManager.getConnection(connectStr, properties);
     }
@@ -224,7 +211,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
     }
 
     public VirtualSchema createVirtualSchema(final String forSnowflakeSchema,
-            final Map<String, String> additionalProperties) {
+                                             final Map<String, String> additionalProperties) {
         // TODO add localstack support + cleanup
         final Map<String, String> properties = new HashMap<>(Map.of("CATALOG_NAME", databaseName, //
                 "SCHEMA_NAME", forSnowflakeSchema)); //

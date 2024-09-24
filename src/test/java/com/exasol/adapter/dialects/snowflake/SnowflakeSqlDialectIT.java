@@ -23,7 +23,7 @@ import com.exasol.dbbuilder.dialects.exasol.VirtualSchema;
 import com.exasol.matcher.TypeMatchMode;
 
 @Tag("integration")
-@ExtendWith({ CloseAfterAllExtension.class })
+@ExtendWith({CloseAfterAllExtension.class})
 class SnowflakeSqlDialectIT {
     @CloseAfterAll
     private static final SnowflakeVirtualSchemaIntegrationTestSetup SETUP = new SnowflakeVirtualSchemaIntegrationTestSetup();
@@ -90,86 +90,37 @@ class SnowflakeSqlDialectIT {
         final String createAllDatatypesTableStatement = "CREATE TABLE " + qualifiedTableName //
                 + " (" //
                 + "myBigint BIGINT,	" //
-                // + "myBigserial BIGSERIAL, " //does not exist in SNOWFLAKE
-                // + "myBit BIT, " //BIT does not exist in SNOWFLAKE, use INT instead
-                // + "myBitVar BIT, " //BIT does not exist in SNOWFLAKE, use INT instead
                 + "myBoolean BOOLEAN, " //
-                // + "myBox BOX, " //
-                // + "myBytea BYTEA, " //
                 + "myCharacter CHARACTER(1000), " // ALIAS FOR NVARCHAR IN SNOWFLAKE, SAME THING, NO PADDING
                 + "myCharacterVar CHARACTER, " //
-                // + "myCidr CIDR, " //
-                // + "myCircle CIRCLE, " //
                 + "myDate DATE, " //
                 + "myDouble DOUBLE PRECISION, " //
-                // + "myInet INET, " //
-                + "myInteger NUMBER(36,0), " // INT (EGER) has (38,0) precision and scale in snowflake, Exasol has
-                                             // (36,0)
-                                             // as a max. The integer datatype causes problems with the EXALOADER.
-                                             // TODO: demonstrate this to TB
-                // + "myInterval INTERVAL, " //
-                // + "myJson JSON, " //
-                // + "myJsonB JSONB, " //
-                // + "myLine LINE, " //
-                // + "myLseg LSEG, " //
-                // + "myMacAddr MACADDR, " //
-                // + "myMoney MONEY, " //
+                + "myInteger NUMBER(36,0), " // INT(EGER) has (38,0) precision and scale in snowflake, Exasol has (36,0) as a max. The integer datatype causes problems with the EXALOADER.
                 + "myNumeric NUMERIC(36, 10), " // same as NUMBER IN snowflake
-                // + "myPath PATH, " //
-                // + "myPoint POINT, " //
-                // + "myPolygon POLYGON, " //
                 + "myReal REAL, " //
                 + "mySmallint SMALLINT, " //
                 + "myText TEXT, " //
                 + "myTime TIME, " //
-                // + "myTimeWithTimeZone TIME WITH TIME ZONE, " //DOES NOT EXIST IN SNOWFLAKE
+                // TIME WITH TIME ZONE DOES NOT EXIST IN SNOWFLAKE
                 + "myTimestamp TIMESTAMP, " //
                 + "myTimestampWithTimeZone TIMESTAMP_TZ " // TIMESTAMP WITH TIME ZONE
-                // + "myTsquery TSQUERY, " //
-                // + "myTsvector VECTOR, " //
-                // + "myUuid UUID, " //SUBTYPE OF STRING IN SNOWFLAKE
-                // + "myXml XML " //DOES NOT EXIST IN SNOWFLAKE
                 + ")";
         statementSnowflake.execute(createAllDatatypesTableStatement);
         final String fillAllDatabaseTypesStatement = ("INSERT INTO " + qualifiedTableName + " VALUES (" //
                 + "10000000000, " // myBigint
-                // + "nextval('" + qualifiedTableName + "_myBigserial_seq'::regclass), " // myBigserial
-                // + "B'1', " // myBit
-                // + "B'0', " // myBitVar
                 + "false, " // myBoolean
-                // + "'( ( 1 , 8 ) , ( 4 , 16 ) )', " // myBox
-                // + "E'\\\\000'::bytea, " // myBytea
                 + "'hajksdf', " // myCharacter
-                + "'h', " // myCharacterVar
-                // + "'192.168.100.128/25'::cidr, " // myCidr
-                // + "'( ( 1 , 5 ) , 3 )'::circle, " // myCircle
+                + "'h', " // myCharacterVar                // + "'192.168.100.128/25'::cidr, " // myCidr
                 + "'2010-01-01', " // myDate
                 + "192189234.1723854, " // myDouble
-                // + "'192.168.100.128'::inet, " // myInet
                 + "7189234, " // myInteger
-                // + "INTERVAL '1' YEAR, " // myInterval
-                // + "'{\"bar\": \"baz\", \"balance\": 7.77, \"active\": false}'::json, " // myJson
-                // + "'{\"bar\": \"baz\", \"balance\": 7.77, \"active\": false}'::jsonb, " // myJsonB
-                // + "'{ 1, 2, 3 }'::line, " // myLine
-                // + "'[ ( 1 , 2 ) , ( 3 , 4 ) ]'::lseg, " // myLseg
-                // + "'08:00:2b:01:02:03'::macaddr, " // myMacAddr
-                // + "100.01, " // myMoney
                 + "24.23, " // myNumeric
-                // + "'[ ( 1 , 2 ) , ( 3 , 4 ) ]'::path, " // myPath
-                // + "'( 1 , 3 )'::point, " // myPoint
-                // + "'( ( 1 , 2 ) , (2,4),(3,7) )'::polygon, " // myPolygon
                 + "10.12, " // myReal
                 + "100, " // mySmallint
                 + "'This cat is super cute', " // myText
                 + "'11:11:11', " // myTime
-                // + "'11:11:11 +01:00', " // myTimeWithTimeZone
                 + "'2010-01-01 11:11:11', " // myTimestamp
                 + "'2010-01-01 11:11:11 +01:00' " // myTimestampwithtimezone
-                // + "'fat & rat'::tsquery, " // myTsquery
-                // + "VECTOR('english', 'The Fat Rats'), " // myTsvector
-                // + "'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'::uuid, " // myUuid
-                // + "XMLPARSE (DOCUMENT '<?xml
-                // version=\"1.0\"?><book><title>Manual</title><chapter>...</chapter></book>') " // myXml
                 + ")");
         statementSnowflake.execute(fillAllDatabaseTypesStatement);
     }
