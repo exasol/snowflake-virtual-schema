@@ -1,14 +1,16 @@
 # Virtual Schema for Snowflake 0.1.0, released 2024-09-25
 
-Code name: First version
+Code name: First version of the Snowflake virtual schema
 
 ## Summary
 
-This is the MVP release.
+This is the first version of the virtual schema for Snowflake. 
+There might still be issues and the project is subject to further testing.
+Consider this a first and early-access release.
 
 ## Features
 
-* #1: Releasing the MVP
+* #1: Releasing the MVP (minimum viable product)
 
 ## Dependency Updates
 
