@@ -39,6 +39,4 @@ venv/
 *.flattened-pom.xml
 /bin/
 
-username.txt
-password.txt
-accountname.txt
+test.properties

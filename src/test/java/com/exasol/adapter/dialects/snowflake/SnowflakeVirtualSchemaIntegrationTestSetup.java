@@ -18,6 +18,7 @@ import com.exasol.drivers.JdbcDriver;
 import com.exasol.errorreporting.ExaError;
 import com.exasol.udfdebugging.UdfTestSetup;
 import com.github.dockerjava.api.model.ContainerNetwork;
+import org.junit.jupiter.api.Test;
 
 /**
  * This class contains the common integration test setup for all Snowflake virtual schemas.
@@ -34,9 +35,6 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
     private static final Path JDBC_DRIVER_PATH = Path.of("target/snowflake-driver/" + JDBC_DRIVER_NAME);
 
     private static final int SNOWFLAKE_PORT = 5432;
-    private static final String USERNAME_FILE = "username.txt";
-    private static final String PASSWORD_FILE = "password.txt";
-    private static final String ACCOUNTNAME_FILE = "accountname.txt";
     private final Statement snowflakeStatement;
     private final ExasolContainer<? extends ExasolContainer<?>> exasolContainer = new ExasolContainer<>(
             EXASOL_DOCKER_IMAGE_REFERENCE).withRequiredServices(ExasolService.BUCKETFS, ExasolService.UDF)
@@ -141,25 +139,10 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
     }
 
     private void getTestCredentials() throws IOException {
-        if (!Files.exists(Path.of(USERNAME_FILE))) {
-            throw new IllegalStateException("Could not find " + USERNAME_FILE
-                    + ". Please create a Snowflake account, get the username and store it in this project in "
-                    + USERNAME_FILE + ".");
-        }
-        if (!Files.exists(Path.of(PASSWORD_FILE))) {
-            throw new IllegalStateException("Could not find " + PASSWORD_FILE
-                    + ". Please create a Snowflake account, get the password and store it in this project in "
-                    + PASSWORD_FILE + ".");
-        }
-        if (!Files.exists(Path.of(ACCOUNTNAME_FILE))) {
-            throw new IllegalStateException("Could not find " + ACCOUNTNAME_FILE
-                    + ". Please create a Snowflake account, get the accountName (part of the specific login url you get when creating the account) and store it in this project in "
-                    + ACCOUNTNAME_FILE + ".");
-        }
-
-        this.userName = Files.readString(Path.of(USERNAME_FILE)).replace("\n", "").replace("\r", "");
-        this.password = Files.readString(Path.of(PASSWORD_FILE)).replace("\n", "").replace("\r", "");
-        this.accountName = Files.readString(Path.of(ACCOUNTNAME_FILE)).replace("\n", "").replace("\r", "");
+        TestConfig testConfig = TestConfig.read();
+        this.userName = testConfig.getSnowflakeUsername();
+        this.password = testConfig.getSnowflakePassword();
+        this.accountName = testConfig.getSnowflakeAccountname();
     }
 
     private static void uploadDriverToBucket(final ExasolContainer<? extends ExasolContainer<?>> container)

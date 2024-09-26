@@ -23,14 +23,12 @@ build:
             name: Configure Snowflake credentials
             id: configure-snowflake-credentials
             run: |
-              echo "$USERNAME" > username.txt
-              echo "$ACCOUNTNAME" > accountname.txt
-              echo "$PASSWORD" > password.txt
-            env: {
-              USERNAME: '${{ secrets.USERNAME }}',
-              ACCOUNTNAME: '${{ secrets.ACCOUNTNAME }}',
-              PASSWORD: '${{ secrets.PASSWORD }}'
-            }
+              cat > test.properties <<EOL
+              snowflake.username = ${{ secrets.USERNAME }}
+              snowflake.accountname = ${{ secrets.ACCOUNTNAME }}
+              snowflake.password = ${{ secrets.PASSWORD }}
+              EOL
+
     - name: release.yml
       stepCustomizations:
         # Configure Snowflake credentials
@@ -40,11 +38,8 @@ build:
             name: Configure Snowflake credentials
             id: configure-snowflake-credentials
             run: |
-              echo "$USERNAME" > username.txt
-              echo "$ACCOUNTNAME" > accountname.txt
-              echo "$PASSWORD" > password.txt
-            env: {
-              USERNAME: '${{ secrets.USERNAME }}',
-              ACCOUNTNAME: '${{ secrets.ACCOUNTNAME }}',
-              PASSWORD: '${{ secrets.PASSWORD }}'
-            }
+              cat > test.properties <<EOL
+              snowflake.username = ${{ secrets.USERNAME }}
+              snowflake.accountname = ${{ secrets.ACCOUNTNAME }}
+              snowflake.password = ${{ secrets.PASSWORD }}
+              EOL
