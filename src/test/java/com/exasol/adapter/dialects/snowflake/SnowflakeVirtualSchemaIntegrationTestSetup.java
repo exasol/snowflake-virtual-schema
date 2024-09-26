@@ -212,7 +212,6 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
 
     public VirtualSchema createVirtualSchema(final String forSnowflakeSchema,
                                              final Map<String, String> additionalProperties) {
-        // TODO add localstack support + cleanup
         final Map<String, String> properties = new HashMap<>(Map.of("CATALOG_NAME", databaseName, //
                 "SCHEMA_NAME", forSnowflakeSchema)); //
         properties.putAll(additionalProperties);
@@ -234,8 +233,6 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
             this.snowflakeStatement.close();
             this.snowflakeConnection.close();
             this.exasolContainer.stop();
-            // TODO add localstack support + cleanup
-            // this.snowflakeContainer.stop();
         } catch (final SQLException exception) {
             throw new IllegalStateException("Failed to stop test setup.", exception);
         }
