@@ -62,4 +62,4 @@ Consider this a first and early-access release.
 * Added `org.codehaus.mojo:versions-maven-plugin:2.16.2`
 * Added `org.jacoco:jacoco-maven-plugin:0.8.12`
 * Added `org.sonarsource.scanner.maven:sonar-maven-plugin:4.0.0.4121`
-* Added `org.sonatype.ossindex.maven:ossindex-maven-plugin:3.2.0
+* Added `org.sonatype.ossindex.maven:ossindex-maven-plugin:3.2.0`
