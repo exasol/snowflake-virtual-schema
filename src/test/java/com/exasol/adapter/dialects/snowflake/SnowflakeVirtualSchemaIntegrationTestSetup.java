@@ -27,7 +27,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
     private static final Path PATH_TO_VIRTUAL_SCHEMAS_JAR = Path.of("target", VIRTUAL_SCHEMAS_JAR_NAME_AND_VERSION);
     private static final String SCHEMA_EXASOL = "SCHEMA_EXASOL";
     private static final String ADAPTER_SCRIPT_EXASOL = "ADAPTER_SCRIPT_EXASOL";
-    private static final String EXASOL_DOCKER_IMAGE_REFERENCE = "8.24.0";
+    private static final String EXASOL_DOCKER_IMAGE_REFERENCE = "8.31.0";
     private static final String SNOWFLAKE_CONTAINER_NAME = "localstack/snowflake:14.2";
 
     private static final String JDBC_DRIVER_NAME = "snowflake-jdbc.jar";
