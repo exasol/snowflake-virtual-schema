@@ -2,7 +2,8 @@ package com.exasol.adapter.dialects.snowflake;
 
 import static com.exasol.dbbuilder.dialects.exasol.AdapterScript.Language.JAVA;
 
-import java.io.*;
+import java.io.Closeable;
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.sql.*;
 import java.util.*;
@@ -92,13 +93,11 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
         } catch (final InterruptedException exception) {
             Thread.currentThread().interrupt();
             throw new IllegalStateException("Thread was interrupted");
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
     private ConnectionDefinition getSnowflakeConnectionDefinition(final String connectionString, final String username,
-                                                                  final String password) {
+            final String password) {
         final ConnectionDefinition connectionDefinition;
         connectionDefinition = this.exasolFactory.createConnectionDefinition("SNOWFLAKE_CONNECTION", connectionString,
                 username, password);
@@ -131,13 +130,14 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
         String connectStr = System.getenv("SF_JDBC_CONNECT_STRING");
         // use the default connection string if it is not set in environment
         if (connectStr == null) {
-            connectStr = "jdbc:snowflake://" + accountname + ".snowflakecomputing.com"; // replace accountName with your account name
+            connectStr = "jdbc:snowflake://" + accountname + ".snowflakecomputing.com"; // replace accountName with your
+                                                                                        // account name
         }
         return DriverManager.getConnection(connectStr, properties);
     }
 
     private void getTestCredentials() {
-        TestConfig testConfig = TestConfig.read();
+        final TestConfig testConfig = TestConfig.read();
         this.userName = testConfig.getSnowflakeUsername();
         this.password = testConfig.getSnowflakePassword();
         this.accountName = testConfig.getSnowflakeAccountname();
@@ -192,7 +192,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
     }
 
     public VirtualSchema createVirtualSchema(final String forSnowflakeSchema,
-                                             final Map<String, String> additionalProperties) {
+            final Map<String, String> additionalProperties) {
         final Map<String, String> properties = new HashMap<>(Map.of("CATALOG_NAME", databaseName, //
                 "SCHEMA_NAME", forSnowflakeSchema)); //
         properties.putAll(additionalProperties);
