@@ -3,7 +3,6 @@ package com.exasol.adapter.dialects.snowflake;
 import static com.exasol.dbbuilder.dialects.exasol.AdapterScript.Language.JAVA;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.*;
 import java.util.*;
@@ -18,7 +17,6 @@ import com.exasol.drivers.JdbcDriver;
 import com.exasol.errorreporting.ExaError;
 import com.exasol.udfdebugging.UdfTestSetup;
 import com.github.dockerjava.api.model.ContainerNetwork;
-import org.junit.jupiter.api.Test;
 
 /**
  * This class contains the common integration test setup for all Snowflake virtual schemas.
@@ -138,7 +136,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
         return DriverManager.getConnection(connectStr, properties);
     }
 
-    private void getTestCredentials() throws IOException {
+    private void getTestCredentials() {
         TestConfig testConfig = TestConfig.read();
         this.userName = testConfig.getSnowflakeUsername();
         this.password = testConfig.getSnowflakePassword();
