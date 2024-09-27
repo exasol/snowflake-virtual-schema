@@ -57,12 +57,12 @@ public class SnowflakeSqlGenerationVisitor extends SqlGenerationVisitor {
             final ColumnAdapterNotesJsonConverter converter = ColumnAdapterNotesJsonConverter.getInstance();
             ColumnMetadata metaData = column.getMetadata();
             DataType mappedType = metaData.getType();
-            ColumnAdapterNotes columnAdapterNotes= converter.convertFromJsonToColumnAdapterNotes(metaData.getAdapterNotes(), column.getName());
-                    String sourceTypeName = columnAdapterNotes.getTypeName();
+            ColumnAdapterNotes columnAdapterNotes = converter.convertFromJsonToColumnAdapterNotes(metaData.getAdapterNotes(), column.getName());
+            String sourceTypeName = columnAdapterNotes.getTypeName();
 
-                return buildColumnProjectionString(sourceTypeName,mappedType, projectionString); //
+            return buildColumnProjectionString(sourceTypeName, mappedType, projectionString); //
         } else {
-                return projectionString;
+            return projectionString;
         }
     }
 
@@ -75,33 +75,33 @@ public class SnowflakeSqlGenerationVisitor extends SqlGenerationVisitor {
         }
         final ScalarFunction scalarFunction = function.getFunction();
         switch (scalarFunction) {
-        case ADD_DAYS:
-            return getAddDateTime(argumentsSql, "days");
-        case ADD_HOURS:
-            return getAddDateTime(argumentsSql, "hours");
-        case ADD_MINUTES:
-            return getAddDateTime(argumentsSql, "mins");
-        case ADD_SECONDS:
-            return getAddDateTime(argumentsSql, "secs");
-        case ADD_WEEKS:
-            return getAddDateTime(argumentsSql, "weeks");
-        case ADD_YEARS:
-            return getAddDateTime(argumentsSql, "years");
-        case ADD_MONTHS:
-            return getAddDateTime(argumentsSql, "months");
-        case SECOND:
-        case MINUTE:
-        case DAY:
-        case WEEK:
-        case MONTH:
-        case YEAR:
-            return getDateTime(argumentsSql, scalarFunction);
-        case POSIX_TIME:
-            return getPosixTime(argumentsSql);
-        case FLOAT_DIV:
-            return getCastToDoublePrecisionAndDivide(argumentsSql);
-        default:
-            return super.visit(function);
+            case ADD_DAYS:
+                return getAddDateTime(argumentsSql, "days");
+            case ADD_HOURS:
+                return getAddDateTime(argumentsSql, "hours");
+            case ADD_MINUTES:
+                return getAddDateTime(argumentsSql, "mins");
+            case ADD_SECONDS:
+                return getAddDateTime(argumentsSql, "secs");
+            case ADD_WEEKS:
+                return getAddDateTime(argumentsSql, "weeks");
+            case ADD_YEARS:
+                return getAddDateTime(argumentsSql, "years");
+            case ADD_MONTHS:
+                return getAddDateTime(argumentsSql, "months");
+            case SECOND:
+            case MINUTE:
+            case DAY:
+            case WEEK:
+            case MONTH:
+            case YEAR:
+                return getDateTime(argumentsSql, scalarFunction);
+            case POSIX_TIME:
+                return getPosixTime(argumentsSql);
+            case FLOAT_DIV:
+                return getCastToDoublePrecisionAndDivide(argumentsSql);
+            default:
+                return super.visit(function);
         }
     }
 
@@ -136,43 +136,43 @@ public class SnowflakeSqlGenerationVisitor extends SqlGenerationVisitor {
 
     private static void appendDatePart(ScalarFunction scalarFunction, StringBuilder builder) {
         switch (scalarFunction) {
-        case SECOND:
-            builder.append("'SECOND'");
-            break;
-        case MINUTE:
-            builder.append("'MINUTE'");
-            break;
-        case DAY:
-            builder.append("'DAY'");
-            break;
-        case WEEK:
-            builder.append("'WEEK'");
-            break;
-        case MONTH:
-            builder.append("'MONTH'");
-            break;
-        case YEAR:
-            builder.append("'YEAR'");
-            break;
-        default:
-            break;
+            case SECOND:
+                builder.append("'SECOND'");
+                break;
+            case MINUTE:
+                builder.append("'MINUTE'");
+                break;
+            case DAY:
+                builder.append("'DAY'");
+                break;
+            case WEEK:
+                builder.append("'WEEK'");
+                break;
+            case MONTH:
+                builder.append("'MONTH'");
+                break;
+            case YEAR:
+                builder.append("'YEAR'");
+                break;
+            default:
+                break;
         }
     }
 
     private static void appendDecimalSize(ScalarFunction scalarFunction, StringBuilder builder) {
         switch (scalarFunction) {
-        case SECOND:
-        case MINUTE:
-        case DAY:
-        case WEEK:
-        case MONTH:
-            builder.append("2");
-            break;
-        case YEAR:
-            builder.append("4");
-            break;
-        default:
-            break;
+            case SECOND:
+            case MINUTE:
+            case DAY:
+            case WEEK:
+            case MONTH:
+                builder.append("2");
+                break;
+            case YEAR:
+                builder.append("4");
+                break;
+            default:
+                break;
         }
     }
 
@@ -180,14 +180,12 @@ public class SnowflakeSqlGenerationVisitor extends SqlGenerationVisitor {
         return "EXTRACT(EPOCH FROM " + argumentsSql.get(0) + ")";
     }
 
-    private String buildColumnProjectionString(final String typeName,DataType mappedType, final String projectionString) {
-        if (typeName.startsWith("NUMBER") && mappedType.getExaDataType() == DataType.ExaDataType.VARCHAR ){
+    private String buildColumnProjectionString(final String typeName, DataType mappedType, final String projectionString) {
+        if (typeName.startsWith("NUMBER") && mappedType.getExaDataType() == DataType.ExaDataType.VARCHAR) {
             return "'Number precision not supported'";
-        }
-        else if (typeName.startsWith("TIMESTAMPTZ")) {
-            return "TO_TIMESTAMP_NTZ(" + projectionString +")";
-        }
-        else if (checkIfNeedToCastToVarchar(typeName)) {
+        } else if (typeName.startsWith("TIMESTAMPTZ")) {
+            return "TO_TIMESTAMP_NTZ(" + projectionString + ")";
+        } else if (checkIfNeedToCastToVarchar(typeName)) {
             return "CAST(" + projectionString + "  as VARCHAR )";
         } else if (typeName.startsWith("smallserial")) {
             return "CAST(" + projectionString + "  as SMALLINT )";
