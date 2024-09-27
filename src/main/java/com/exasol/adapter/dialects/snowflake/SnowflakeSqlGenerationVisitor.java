@@ -60,7 +60,7 @@ public class SnowflakeSqlGenerationVisitor extends SqlGenerationVisitor {
             ColumnAdapterNotes columnAdapterNotes = converter.convertFromJsonToColumnAdapterNotes(metaData.getAdapterNotes(), column.getName());
             String sourceTypeName = columnAdapterNotes.getTypeName();
 
-            return buildColumnProjectionString(sourceTypeName, mappedType, projectionString); //
+            return buildColumnProjectionString(sourceTypeName, mappedType, projectionString);
         } else {
             return projectionString;
         }
