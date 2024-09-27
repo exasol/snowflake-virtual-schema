@@ -1,4 +1,4 @@
-# Virtual Schema for Snowflake 0.1.0, released 2024-09-26
+# Virtual Schema for Snowflake 0.1.0, released 2024-09-27
 
 Code name: First version of the Snowflake virtual schema
 
