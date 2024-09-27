@@ -44,19 +44,11 @@ class SnowflakeSqlDialectIT {
     @BeforeAll
     static void beforeAll() throws SQLException {
         final Statement statementSnowflake = SETUP.getSnowflakeStatement();
-        try {
-            statementSnowflake.execute("CREATE DATABASE " + SETUP.getDatabaseName());
-        } catch (final Exception e) {
 
-        }
-        try {
-            statementSnowflake.execute("DROP SCHEMA " + SCHEMA_SNOWFLAKE + " CASCADE");
-            statementSnowflake.execute("DROP SCHEMA " + SCHEMA_SNOWFLAKE_UPPERCASE_TABLE + " CASCADE");
-        } catch (final Exception e) {
-
-        }
+        statementSnowflake.execute("CREATE DATABASE " + SETUP.getDatabaseName());
         statementSnowflake.execute("CREATE SCHEMA " + SCHEMA_SNOWFLAKE);
         statementSnowflake.execute("CREATE SCHEMA " + SCHEMA_SNOWFLAKE_UPPERCASE_TABLE);
+
         createSnowflakeTestTableSimple(statementSnowflake);
         createSnowflakeTestTableAllDataTypes(statementSnowflake);
         createTestTablesForJoinTests(SCHEMA_SNOWFLAKE);
@@ -71,11 +63,7 @@ class SnowflakeSqlDialectIT {
     @AfterAll
     static void afterAll() throws SQLException {
         final Statement statementSnowflake = SETUP.getSnowflakeStatement();
-        try {
             statementSnowflake.execute("DROP DATABASE " + SETUP.getDatabaseName() + " CASCADE;");
-        } catch (final Exception e) {
-
-        }
     }
 
     private static void createSnowflakeTestTableSimple(final Statement statementSnowflake) throws SQLException {
