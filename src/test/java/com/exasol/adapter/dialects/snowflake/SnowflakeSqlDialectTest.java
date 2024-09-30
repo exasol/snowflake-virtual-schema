@@ -100,7 +100,6 @@ class SnowflakeSqlDialectTest {
         assertThat(this.dialect.getStringLiteral(null), CoreMatchers.equalTo("NULL"));
     }
 
-
     @Test
     void testValidateDatabaseProperty() throws PropertyValidationException {
         final SqlDialect sqlDialect = new SnowflakeSqlDialect(null, new AdapterProperties(Map.of( //
