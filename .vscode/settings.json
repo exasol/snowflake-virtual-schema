@@ -12,12 +12,12 @@
   "java.test.config": {
     "vmArgs": [
       "-Djava.util.logging.config.file=src/test/resources/logging.properties",
-      "-Dtest.debug='true'",
-      "-Dcom.exasol.dockerdb.image=8.24.0"
+      "-Dcom.exasol.dockerdb.image=8.31.0"
     ]
   },
   "sonarlint.connectedMode.project": {
     "connectionId": "exasol",
     "projectKey": "com.exasol:snowflake-virtual-schema"
-  }
+  },
+  "java.configuration.updateBuildConfiguration": "automatic"
 }
