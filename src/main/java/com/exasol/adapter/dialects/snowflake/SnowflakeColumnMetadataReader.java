@@ -49,19 +49,19 @@ public class SnowflakeColumnMetadataReader extends BaseColumnMetadataReader {
         }
     }
 
-    protected DataType mapJdbcTypeOther(final JDBCTypeDescription jdbcTypeDescription) {
+    private DataType mapJdbcTypeOther(final JDBCTypeDescription jdbcTypeDescription) {
         if (isVarBitColumn(jdbcTypeDescription)) {
             final int n = jdbcTypeDescription.getPrecisionOrSize();
-            LOGGER.finer(() -> "Mapping Snowflake datatype \"OTHER:varbit\" to VARCHAR(" + n + ")");
+            LOGGER.finest(() -> "Mapping Snowflake datatype \"OTHER:varbit\" to VARCHAR(" + n + ")");
             return DataType.createVarChar(n, DataType.ExaCharset.UTF8);
         } else {
-            LOGGER.finer(() -> "Mapping Snowflake datatype \"" + jdbcTypeDescription.getTypeName()
+            LOGGER.finest(() -> "Mapping Snowflake datatype \"" + jdbcTypeDescription.getTypeName()
                     + "\" to maximum VARCHAR()");
             return DataType.createMaximumSizeVarChar(DataType.ExaCharset.UTF8);
         }
     }
 
-    protected boolean isVarBitColumn(final JDBCTypeDescription jdbcTypeDescription) {
+    private boolean isVarBitColumn(final JDBCTypeDescription jdbcTypeDescription) {
         return jdbcTypeDescription.getTypeName().equals(SNOWFLAKE_VARBIT_TYPE_NAME);
     }
 
