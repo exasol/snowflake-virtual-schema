@@ -16,6 +16,8 @@
 
 # Overview
 
+Snowflake Virtual Schema (short "VSSF") is an implementation of a [Virtual Schema](https://docs.exasol.com/db/latest/database_concepts/virtual_schemas.htm).
+
 The **Snowflake Virtual Schema** provides an abstraction layer that makes an external [Snowflake](https://www.Snowflake.org/) database accessible from an Exasol database through regular SQL commands. The contents of the external Snowflake database are mapped to virtual tables which look like and can be queried as any regular Exasol table.
 
 If you want to set up a Virtual Schema for a different database system, please head over to the [Virtual Schemas Repository][virtual-schemas].
@@ -33,10 +35,12 @@ If you want to set up a Virtual Schema for a different database system, please h
 * [Changelog](doc/changes/changelog.md)
 * [Dependencies](dependencies.md)
 
-Find all the documentation in the [Virtual Schemas project][vs-doc].
+Find all the documentation in the [Virtual Schemas project](https://github.com/exasol/virtual-schemas).
 
 ## Information for Developers
 
+* [Design](doc/design.md) 
+* [Developer guide](doc/developer_guide/developer_guide.md) 
 * [Virtual Schema API Documentation](https://github.com/exasol/virtual-schema-common-java/blob/main/doc/development/api/virtual_schema_api.md)
 * [Remote logging](https://docs.exasol.com/db/latest/database_concepts/virtual_schema/logging.htm)
 
