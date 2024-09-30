@@ -63,7 +63,7 @@ class SnowflakeSqlDialectIT {
     @AfterAll
     static void afterAll() throws SQLException {
         final Statement statementSnowflake = SETUP.getSnowflakeStatement();
-            statementSnowflake.execute("DROP DATABASE " + SETUP.getDatabaseName() + " CASCADE;");
+        statementSnowflake.execute("DROP DATABASE " + SETUP.getDatabaseName() + " CASCADE;");
     }
 
     private static void createSnowflakeTestTableSimple(final Statement statementSnowflake) throws SQLException {

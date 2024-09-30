@@ -24,7 +24,7 @@ public class SnowflakeColumnMetadataReader extends BaseColumnMetadataReader {
      * @param identifierConverter converter between source and Exasol identifiers
      */
     public SnowflakeColumnMetadataReader(final Connection connection, final AdapterProperties properties,
-            final IdentifierConverter identifierConverter) {
+                                         final IdentifierConverter identifierConverter) {
         super(connection, properties, identifierConverter);
     }
 
@@ -36,16 +36,16 @@ public class SnowflakeColumnMetadataReader extends BaseColumnMetadataReader {
     @Override
     public DataType mapJdbcType(final JDBCTypeDescription jdbcTypeDescription) {
         switch (jdbcTypeDescription.getJdbcType()) {
-        case Types.OTHER:
-            return mapJdbcTypeOther(jdbcTypeDescription);
-        case Types.SQLXML:
-        case Types.DISTINCT:
-        case Types.BINARY:
-            return DataType.createMaximumSizeVarChar(DataType.ExaCharset.UTF8);
-        case Types.TIMESTAMP_WITH_TIMEZONE:
-            return DataType.createTimestamp(false);
-        default:
-            return super.mapJdbcType(jdbcTypeDescription);
+            case Types.OTHER:
+                return mapJdbcTypeOther(jdbcTypeDescription);
+            case Types.SQLXML:
+            case Types.DISTINCT:
+            case Types.BINARY:
+                return DataType.createMaximumSizeVarChar(DataType.ExaCharset.UTF8);
+            case Types.TIMESTAMP_WITH_TIMEZONE:
+                return DataType.createTimestamp(false);
+            default:
+                return super.mapJdbcType(jdbcTypeDescription);
         }
     }
 
@@ -67,7 +67,7 @@ public class SnowflakeColumnMetadataReader extends BaseColumnMetadataReader {
 
     @Override
     public String readColumnName(final ResultSet columns) throws SQLException {
-            return super.readColumnName(columns);
+        return super.readColumnName(columns);
     }
 
     @Override
