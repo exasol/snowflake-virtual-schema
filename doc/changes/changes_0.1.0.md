@@ -35,7 +35,6 @@ Consider this a first and early-access release.
 * Added `org.junit.jupiter:junit-jupiter:5.10.1`
 * Added `org.mockito:mockito-junit-jupiter:5.10.0`
 * Added `org.testcontainers:junit-jupiter:1.19.4`
-* Added `org.testcontainers:localstack:1.19.8`
 
 ### Plugin Dependency Updates
 
