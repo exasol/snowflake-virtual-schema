@@ -2,7 +2,7 @@
 
 ## General design notes
 The snowflake virtual schema's capabilities, mapping and query pushdown are mainly based on the existing PostgreSql virtual schema. 
-This is because the PostgreSql database approaches Snowflake the closest, functionality wise.
+This is because the PostgreSql database approaches Snowflake the closest, functionality wise. Currently there are few deviations but this is expected to change.
 
 ## Notes on NUMERIC
 The numeric datatype has a higher supported precision in Snowflake (38 vs 36 in Snowflake): 
