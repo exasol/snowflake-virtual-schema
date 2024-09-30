@@ -187,12 +187,6 @@ public class SnowflakeSqlGenerationVisitor extends SqlGenerationVisitor {
             return "TO_TIMESTAMP_NTZ(" + projectionString + ")";
         } else if (checkIfNeedToCastToVarchar(typeName)) {
             return "CAST(" + projectionString + "  as VARCHAR )";
-        } else if (typeName.startsWith("smallserial")) {
-            return "CAST(" + projectionString + "  as SMALLINT )";
-        } else if (typeName.startsWith("serial")) {
-            return "CAST(" + projectionString + "  as INTEGER )";
-        } else if (typeName.startsWith("bigserial")) {
-            return "CAST(" + projectionString + "  as BIGINT )";
         } else if (TYPE_NAMES_NOT_SUPPORTED.contains(typeName)) {
             return "cast('" + typeName + " NOT SUPPORTED' as varchar) as not_supported";
         } else {
