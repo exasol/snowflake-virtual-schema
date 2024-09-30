@@ -82,7 +82,7 @@ public class SnowflakeSqlDialect extends AbstractSqlDialect {
     }
 
     /**
-     * This class gets all {@link ScalarFunctionCapability}s that are not explicitly excluded by
+     * Return all {@link ScalarFunctionCapability}s that are not explicitly excluded by
      * {@link #DISABLED_SCALAR_FUNCTION}.
      *
      * @return list enabled scalar function capabilities
