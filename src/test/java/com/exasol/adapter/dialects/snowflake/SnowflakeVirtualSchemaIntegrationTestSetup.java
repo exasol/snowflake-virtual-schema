@@ -86,7 +86,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
             this.adapterScript = createAdapterScript(exasolSchema);
             final String connectionString = getSnowflakeConnectionString(accountName);
             connectionDefinition = getSnowflakeConnectionDefinition(connectionString, userName, password);
-        } catch (final SQLException | BucketAccessException | TimeoutException exception) {
+        } catch (final SQLException | BucketAccessException | TimeoutException | ClassNotFoundException exception ) {
             throw new IllegalStateException("Failed to created snowflake test setup.", exception);
         } catch (final InterruptedException exception) {
             Thread.currentThread().interrupt();
@@ -108,13 +108,8 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
     }
 
     private Connection getSnowflakeConnection(final String username, final String password, final String accountname)
-            throws SQLException {
-        try {
+            throws SQLException, ClassNotFoundException {
             Class.forName("net.snowflake.client.jdbc.SnowflakeDriver");
-        } catch (final ClassNotFoundException ex) {
-            System.err.println("Driver not found");
-        }
-
         // build connection properties
         final Properties properties = new Properties();
         properties.put("user", username);
