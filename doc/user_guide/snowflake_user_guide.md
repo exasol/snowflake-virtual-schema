@@ -99,44 +99,14 @@ For additional parameters (optional), see also [Adapter Properties for JDBC-Base
 
 ## Data Types Conversion
 
-| Snowflake Data Type      | Supported     | Converted Exasol Data Type | Known limitations                                                                                                   |
-|--------------------------|---------------|----------------------------|---------------------------------------------------------------------------------------------------------------------|
-| BIGINT                   | ✓             | VARCHAR(2000000)           | Alias for NUMBER(38,0) in Snowflake                                                                                 |
-| BIGSERIAL                | ✓             | DECIMAL(19,0)              |                                                                                                                     |
-| BIT                      | ✓             | BOOLEAN                    |                                                                                                                     |
-| BIT VARYING              | ✓             | VARCHAR(5)                 |                                                                                                                     |
-| BOX                      | ✓             | VARCHAR(2000000)           |                                                                                                                     |
-| BYTEA                    | ✓             | VARCHAR(2000000)           |                                                                                                                     |
-| BOOLEAN                  | ✓             | BOOLEAN                    |                                                                                                                     |
-| CHARACTER                | ✓             | VARCHAR                    |                                                                                                                     |
-| CHARACTER VARYING        | ✓             | VARCHAR                    |                                                                                                                     |
-| CIDR                     | ✓             | VARCHAR(2000000)           |                                                                                                                     |
-| CIRCLE                   | ✓             | VARCHAR(2000000)           |                                                                                                                     |
-| DATE                     | ✓             | DATE                       |                                                                                                                     |
-| DOUBLE PRECISION         | ✓             | DOUBLE                     |                                                                                                                     |
-| INET                     | ✓             | VARCHAR(2000000)           |                                                                                                                     |
-| INTEGER                  | ✓             | DECIMAL(10,0)              |                                                                                                                     |
-| INTERVAL                 | ✓             | VARCHAR(2000000)           |                                                                                                                     |
-| JSON                     | ✓             | VARCHAR(2000000)           |                                                                                                                     |
-| JSONB                    | ✓             | VARCHAR(2000000)           |                                                                                                                     |
-| LINE                     | ✓             | VARCHAR(2000000)           |                                                                                                                     |
-| LSEG                     | ✓             | VARCHAR(2000000)           |                                                                                                                     |
-| MACADDR                  | ✓             | VARCHAR(2000000)           |                                                                                                                     |
-| MONEY                    | ✓             | DOUBLE                     |                                                                                                                     |
-| NUMERIC                  | ✓             | DECIMAL/VARCHAR(2000000)   | Stored in Exasol as DECIMAL or VARCHAR, because Snowflake NUMERIC values can exceed Exasol NUMERIC PRECISION limit. |
-| PATH                     | ✓             | VARCHAR(2000000)           |                                                                                                                     |
-| POINT                    | ✓             | VARCHAR(2000000)           |                                                                                                                     |
-| POLYGON                  | ✓             | VARCHAR(2000000)           |                                                                                                                     |
-| REAL                     | ✓             | DOUBLE                     |                                                                                                                     |
-| SMALLINT                 | ✓             | VARCHAR(2000000)           | Alias for NUMBER(38,0)                                                                                              |
-| SMALLSERIAL              | (unsupported) |                            |                                                                                                                     |
-| SERIAL                   | (unsupported) |                            |                                                                                                                     |
-| TEXT                     | ✓             | VARCHAR(2000000)           |                                                                                                                     |
-| TIME                     | ✓             | TIME                       |                                                                                                                     |
-| TIME WITH TIME ZONE      | ✓             | VARCHAR(2000000)           |                                                                                                                     |
-| TIMESTAMP                | ✓             | TIMESTAMP                  |                                                                                                                     |
-| TIMESTAMP WITH TIME ZONE | ✓             | TIMESTAMP (UTC)            |                                                                                                                     |
-| TSQUERY                  | ✓             | VARCHAR(2000000)           |                                                                                                                     |
-| TSVECTOR                 | ✓             | VARCHAR(2000000)           |                                                                                                                     |
-| UUID                     | ✓             | VARCHAR(2000000)           |                                                                                                                     |
-| XML                      | ✓             | VARCHAR(2000000)           |                                                                                                                     |
+| Snowflake Data Type                                                                            | Supported | Converted Exasol Data Type | Known limitations                   |
+|------------------------------------------------------------------------------------------------|-----------|----------------------------|-------------------------------------|
+| NUMBER,DECIMAL , DEC , NUMERIC                                                                 | ✓         | DECIMAL(36,0)              | Precision > 36 is not supported.    |
+| INT , INTEGER , BIGINT , SMALLINT , TINYINT , BYTEINT                                          | ✓         | VARCHAR(2000000)           | Alias for NUMBER(38,0) in Snowflake |
+| BOOLEAN                                                                                        | ✓         | BOOLEAN                    |                                     |
+| VARCHAR,CHAR, CHARACTER, NCHAR, STRING, TEXT, NVARCHAR, NVARCHAR2, CHAR VARYING, NCHAR VARYING | ✓         | VARCHAR                    |                                     |
+| DATE                                                                                           | ✓         | DATE                       |                                     |
+| FLOAT,DOUBLE PRECISION,DOUBLE , REAL                                                           | ✓         | DOUBLE                     |                                     |
+| TIME                                                                                           | ✓         | TIME                       |                                     |
+| TIMESTAMP                                                                                      | ✓         | TIMESTAMP                  |                                     |
+| TIMESTAMP WITH TIME ZONE                                                                       | ✓         | TIMESTAMP (UTC)            |                                     |
