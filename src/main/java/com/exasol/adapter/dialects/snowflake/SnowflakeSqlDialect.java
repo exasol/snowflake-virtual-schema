@@ -31,7 +31,6 @@ public class SnowflakeSqlDialect extends AbstractSqlDialect {
 
     private static final Set<ScalarFunctionCapability> DISABLED_SCALAR_FUNCTION = Set.of(
             /*
-             * Implementation for `BETWEEN` time functions is not supported. For more information see `design.md` file,
              * `Scalar Functions` section
              */
             SECONDS_BETWEEN, MINUTES_BETWEEN, HOURS_BETWEEN, DAYS_BETWEEN, MONTHS_BETWEEN, YEARS_BETWEEN, //
@@ -62,7 +61,7 @@ public class SnowflakeSqlDialect extends AbstractSqlDialect {
 
     /*
      * IMPORTANT! Before adding new capabilities, check the `doc/design.md` file if there is a note on why the
-     * capability is not supported. it.
+     * capability is not supported.
      */
     private static Capabilities createCapabilityList() {
         return Capabilities.builder()
