@@ -1,4 +1,4 @@
-# Virtual Schema for Snowflake 0.1.0, released 2024-09-27
+# Virtual Schema for Snowflake 0.1.0, released 2024-10-01
 
 Code name: First version of the Snowflake virtual schema
 
@@ -43,16 +43,16 @@ Consider this a first and early-access release.
 * Added `com.exasol:project-keeper-maven-plugin:4.3.3`
 * Added `io.github.zlika:reproducible-build-maven-plugin:0.16`
 * Added `org.apache.maven.plugins:maven-assembly-plugin:3.7.1`
-* Added `org.apache.maven.plugins:maven-clean-plugin:2.5`
+* Added `org.apache.maven.plugins:maven-clean-plugin:3.2.0`
 * Added `org.apache.maven.plugins:maven-compiler-plugin:3.13.0`
 * Added `org.apache.maven.plugins:maven-dependency-plugin:3.6.1`
-* Added `org.apache.maven.plugins:maven-deploy-plugin:2.7`
+* Added `org.apache.maven.plugins:maven-deploy-plugin:3.1.1`
 * Added `org.apache.maven.plugins:maven-enforcer-plugin:3.5.0`
 * Added `org.apache.maven.plugins:maven-failsafe-plugin:3.2.5`
-* Added `org.apache.maven.plugins:maven-install-plugin:2.4`
+* Added `org.apache.maven.plugins:maven-install-plugin:3.1.1`
 * Added `org.apache.maven.plugins:maven-jar-plugin:3.4.1`
-* Added `org.apache.maven.plugins:maven-resources-plugin:2.6`
-* Added `org.apache.maven.plugins:maven-site-plugin:3.3`
+* Added `org.apache.maven.plugins:maven-resources-plugin:3.3.1`
+* Added `org.apache.maven.plugins:maven-site-plugin:3.12.1`
 * Added `org.apache.maven.plugins:maven-surefire-plugin:3.2.5`
 * Added `org.apache.maven.plugins:maven-toolchains-plugin:3.2.0`
 * Added `org.basepom.maven:duplicate-finder-maven-plugin:2.0.1`
