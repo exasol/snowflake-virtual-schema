@@ -8,7 +8,7 @@ import java.lang.annotation.*;
  * In order to make this work you need to add the {@link CloseAfterAllExtension} to your test class.
  * </p>
  */
-@Target({ ElementType.FIELD })
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CloseAfterAll {
 }

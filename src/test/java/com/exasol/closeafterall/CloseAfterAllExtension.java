@@ -41,7 +41,7 @@ public class CloseAfterAllExtension implements AfterAllCallback {
             ((Closeable) annotatedObject).close();
         } else {
             throw new IllegalStateException(ExaError.messageBuilder("E-VSSF-9").message(
-                    "Could not close the field {{field}} annotated with @CloseAfterAll since it does not implement Closable.")
+                            "Could not close the field {{field}} annotated with @CloseAfterAll since it does not implement Closable.")
                     .parameter("field", field.getName()).toString());
         }
     }

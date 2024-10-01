@@ -32,19 +32,4 @@ class SnowflakeTableMetadataReaderTest {
     private void ignoreErrors(final String ignoreErrors) {
         this.rawProperties.put(IGNORE_ERRORS_PROPERTY, ignoreErrors);
     }
-
-
-
-/*    @Test
-    void testIsUppercaseTableIncludedByMappingWithIgnoringUppercaseTables() {
-        ignoreErrors("SNOWFLAKE_UPPERCASE_TABLES");
-        assertThat(this.reader.isTableIncludedByMapping("\"FooBar\""), equalTo(false));
-    }
-
-    @Test
-    void testIsUppercaseTableIncludedByMappingWithConvertToUpperNotIgnoringUppercaseTablesThrowsException() {
-        final RemoteMetadataReaderException exception = assertThrows(RemoteMetadataReaderException.class,
-                () -> this.reader.isTableIncludedByMapping("\"FooBar\""));
-        assertThat(exception.getMessage(), containsString("E-VSSF-6"));
-    }*/
 }

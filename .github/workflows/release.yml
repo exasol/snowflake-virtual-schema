@@ -104,6 +104,14 @@ jobs:
         env: {
           GITHUB_TOKEN: '${{ github.token }}'
         }
+      - name: Configure Snowflake credentials
+        id: configure-snowflake-credentials
+        run: |-
+          cat > test.properties <<EOL
+          snowflake.username = ${{ secrets.USERNAME }}
+          snowflake.accountname = ${{ secrets.ACCOUNTNAME }}
+          snowflake.password = ${{ secrets.PASSWORD }}
+          EOL
       - {
         name: Build project,
         id: build,

@@ -39,7 +39,6 @@ public class SnowflakeMetadataReader extends AbstractRemoteMetadataReader {
 
     @Override
     public String getSchemaNameFilter() {
-        return this.properties.getSchemaName().replace("_","\\_").toUpperCase();
+        return this.properties.getSchemaName().replace("_", "\\_").toUpperCase();
     }
-
 }

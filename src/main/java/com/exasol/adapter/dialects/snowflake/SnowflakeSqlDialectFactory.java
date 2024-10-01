@@ -10,7 +10,7 @@ import com.exasol.logging.VersionCollector;
  * Factory for the Snowflake SQL dialect.
  */
 public class SnowflakeSqlDialectFactory implements SqlDialectFactory {
-	
+
     @Override
     public String getSqlDialectName() {
         return SnowflakeSqlDialect.NAME;
@@ -20,7 +20,7 @@ public class SnowflakeSqlDialectFactory implements SqlDialectFactory {
     public SqlDialect createSqlDialect(final ConnectionFactory connectionFactory, final AdapterProperties properties) {
         return new SnowflakeSqlDialect(connectionFactory, properties);
     }
-    
+
     @Override
     public String getSqlDialectVersion() {
         final VersionCollector versionCollector = new VersionCollector(

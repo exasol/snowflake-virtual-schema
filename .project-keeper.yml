@@ -11,8 +11,8 @@ build:
   runnerOs: ubuntu-20.04
   freeDiskSpace: false
   exasolDbVersions:
-    - "7.1.25"
-    - "8.24.0"  
+    - "8.31.0"
+    - "7.1.29" 
   workflows:
     - name: ci-build.yml
       stepCustomizations:
@@ -23,11 +23,23 @@ build:
             name: Configure Snowflake credentials
             id: configure-snowflake-credentials
             run: |
-              echo "$USERNAME" > username.txt
-              echo "$ACCOUNTNAME" > accountname.txt
-              echo "$PASSWORD" > password.txt
-            env: {
-              USERNAME: '${{ secrets.USERNAME }}',
-              ACCOUNTNAME: '${{ secrets.ACCOUNTNAME }}',
-              PASSWORD: '${{ secrets.PASSWORD }}'
-            }
+              cat > test.properties <<EOL
+              snowflake.username = ${{ secrets.USERNAME }}
+              snowflake.accountname = ${{ secrets.ACCOUNTNAME }}
+              snowflake.password = ${{ secrets.PASSWORD }}
+              EOL
+
+    - name: release.yml
+      stepCustomizations:
+        # Configure Snowflake credentials
+        - action: INSERT_AFTER
+          stepId: verify-release
+          content:
+            name: Configure Snowflake credentials
+            id: configure-snowflake-credentials
+            run: |
+              cat > test.properties <<EOL
+              snowflake.username = ${{ secrets.USERNAME }}
+              snowflake.accountname = ${{ secrets.ACCOUNTNAME }}
+              snowflake.password = ${{ secrets.PASSWORD }}
+              EOL

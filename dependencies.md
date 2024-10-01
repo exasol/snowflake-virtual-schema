@@ -13,13 +13,12 @@
 
 | Dependency                                      | License                                       |
 | ----------------------------------------------- | --------------------------------------------- |
-| [Virtual Schema Common JDBC][0]                 | [MIT License][1]                              |
 | [Hamcrest][6]                                   | [BSD License 3][7]                            |
 | [JUnit Jupiter (Aggregator)][8]                 | [Eclipse Public License v2.0][9]              |
 | [mockito-junit-jupiter][10]                     | [MIT][11]                                     |
+| [Virtual Schema Common JDBC][0]                 | [MIT License][1]                              |
 | [Test containers for Exasol on Docker][12]      | [MIT License][13]                             |
 | [Testcontainers :: JUnit Jupiter Extension][14] | [MIT][15]                                     |
-| [Testcontainers :: Localstack][14]              | [MIT][15]                                     |
 | [Test Database Builder for Java][16]            | [MIT License][17]                             |
 | [Matcher for SQL Result Sets][18]               | [MIT License][19]                             |
 | [udf-debugging-java][20]                        | [MIT License][21]                             |

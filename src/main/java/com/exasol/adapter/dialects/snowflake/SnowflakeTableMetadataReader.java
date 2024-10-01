@@ -25,7 +25,7 @@ public class SnowflakeTableMetadataReader extends BaseTableMetadataReader {
      * @param identifierConverter  converter between source and Exasol identifiers
      */
     public SnowflakeTableMetadataReader(final Connection connection, final ColumnMetadataReader columnMetadataReader,
-            final AdapterProperties properties, final IdentifierConverter identifierConverter) {
+                                        final AdapterProperties properties, final IdentifierConverter identifierConverter) {
         super(connection, columnMetadataReader, properties, identifierConverter);
     }
 }

@@ -38,13 +38,13 @@ class SnowflakeSqlGenerationVisitorTest {
         this.visitor = new SnowflakeSqlGenerationVisitor(dialect, context);
     }
 
-    @CsvSource({ "ADD_DAYS, days", //
+    @CsvSource({"ADD_DAYS, days", //
             "ADD_HOURS, hours", //
             "ADD_MINUTES, mins", //
             "ADD_SECONDS, secs", //
             "ADD_YEARS, years", //
             "ADD_WEEKS, weeks", //
-            "ADD_MONTHS, months" })
+            "ADD_MONTHS, months"})
     @ParameterizedTest
     void testVisitSqlFunctionScalarAddDate(final ScalarFunction scalarFunction, final String expected)
             throws AdapterException {
@@ -54,7 +54,7 @@ class SnowflakeSqlGenerationVisitorTest {
     }
 
     private SqlFunctionScalar createSqlFunctionScalarForDateTest(final ScalarFunction scalarFunction,
-            final int numericValue) {
+                                                                 final int numericValue) {
         final List<SqlNode> arguments = new ArrayList<>();
         arguments.add(new SqlColumn(1,
                 ColumnMetadata.builder().name("test_column")
@@ -64,15 +64,15 @@ class SnowflakeSqlGenerationVisitorTest {
         return new SqlFunctionScalar(scalarFunction, arguments);
     }
 
-    @CsvSource({ "SECOND, SECOND, 2", //
+    @CsvSource({"SECOND, SECOND, 2", //
             "MINUTE, MINUTE, 2", //
             "DAY, DAY, 2", //
             "WEEK, WEEK, 2", //
             "MONTH, MONTH, 2", //
-            "YEAR, YEAR, 4" })
+            "YEAR, YEAR, 4"})
     @ParameterizedTest
     void testVisitSqlFunctionScalarDatetime(final ScalarFunction scalarFunction, final String expected,
-            final String decimalSize) throws AdapterException {
+                                            final String decimalSize) throws AdapterException {
         final SqlFunctionScalar sqlFunctionScalar = createSqlFunctionScalarForDateTest(scalarFunction, 0);
         assertThat(this.visitor.visit(sqlFunctionScalar),
                 equalTo("CAST(DATE_PART('" + expected + "',\"test_column\") AS DECIMAL(" + decimalSize + ",0))"));
@@ -89,18 +89,6 @@ class SnowflakeSqlGenerationVisitorTest {
         final SqlSelectList sqlSelectList = SqlSelectList.createAnyValueSelectList();
         assertSqlNodeConvertedToOne(sqlSelectList, this.visitor);
     }
-
-/*    @Test
-    void testVisitSqlStatementSelect() throws AdapterException {
-        final SqlStatementSelect select = (SqlStatementSelect) DialectTestData.getTestSqlNode();
-        assertThat(this.visitor.visit(select), //
-                equalTo("SELECT \"user_id\", " //
-                        + "COUNT(\"url\") FROM \"test_schema\".\"clicks\" " //
-                        + "WHERE 1 < \"user_id\" " //
-                        + "GROUP BY \"user_id\" " //
-                        + "HAVING 1 < COUNT(\"url\") " //
-                        + "ORDER BY \"user_id\" LIMIT 10"));
-    }*/
 
     @Test
     void testVisitSqlFunctionAggregateGroupConcat() throws AdapterException {

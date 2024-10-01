@@ -86,18 +86,9 @@ class SnowflakeSqlDialectTest {
                                 VAR_POP, VAR_POP_DISTINCT, VAR_SAMP, VAR_SAMP_DISTINCT, GROUP_CONCAT)) //
         );
     }
-/*
-    @CsvSource({ "ABC, \"abc\"", //
-            "AbCde, \"abcde\"", //
-            "\"tableName, \"\"\"tablename\"" //
-    })
-    @ParameterizedTest
-    void testApplyQuote(final String unquoted, final String quoted) {
-        assertThat(this.dialect.applyQuote(unquoted), equalTo(quoted));
-    }*/
 
-    @ValueSource(strings = { "ab:E'ab'", "a'b:E'a''b'", "a''b:E'a''''b'", "'ab':E'''ab'''", "a\\\\b:E'a\\\\\\\\b'",
-            "a\\'b:E'a\\\\''b'" })
+    @ValueSource(strings = {"ab:E'ab'", "a'b:E'a''b'", "a''b:E'a''''b'", "'ab':E'''ab'''", "a\\\\b:E'a\\\\\\\\b'",
+            "a\\'b:E'a\\\\''b'"})
     @ParameterizedTest
     void testGetLiteralString(final String definition) {
         assertThat(this.dialect.getStringLiteral(definition.substring(0, definition.indexOf(':'))),
@@ -108,7 +99,6 @@ class SnowflakeSqlDialectTest {
     void testGetLiteralStringNull() {
         assertThat(this.dialect.getStringLiteral(null), CoreMatchers.equalTo("NULL"));
     }
-
 
     @Test
     void testValidateDatabaseProperty() throws PropertyValidationException {

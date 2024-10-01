@@ -42,7 +42,7 @@ class SnowflakeColumnMetadataReaderTest {
         return this.columnMetadataReader.mapJdbcType(jdbcTypeDescription);
     }
 
-    @ValueSource(ints = { Types.SQLXML, Types.DISTINCT })
+    @ValueSource(ints = {Types.SQLXML, Types.DISTINCT})
     @ParameterizedTest
     void testMapJdbcTypeFallbackToMaxVarChar(final int type) {
         assertThat(mapJdbcType(type), equalTo(DataType.createMaximumSizeVarChar(DataType.ExaCharset.UTF8)));
@@ -52,7 +52,6 @@ class SnowflakeColumnMetadataReaderTest {
     void testMapJdbcTypeFallbackToParent() {
         assertThat(mapJdbcType(Types.BOOLEAN), equalTo(DataType.createBool()));
     }
-
 
 
 }
