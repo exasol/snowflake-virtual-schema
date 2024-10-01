@@ -16,9 +16,6 @@ import com.exasol.adapter.sql.*;
  * This class generates SQL queries for the {@link SnowflakeSqlDialect}.
  */
 public class SnowflakeSqlGenerationVisitor extends SqlGenerationVisitor {
-    private static final List<String> TYPE_NAMES_REQUIRING_CAST = List.of("varbit", "point", "line", "lseg", "box",
-            "path", "polygon", "circle", "cidr", "citext", "inet", "macaddr", "interval", "json", "jsonb", "uuid",
-            "tsquery", "tsvector", "xml", "smallserial", "serial", "bigserial");
     private static final List<String> TYPE_NAMES_NOT_SUPPORTED = List.of("bytea");
 
     /**
@@ -29,14 +26,6 @@ public class SnowflakeSqlGenerationVisitor extends SqlGenerationVisitor {
      */
     public SnowflakeSqlGenerationVisitor(final SqlDialect dialect, final SqlGenerationContext context) {
         super(dialect, context);
-    }
-
-    protected List<String> getListOfTypeNamesRequiringCast() {
-        return TYPE_NAMES_REQUIRING_CAST;
-    }
-
-    protected List<String> getListOfTypeNamesNotSupported() {
-        return TYPE_NAMES_NOT_SUPPORTED;
     }
 
     @Override
