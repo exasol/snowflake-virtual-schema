@@ -1,14 +1,12 @@
 package com.exasol.adapter.dialects.snowflake;
 
-import static com.exasol.adapter.AdapterProperties.IGNORE_ERRORS_PROPERTY;
+import com.exasol.adapter.AdapterProperties;
+import com.exasol.adapter.dialects.IdentifierConverter;
+import com.exasol.adapter.jdbc.BaseTableMetadataReader;
+import com.exasol.adapter.jdbc.ColumnMetadataReader;
 
 import java.sql.Connection;
 import java.util.logging.Logger;
-
-import com.exasol.adapter.AdapterProperties;
-import com.exasol.adapter.dialects.IdentifierConverter;
-import com.exasol.adapter.jdbc.*;
-import com.exasol.errorreporting.ExaError;
 
 /**
  * This class handles the specifics of mapping Snowflake table metadata to Exasol.
