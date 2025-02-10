@@ -18,6 +18,7 @@ build:
       stepCustomizations:
         # Configure Snowflake credentials
         - action: INSERT_AFTER
+          job: matrix-build
           stepId: enable-testcontainer-reuse
           content:
             name: Configure Snowflake credentials
