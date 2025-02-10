@@ -1,12 +1,16 @@
-# Virtual Schema for Snowflake 0.1.2, released 2025-??-??
+# Virtual Schema for Snowflake 0.1.2, released 2025-02-10
 
-Code name:
+Code name: Fixed vulnerabilities in net.snowflake:snowflake-jdbc:jar:3.20.0:compile
 
 ## Summary
 
-## Features
+This release fixes vulnerabilities [CVE-2025-24789](https://github.com/advisories/GHSA-7hpq-3g6w-pvhf)
+and [CVE-2025-24790](https://github.com/advisories/GHSA-33g6-495w-v8j2) in dependency `net.snowflake:snowflake-jdbc:jar:3.20.0:runtime`
 
-* ISSUE_NUMBER: description
+## Security
+
+* #10: Fixed vulnerability CVE-2025-24789 in dependency net.snowflake:snowflake-jdbc:jar:3.20.0:runtime
+* #11: Fixed vulnerability CVE-2025-24790 in dependency net.snowflake:snowflake-jdbc:jar:3.20.0:runtime
 
 ## Dependency Updates
 
