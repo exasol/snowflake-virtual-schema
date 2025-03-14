@@ -8,7 +8,7 @@ In versions before 3.23.1 the Snowflake driver would log the master encryption k
 
 ## Features
 
-* ISSUE_NUMBER: Fixed CVE-2025-27496 by updating snowflake driver to 3.23.1
+* Fixed CVE-2025-27496 by updating snowflake driver to 3.23.1 (PR #15)
 
 ## Dependency Updates
 
