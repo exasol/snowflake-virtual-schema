@@ -33,6 +33,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
     private static final Path JDBC_DRIVER_PATH = Path.of("target/snowflake-driver/" + JDBC_DRIVER_NAME);
 
     private final Statement snowflakeStatement;
+    @SuppressWarnings("resource") // Will be closed in method close()
     private final ExasolContainer<? extends ExasolContainer<?>> exasolContainer = new ExasolContainer<>(
             EXASOL_DOCKER_IMAGE_REFERENCE).withRequiredServices(ExasolService.BUCKETFS, ExasolService.UDF)
             .withReuse(true);
@@ -117,8 +118,9 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
         properties.put("db", this.databaseName);
         properties.put("schema", "TESTSCHEMA");
 
-        String connectStr = "jdbc:snowflake://" + accountname + ".snowflakecomputing.com"; // replace accountName with
-                                                                                           // your account name
+        final String connectStr = "jdbc:snowflake://" + accountname + ".snowflakecomputing.com"; // replace accountName
+                                                                                                 // with
+        // your account name
         return DriverManager.getConnection(connectStr, properties);
     }
 
