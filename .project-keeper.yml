@@ -8,6 +8,7 @@ sources:
 version:
   fromSource: pom.xml
 build:
+  runnerOs: ubuntu-20.04 # Required to run UDFs with Exasol 7.1.x
   freeDiskSpace: false
   exasolDbVersions:
     - "8.32.0"
@@ -28,13 +29,6 @@ build:
               snowflake.accountname = ${{ secrets.ACCOUNTNAME }}
               snowflake.password = ${{ secrets.PASSWORD }}
               EOL
-        - action: INSERT_AFTER
-          job: matrix-build
-          stepId: enable-testcontainer-reuse
-          content:
-            name: Fix VM Crash in UDFs
-            id: fix-vm-crash
-            run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
 
     - name: release.yml
       stepCustomizations:
