@@ -20,7 +20,9 @@ In versions before 3.23.1 the Snowflake driver would log the master encryption k
 
 * Updated `com.exasol:exasol-testcontainers:7.1.3` to `7.1.4`
 * Updated `com.exasol:udf-debugging-java:0.6.14` to `0.6.15`
-* Updated `org.junit.jupiter:junit-jupiter:5.11.4` to `5.12.0`
+* Added `org.junit-pioneer:junit-pioneer:2.3.0`
+* Added `org.junit.jupiter:junit-jupiter-api:5.12.0`
+* Removed `org.junit.jupiter:junit-jupiter:5.11.4`
 * Updated `org.mockito:mockito-junit-jupiter:5.15.2` to `5.16.0`
 
 ### Plugin Dependency Updates
