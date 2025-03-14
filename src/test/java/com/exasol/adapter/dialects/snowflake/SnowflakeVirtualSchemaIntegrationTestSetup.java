@@ -27,7 +27,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
     private static final Path PATH_TO_VIRTUAL_SCHEMAS_JAR = Path.of("target", VIRTUAL_SCHEMAS_JAR_NAME_AND_VERSION);
     private static final String SCHEMA_EXASOL = "SCHEMA_EXASOL";
     private static final String ADAPTER_SCRIPT_EXASOL = "ADAPTER_SCRIPT_EXASOL";
-    private static final String EXASOL_DOCKER_IMAGE_REFERENCE = "8.31.0";
+    private static final String EXASOL_DOCKER_IMAGE_REFERENCE = "8.32.0";
 
     private static final String JDBC_DRIVER_NAME = "snowflake-jdbc.jar";
     private static final Path JDBC_DRIVER_PATH = Path.of("target/snowflake-driver/" + JDBC_DRIVER_NAME);
@@ -57,7 +57,6 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
         return random.ints(leftLimit, rightLimit + 1).limit(targetStringLength)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
 
-
     }
 
     public String getDatabaseName() {
@@ -86,7 +85,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
             this.adapterScript = createAdapterScript(exasolSchema);
             final String connectionString = getSnowflakeConnectionString(accountName);
             connectionDefinition = getSnowflakeConnectionDefinition(connectionString, userName, password);
-        } catch (final SQLException | BucketAccessException | TimeoutException | ClassNotFoundException exception ) {
+        } catch (final SQLException | BucketAccessException | TimeoutException | ClassNotFoundException exception) {
             throw new IllegalStateException("Failed to created snowflake test setup.", exception);
         } catch (final InterruptedException exception) {
             Thread.currentThread().interrupt();
@@ -95,7 +94,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
     }
 
     private ConnectionDefinition getSnowflakeConnectionDefinition(final String connectionString, final String username,
-                                                                  final String password) {
+            final String password) {
         final ConnectionDefinition connectionDefinition;
         connectionDefinition = this.exasolFactory.createConnectionDefinition("SNOWFLAKE_CONNECTION", connectionString,
                 username, password);
@@ -109,7 +108,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
 
     private Connection getSnowflakeConnection(final String username, final String password, final String accountname)
             throws SQLException, ClassNotFoundException {
-            Class.forName("net.snowflake.client.jdbc.SnowflakeDriver");
+        Class.forName("net.snowflake.client.jdbc.SnowflakeDriver");
         // build connection properties
         final Properties properties = new Properties();
         properties.put("user", username);
@@ -118,7 +117,8 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
         properties.put("db", this.databaseName);
         properties.put("schema", "TESTSCHEMA");
 
-        String connectStr = "jdbc:snowflake://" + accountname + ".snowflakecomputing.com"; // replace accountName with your account name
+        String connectStr = "jdbc:snowflake://" + accountname + ".snowflakecomputing.com"; // replace accountName with
+                                                                                           // your account name
         return DriverManager.getConnection(connectStr, properties);
     }
 
@@ -178,7 +178,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
     }
 
     public VirtualSchema createVirtualSchema(final String forSnowflakeSchema,
-                                             final Map<String, String> additionalProperties) {
+            final Map<String, String> additionalProperties) {
         final Map<String, String> properties = new HashMap<>(Map.of("CATALOG_NAME", databaseName, //
                 "SCHEMA_NAME", forSnowflakeSchema)); //
         properties.putAll(additionalProperties);
