@@ -1,4 +1,4 @@
-# Virtual Schema for Snowflake 0.1.3, released 2025-03-14
+# Virtual Schema for Snowflake 0.1.3, released 2025-05-06
 
 Code name: Fixed CVE-2025-27496 by updating Snowflake Driver
 
@@ -6,9 +6,10 @@ Code name: Fixed CVE-2025-27496 by updating Snowflake Driver
 
 In versions before 3.23.1 the Snowflake driver would log the master encryption key when the log level was set to `DEBUG`. We updated the dependency on the snowflake driver to 3.23.1 as a fix.
 
-## Features
+## Security
 
-* Fixed CVE-2025-27496 by updating snowflake driver to 3.23.1 (PR #15)
+* #16: Fixed CVE-2025-27496 by updating snowflake driver to 3.24.0
+* #18: Fixed CVE-2024-55551 in com.exasol:exasol-jdbc:jar:24.1.1:test
 
 ## Dependency Updates
 
@@ -18,7 +19,7 @@ In versions before 3.23.1 the Snowflake driver would log the master encryption k
 
 ### Runtime Dependency Updates
 
-* Updated `net.snowflake:snowflake-jdbc:3.22.0` to `3.23.1`
+* Updated `net.snowflake:snowflake-jdbc:3.22.0` to `3.24.0`
 
 ### Test Dependency Updates
 
@@ -35,7 +36,10 @@ In versions before 3.23.1 the Snowflake driver would log the master encryption k
 ### Plugin Dependency Updates
 
 * Updated `com.exasol:artifact-reference-checker-maven-plugin:0.4.2` to `0.4.3`
-* Updated `com.exasol:project-keeper-maven-plugin:4.5.0` to `5.0.0`
+* Updated `com.exasol:project-keeper-maven-plugin:4.5.0` to `5.0.1`
+* Added `io.github.git-commit-id:git-commit-id-maven-plugin:9.0.1`
+* Removed `io.github.zlika:reproducible-build-maven-plugin:0.17`
+* Added `org.apache.maven.plugins:maven-artifact-plugin:3.6.0`
 * Updated `org.apache.maven.plugins:maven-clean-plugin:3.4.0` to `3.4.1`
 * Updated `org.apache.maven.plugins:maven-compiler-plugin:3.13.0` to `3.14.0`
 * Updated `org.apache.maven.plugins:maven-install-plugin:3.1.3` to `3.1.4`

@@ -24,7 +24,7 @@
         <dependency>
             <groupId>net.snowflake</groupId>
             <artifactId>snowflake-jdbc</artifactId>
-            <version>3.23.1</version>
+            <version>3.24.0</version>
             <scope>runtime</scope>
         </dependency>
         <!--Unit test dependencies -->
@@ -152,7 +152,7 @@
             <plugin>
                 <groupId>com.exasol</groupId>
                 <artifactId>project-keeper-maven-plugin</artifactId>
-                <version>5.0.0</version>
+                <version>5.0.1</version>
                 <executions>
                     <execution>
                         <goals>
@@ -160,6 +160,16 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.ossindex.maven</groupId>
+                <artifactId>ossindex-maven-plugin</artifactId>
+                <configuration>
+                    <!-- Exasol's JDBC driver fixed CVE-2024-55551 in version 24.2.1, but OSSIndex does not reflect that. -->
+                    <excludeVulnerabilityIds>
+                        <excludeVulnerabilityId>CVE-2024-55551</excludeVulnerabilityId>
+                    </excludeVulnerabilityIds>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

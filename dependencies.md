@@ -36,32 +36,33 @@
 
 ## Plugin Dependencies
 
-| Dependency                                              | License                           |
-| ------------------------------------------------------- | --------------------------------- |
-| [Apache Maven Clean Plugin][32]                         | [Apache-2.0][33]                  |
-| [Apache Maven Install Plugin][34]                       | [Apache-2.0][33]                  |
-| [Apache Maven Resources Plugin][35]                     | [Apache-2.0][33]                  |
-| [Apache Maven Site Plugin][36]                          | [Apache-2.0][33]                  |
-| [SonarQube Scanner for Maven][37]                       | [GNU LGPL 3][38]                  |
-| [Apache Maven Toolchains Plugin][39]                    | [Apache-2.0][33]                  |
-| [Apache Maven Compiler Plugin][40]                      | [Apache-2.0][33]                  |
-| [Apache Maven Enforcer Plugin][41]                      | [Apache-2.0][33]                  |
-| [Maven Flatten Plugin][42]                              | [Apache Software Licenese][33]    |
-| [org.sonatype.ossindex.maven:ossindex-maven-plugin][43] | [ASL2][22]                        |
-| [Maven Surefire Plugin][44]                             | [Apache-2.0][33]                  |
-| [Versions Maven Plugin][45]                             | [Apache License, Version 2.0][33] |
-| [duplicate-finder-maven-plugin Maven Mojo][46]          | [Apache License 2.0][47]          |
-| [Apache Maven Assembly Plugin][48]                      | [Apache-2.0][33]                  |
-| [Apache Maven JAR Plugin][49]                           | [Apache-2.0][33]                  |
-| [Artifact reference checker and unifier][50]            | [MIT License][51]                 |
-| [Project Keeper Maven plugin][52]                       | [The MIT License][53]             |
-| [Apache Maven Dependency Plugin][54]                    | [Apache-2.0][33]                  |
-| [Exec Maven Plugin][55]                                 | [Apache License 2][33]            |
-| [Maven Failsafe Plugin][56]                             | [Apache-2.0][33]                  |
-| [JaCoCo :: Maven Plugin][57]                            | [EPL-2.0][30]                     |
-| [Quality Summarizer Maven Plugin][58]                   | [MIT License][59]                 |
-| [error-code-crawler-maven-plugin][60]                   | [MIT License][61]                 |
-| [Reproducible Build Maven Plugin][62]                   | [Apache 2.0][22]                  |
+| Dependency                                              | License                                     |
+| ------------------------------------------------------- | ------------------------------------------- |
+| [Apache Maven Clean Plugin][32]                         | [Apache-2.0][33]                            |
+| [Apache Maven Install Plugin][34]                       | [Apache-2.0][33]                            |
+| [Apache Maven Resources Plugin][35]                     | [Apache-2.0][33]                            |
+| [Apache Maven Site Plugin][36]                          | [Apache-2.0][33]                            |
+| [SonarQube Scanner for Maven][37]                       | [GNU LGPL 3][38]                            |
+| [Apache Maven Toolchains Plugin][39]                    | [Apache-2.0][33]                            |
+| [Apache Maven Compiler Plugin][40]                      | [Apache-2.0][33]                            |
+| [Apache Maven Enforcer Plugin][41]                      | [Apache-2.0][33]                            |
+| [Maven Flatten Plugin][42]                              | [Apache Software Licenese][33]              |
+| [Project Keeper Maven plugin][43]                       | [The MIT License][44]                       |
+| [org.sonatype.ossindex.maven:ossindex-maven-plugin][45] | [ASL2][22]                                  |
+| [Maven Surefire Plugin][46]                             | [Apache-2.0][33]                            |
+| [Versions Maven Plugin][47]                             | [Apache License, Version 2.0][33]           |
+| [duplicate-finder-maven-plugin Maven Mojo][48]          | [Apache License 2.0][49]                    |
+| [Apache Maven Artifact Plugin][50]                      | [Apache-2.0][33]                            |
+| [Apache Maven Assembly Plugin][51]                      | [Apache-2.0][33]                            |
+| [Apache Maven JAR Plugin][52]                           | [Apache-2.0][33]                            |
+| [Artifact reference checker and unifier][53]            | [MIT License][54]                           |
+| [Apache Maven Dependency Plugin][55]                    | [Apache-2.0][33]                            |
+| [Exec Maven Plugin][56]                                 | [Apache License 2][33]                      |
+| [Maven Failsafe Plugin][57]                             | [Apache-2.0][33]                            |
+| [JaCoCo :: Maven Plugin][58]                            | [EPL-2.0][30]                               |
+| [Quality Summarizer Maven Plugin][59]                   | [MIT License][60]                           |
+| [error-code-crawler-maven-plugin][61]                   | [MIT License][62]                           |
+| [Git Commit Id Maven Plugin][63]                        | [GNU Lesser General Public License 3.0][64] |
 
 [0]: https://github.com/exasol/virtual-schema-common-jdbc/
 [1]: https://github.com/exasol/virtual-schema-common-jdbc/blob/main/LICENSE
@@ -106,23 +107,25 @@
 [40]: https://maven.apache.org/plugins/maven-compiler-plugin/
 [41]: https://maven.apache.org/enforcer/maven-enforcer-plugin/
 [42]: https://www.mojohaus.org/flatten-maven-plugin/
-[43]: https://sonatype.github.io/ossindex-maven/maven-plugin/
-[44]: https://maven.apache.org/surefire/maven-surefire-plugin/
-[45]: https://www.mojohaus.org/versions/versions-maven-plugin/
-[46]: https://basepom.github.io/duplicate-finder-maven-plugin
-[47]: http://www.apache.org/licenses/LICENSE-2.0.html
-[48]: https://maven.apache.org/plugins/maven-assembly-plugin/
-[49]: https://maven.apache.org/plugins/maven-jar-plugin/
-[50]: https://github.com/exasol/artifact-reference-checker-maven-plugin/
-[51]: https://github.com/exasol/artifact-reference-checker-maven-plugin/blob/main/LICENSE
-[52]: https://github.com/exasol/project-keeper/
-[53]: https://github.com/exasol/project-keeper/blob/main/LICENSE
-[54]: https://maven.apache.org/plugins/maven-dependency-plugin/
-[55]: https://www.mojohaus.org/exec-maven-plugin
-[56]: https://maven.apache.org/surefire/maven-failsafe-plugin/
-[57]: https://www.jacoco.org/jacoco/trunk/doc/maven.html
-[58]: https://github.com/exasol/quality-summarizer-maven-plugin/
-[59]: https://github.com/exasol/quality-summarizer-maven-plugin/blob/main/LICENSE
-[60]: https://github.com/exasol/error-code-crawler-maven-plugin/
-[61]: https://github.com/exasol/error-code-crawler-maven-plugin/blob/main/LICENSE
-[62]: http://zlika.github.io/reproducible-build-maven-plugin
+[43]: https://github.com/exasol/project-keeper/
+[44]: https://github.com/exasol/project-keeper/blob/main/LICENSE
+[45]: https://sonatype.github.io/ossindex-maven/maven-plugin/
+[46]: https://maven.apache.org/surefire/maven-surefire-plugin/
+[47]: https://www.mojohaus.org/versions/versions-maven-plugin/
+[48]: https://basepom.github.io/duplicate-finder-maven-plugin
+[49]: http://www.apache.org/licenses/LICENSE-2.0.html
+[50]: https://maven.apache.org/plugins/maven-artifact-plugin/
+[51]: https://maven.apache.org/plugins/maven-assembly-plugin/
+[52]: https://maven.apache.org/plugins/maven-jar-plugin/
+[53]: https://github.com/exasol/artifact-reference-checker-maven-plugin/
+[54]: https://github.com/exasol/artifact-reference-checker-maven-plugin/blob/main/LICENSE
+[55]: https://maven.apache.org/plugins/maven-dependency-plugin/
+[56]: https://www.mojohaus.org/exec-maven-plugin
+[57]: https://maven.apache.org/surefire/maven-failsafe-plugin/
+[58]: https://www.jacoco.org/jacoco/trunk/doc/maven.html
+[59]: https://github.com/exasol/quality-summarizer-maven-plugin/
+[60]: https://github.com/exasol/quality-summarizer-maven-plugin/blob/main/LICENSE
+[61]: https://github.com/exasol/error-code-crawler-maven-plugin/
+[62]: https://github.com/exasol/error-code-crawler-maven-plugin/blob/main/LICENSE
+[63]: https://github.com/git-commit-id/git-commit-id-maven-plugin
+[64]: http://www.gnu.org/licenses/lgpl-3.0.txt
