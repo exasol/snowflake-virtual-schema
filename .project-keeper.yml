@@ -8,7 +8,7 @@ sources:
 version:
   fromSource: pom.xml
 build:
-  runnerOs: ubuntu-22.04
+  runnerOs: ubuntu-24.04
   freeDiskSpace: false
   exasolDbVersions:
     - "8.34.0"
