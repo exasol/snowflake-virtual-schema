@@ -113,6 +113,11 @@ jobs:
           snowflake.password = ${{ secrets.PASSWORD }}
           EOL
       - {
+        name: Fix VM Crash in UDFs,
+        id: fix-vm-crash,
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+      }
+      - {
         name: Build project,
         id: build,
         run: mvn --batch-mode -DskipTests clean verify
