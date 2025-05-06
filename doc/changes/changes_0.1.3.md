@@ -1,4 +1,4 @@
-# Virtual Schema for Snowflake 0.1.3, released 2025-05-06
+# Virtual Schema for Snowflake 0.1.3, released 2025-05-07
 
 Code name: Fixed CVE-2025-27496 by updating Snowflake Driver
 
