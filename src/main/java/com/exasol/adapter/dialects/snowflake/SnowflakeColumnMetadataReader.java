@@ -15,6 +15,7 @@ import com.exasol.adapter.metadata.DataType;
 public class SnowflakeColumnMetadataReader extends BaseColumnMetadataReader {
     private static final Logger LOGGER = Logger.getLogger(SnowflakeColumnMetadataReader.class.getName());
     private static final String SNOWFLAKE_VARBIT_TYPE_NAME = "varbit";
+    private static final int DEFAULT_TIMESTAMP_PRECISION = 3;
 
     /**
      * Create a new instance of the {@link SnowflakeColumnMetadataReader}.
@@ -24,7 +25,7 @@ public class SnowflakeColumnMetadataReader extends BaseColumnMetadataReader {
      * @param identifierConverter converter between source and Exasol identifiers
      */
     public SnowflakeColumnMetadataReader(final Connection connection, final AdapterProperties properties,
-                                         final IdentifierConverter identifierConverter) {
+            final IdentifierConverter identifierConverter) {
         super(connection, properties, identifierConverter);
     }
 
@@ -43,7 +44,7 @@ public class SnowflakeColumnMetadataReader extends BaseColumnMetadataReader {
             case Types.BINARY:
                 return DataType.createMaximumSizeVarChar(DataType.ExaCharset.UTF8);
             case Types.TIMESTAMP_WITH_TIMEZONE:
-                return DataType.createTimestamp(false);
+                return DataType.createTimestamp(false, DEFAULT_TIMESTAMP_PRECISION);
             default:
                 return super.mapJdbcType(jdbcTypeDescription);
         }

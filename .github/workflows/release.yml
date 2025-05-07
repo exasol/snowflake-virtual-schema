@@ -106,12 +106,17 @@ jobs:
         }
       - name: Configure Snowflake credentials
         id: configure-snowflake-credentials
-        run: |-
+        run: |
           cat > test.properties <<EOL
           snowflake.username = ${{ secrets.USERNAME }}
           snowflake.accountname = ${{ secrets.ACCOUNTNAME }}
           snowflake.password = ${{ secrets.PASSWORD }}
           EOL
+      - {
+        name: Fix VM Crash in UDFs,
+        id: fix-vm-crash,
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+      }
       - {
         name: Build project,
         id: build,

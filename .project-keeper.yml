@@ -8,11 +8,11 @@ sources:
 version:
   fromSource: pom.xml
 build:
-  runnerOs: ubuntu-20.04
+  runnerOs: ubuntu-22.04
   freeDiskSpace: false
   exasolDbVersions:
-    - "8.31.0"
-    - "7.1.29" 
+    - "8.34.0"
+    # 7.1.x is disabled for now, more info: https://github.com/exasol/snowflake-virtual-schema/issues/20
   workflows:
     - name: ci-build.yml
       stepCustomizations:
@@ -29,6 +29,13 @@ build:
               snowflake.accountname = ${{ secrets.ACCOUNTNAME }}
               snowflake.password = ${{ secrets.PASSWORD }}
               EOL
+        - action: INSERT_AFTER
+          job: matrix-build
+          stepId: configure-snowflake-credentials
+          content:
+            name: Fix VM Crash in UDFs
+            id: fix-vm-crash
+            run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
 
     - name: release.yml
       stepCustomizations:
@@ -44,3 +51,10 @@ build:
               snowflake.accountname = ${{ secrets.ACCOUNTNAME }}
               snowflake.password = ${{ secrets.PASSWORD }}
               EOL
+        - action: INSERT_AFTER
+          job: release
+          stepId: configure-snowflake-credentials
+          content:
+            name: Fix VM Crash in UDFs
+            id: fix-vm-crash
+            run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
