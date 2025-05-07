@@ -12,6 +12,7 @@ build:
   freeDiskSpace: false
   exasolDbVersions:
     - "8.34.0"
+    # 7.1.x is disabled for now, more info: https://github.com/exasol/snowflake-virtual-schema/issues/20
   workflows:
     - name: ci-build.yml
       stepCustomizations:
