@@ -112,15 +112,8 @@
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>virtual-schema-shared-integration-tests</artifactId>
-            <version>3.0.0</version>
+            <version>3.0.1</version>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <!-- Workaround for https://github.com/exasol/virtual-schema-shared-integration-tests/issues/43 -->
-                    <groupId>org.junit.jupiter</groupId>
-                    <artifactId>junit-jupiter</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <!-- Enable log output for integration tests / testcontainers -->
