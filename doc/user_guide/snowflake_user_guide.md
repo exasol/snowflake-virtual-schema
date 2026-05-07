@@ -23,7 +23,7 @@ In order to enable the ExaLoader to fetch data from the external database you mu
    If you uploaded the driver for UDF to a different folder, then you need to [upload](#uploading-the-jdbc-driver-to-exasol-bucketfs) the driver again.
 2. Additionally, you need to create file `settings.cfg` and [upload](#uploading-the-jdbc-driver-to-exasol-bucketfs) it to the same folder in BucketFS. Contents below:
 
-```
+```properties
 DRIVERNAME=SNOWFLAKE_JDBC_DRIVER
 JAR=<jar file containing the jdbc driver>
 DRIVERMAIN=net.snowflake.client.jdbc.SnowflakeDriver
@@ -33,6 +33,7 @@ INSERTSIZE=-1
 NOSECURITY=YES
 
 ```
+
 Make sure there's an empty line at the end of the `settings.cfg` file, as shown above, or it will not be properly read out, the EXALoader will display an error message.
 
 | Variable                                | Description                      |
