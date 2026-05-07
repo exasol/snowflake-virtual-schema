@@ -98,7 +98,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
     }
 
     private String getSnowflakeConnectionString(final String accountname) {
-        return "jdbc:snowflake://" + accountname + ".snowflakecomputing.com";
+        return "jdbc:snowflake://" + accountname + ".snowflakecomputing.com?JDBC_QUERY_RESULT_FORMAT=JSON";
     }
 
     private Connection getSnowflakeConnection(final String username, final String password, final String accountname)
