@@ -12,9 +12,17 @@ The release also fixes CVE-2026-3293 in the Snowflake JDBC driver.
 
 Starting with this release, the Snowflake Virtual Schema does not support Exasol versions 7.1 anymore. Only LTS version 2025.1.x and the current version are supported.
 
+## Features
+
+* #25: Added anonymous telemetry
+
 ## Security
 
 * #26: Fixed CVE-2026-3293 in Snowflake JDBC Driver
+
+## Bugfixes
+
+* #24: Fixed version number reported by virtual schema
 
 ## Dependency Updates
 
