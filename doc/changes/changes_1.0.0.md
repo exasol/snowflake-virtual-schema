@@ -1,12 +1,20 @@
 # Virtual Schema for Snowflake 1.0.0, released 2026-05-07
 
-Code name:
+Code name: Anonymous telemetry & fixed CVE-2026-3293
 
 ## Summary
 
-## Features
+This release adds anonymous feature-usage telemetry via `telemetry-java`. See the [documentation](https://github.com/exasol/telemetry-java/blob/main/doc/app-user-guide.md) for details on collected data and opt-out behavior.
 
-* ISSUE_NUMBER: description
+The release also fixes CVE-2026-3293 in the Snowflake JDBC driver.
+
+## Breaking Change
+
+Starting with this release, the Snowflake Virtual Schema does not support Exasol versions 7.1 anymore. Only LTS version 2025.1.x and the current version are supported.
+
+## Security
+
+* #26: Fixed CVE-2026-3293 in Snowflake JDBC Driver
 
 ## Dependency Updates
 
