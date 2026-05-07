@@ -23,11 +23,11 @@ import com.github.dockerjava.api.model.ContainerNetwork;
  * This class contains the common integration test setup for all Snowflake virtual schemas.
  */
 public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
-    private static final String VIRTUAL_SCHEMAS_JAR_NAME_AND_VERSION = "virtual-schema-dist-12.0.1-snowflake-0.1.4.jar";
+    private static final String VIRTUAL_SCHEMAS_JAR_NAME_AND_VERSION = "virtual-schema-dist-14.0.2-snowflake-1.0.0.jar";
     private static final Path PATH_TO_VIRTUAL_SCHEMAS_JAR = Path.of("target", VIRTUAL_SCHEMAS_JAR_NAME_AND_VERSION);
     private static final String SCHEMA_EXASOL = "SCHEMA_EXASOL";
     private static final String ADAPTER_SCRIPT_EXASOL = "ADAPTER_SCRIPT_EXASOL";
-    private static final String EXASOL_DOCKER_IMAGE_REFERENCE = "8.34.0";
+    private static final String EXASOL_DOCKER_IMAGE_REFERENCE = "2025.2.1";
 
     private static final String JDBC_DRIVER_NAME = "snowflake-jdbc.jar";
     private static final Path JDBC_DRIVER_PATH = Path.of("target/snowflake-driver/" + JDBC_DRIVER_NAME);
@@ -36,7 +36,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
     @SuppressWarnings("resource") // Will be closed in method close()
     private final ExasolContainer<? extends ExasolContainer<?>> exasolContainer = new ExasolContainer<>(
             EXASOL_DOCKER_IMAGE_REFERENCE).withRequiredServices(ExasolService.BUCKETFS, ExasolService.UDF)
-            .withReuse(true);
+                    .withReuse(true);
     private final Connection exasolConnection;
     private final Statement exasolStatement;
     private final AdapterScript adapterScript;
