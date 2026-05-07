@@ -1,9 +1,6 @@
 package com.exasol.adapter.dialects.snowflake;
 
-import com.exasol.adapter.AdapterProperties;
-import com.exasol.adapter.dialects.SqlDialect;
-import com.exasol.adapter.dialects.SqlDialectFactory;
-import com.exasol.adapter.jdbc.ConnectionFactory;
+import com.exasol.adapter.dialects.*;
 import com.exasol.logging.VersionCollector;
 
 /**
@@ -17,14 +14,19 @@ public class SnowflakeSqlDialectFactory implements SqlDialectFactory {
     }
 
     @Override
-    public SqlDialect createSqlDialect(final ConnectionFactory connectionFactory, final AdapterProperties properties) {
-        return new SnowflakeSqlDialect(connectionFactory, properties);
+    public SqlDialect createSqlDialect(final JDBCAdapterContext context) {
+        return new SnowflakeSqlDialect(context);
     }
 
     @Override
     public String getSqlDialectVersion() {
         final VersionCollector versionCollector = new VersionCollector(
-                "META-INF/maven/com.exasol/virtual-schema-jdbc-adapter/pom.properties");
+                "META-INF/maven/com.exasol/snowflake-virtual-schema/pom.properties");
         return versionCollector.getVersionNumber();
+    }
+
+    @Override
+    public String getAdapterProjectShortTag() {
+        return "VSSF";
     }
 }

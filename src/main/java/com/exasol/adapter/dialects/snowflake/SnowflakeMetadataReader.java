@@ -2,6 +2,7 @@ package com.exasol.adapter.dialects.snowflake;
 
 import java.sql.Connection;
 
+import com.exasol.ExaMetadata;
 import com.exasol.adapter.AdapterProperties;
 import com.exasol.adapter.dialects.BaseIdentifierConverter;
 import com.exasol.adapter.dialects.IdentifierConverter;
@@ -14,16 +15,17 @@ public class SnowflakeMetadataReader extends AbstractRemoteMetadataReader {
     /**
      * Create a new instance of the {@link SnowflakeMetadataReader}.
      *
-     * @param connection connection to the Snowflake database
-     * @param properties user-defined adapter properties
+     * @param connection  connection to the Snowflake database
+     * @param properties  user-defined adapter properties
+     * @param exaMetadata Exasol metadata
      */
-    public SnowflakeMetadataReader(final Connection connection, final AdapterProperties properties) {
-        super(connection, properties);
+    public SnowflakeMetadataReader(final Connection connection, final AdapterProperties properties, final ExaMetadata exaMetadata) {
+        super(connection, properties, exaMetadata);
     }
 
     @Override
     public BaseTableMetadataReader createTableMetadataReader() {
-        return new SnowflakeTableMetadataReader(this.connection, getColumnMetadataReader(), this.properties,
+        return new SnowflakeTableMetadataReader(this.connection, getColumnMetadataReader(), this.properties, this.exaMetadata,
                 getIdentifierConverter());
     }
 
@@ -34,7 +36,7 @@ public class SnowflakeMetadataReader extends AbstractRemoteMetadataReader {
 
     @Override
     public ColumnMetadataReader createColumnMetadataReader() {
-        return new SnowflakeColumnMetadataReader(this.connection, this.properties, getIdentifierConverter());
+        return new SnowflakeColumnMetadataReader(this.connection, this.properties, this.exaMetadata, getIdentifierConverter());
     }
 
     @Override

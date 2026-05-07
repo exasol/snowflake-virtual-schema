@@ -1,15 +1,16 @@
 package com.exasol.adapter.dialects.snowflake;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.exasol.adapter.AdapterProperties;
+import com.exasol.adapter.dialects.JDBCAdapterContext;
 
-public class SnowflakeSqlDialectFactoryTest {
+class SnowflakeSqlDialectFactoryTest {
     private SnowflakeSqlDialectFactory factory;
 
     @BeforeEach
@@ -24,7 +25,7 @@ public class SnowflakeSqlDialectFactoryTest {
 
     @Test
     void testCreateDialect() {
-        assertThat(this.factory.createSqlDialect(null, AdapterProperties.emptyProperties()),
+        assertThat(this.factory.createSqlDialect(JDBCAdapterContext.builder().properties(AdapterProperties.emptyProperties()).build()),
                 instanceOf(SnowflakeSqlDialect.class));
     }
 }

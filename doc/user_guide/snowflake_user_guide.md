@@ -2,6 +2,12 @@
 
 [Snowflake](https://www.snowflake.com/) operates a platform that provides data storage via cloud computing and allows for data analysis.
 
+## Telemetry
+
+This virtual schema uses `telemetry-java` to send anonymous feature-usage events.
+
+For details on what is collected and how to disable telemetry, see the [documentation](https://github.com/exasol/telemetry-java/blob/main/doc/app-user-guide.md).
+
 ## Uploading the JDBC Driver to Exasol BucketFS
 
 1. Download the [SnowflakeJDBC driver](https://docs.snowflake.com/en/developer-guide/jdbc/jdbc-download).
@@ -17,21 +23,24 @@ In order to enable the ExaLoader to fetch data from the external database you mu
    If you uploaded the driver for UDF to a different folder, then you need to [upload](#uploading-the-jdbc-driver-to-exasol-bucketfs) the driver again.
 2. Additionally, you need to create file `settings.cfg` and [upload](#uploading-the-jdbc-driver-to-exasol-bucketfs) it to the same folder in BucketFS. Contents below:
 
-```
+```properties
 DRIVERNAME=SNOWFLAKE_JDBC_DRIVER
 JAR=<jar file containing the jdbc driver>
-DRIVERMAIN=net.snowflake.client.jdbc.SnowflakeDriver
+DRIVERMAIN=net.snowflake.client.api.driver.SnowflakeDriver
 PREFIX=jdbc:snowflake:
 FETCHSIZE=100000
 INSERTSIZE=-1
 NOSECURITY=YES
 
 ```
+
 Make sure there's an empty line at the end of the `settings.cfg` file, as shown above, or it will not be properly read out, the EXALoader will display an error message.
 
 | Variable                                | Description                      |
 |-----------------------------------------|----------------------------------|
-| `<jar file containing the jdbc driver>` | E.g. `snowflake-jdbc-3.16.1.jar` |
+| `<jar file containing the jdbc driver>` | E.g. `snowflake-jdbc-4.1.0.jar`  |
+
+Please note that you will need to change the driver name from `net.snowflake.client.jdbc.SnowflakeDriver` to `net.snowflake.client.api.driver.SnowflakeDriver` when you upgrade the Snowflake JDBC driver from version 3.x to 4.x. See the [Snowflake documentation](https://docs.snowflake.com/en/developer-guide/jdbc/jdbc-configure) for details.
 
 ## Installing the Adapter Script
 
@@ -49,7 +58,7 @@ The SQL statement below creates the adapter script, defines the Java class that 
 --/
 CREATE OR REPLACE JAVA ADAPTER SCRIPT ADAPTER.SNOWFLAKE_JDBC_ADAPTER AS
   %scriptclass com.exasol.adapter.RequestDispatcher;
-  %jar /buckets/<BFS service>/<bucket>/virtual-schema-dist-12.0.1-snowflake-0.1.4.jar;
+  %jar /buckets/<BFS service>/<bucket>/virtual-schema-dist-14.0.2-snowflake-1.0.0.jar;
   %jar /buckets/<BFS service>/<bucket>/drivers/jdbc/snowflake-jdbc-<snowflake-driver-version>.jar;
 /
 ```
@@ -60,19 +69,25 @@ Define the connection to the Snowflake database as shown below.
 
 ```sql
 CREATE OR REPLACE CONNECTION SNOWFLAKE_CONNECTION
-TO 'jdbc:snowflake://<account name>.snowflakecomputing.com'
+TO 'jdbc:snowflake://<account identfier>.snowflakecomputing.com?JDBC_QUERY_RESULT_FORMAT=JSON'
 USER '<user>'
 IDENTIFIED BY '<password>';
 ```
 
-| Variable        | Description                                                             |
-|-----------------|-------------------------------------------------------------------------|
-| `<account name` | Account name or 'account identifier' of the Snowflake platform account. |
+### Account Identifier
 
-The account name or account identifier is usually in the form of `xxx-xxx`: 
+The account identifier in the JDBC URL is usually in the form of `xxxxxxx-yyyyyyy`: 
 It is part of the specific login url you get upon registering (e.g.:`igzdtnt-du40000` in `https:// igzdtnt-du40000 .snowflakecomputing.com/`). 
 It can also be found under the admin panel in Snowflake. 
-For more info see:https://docs.snowflake.com/en/user-guide/admin-account-identifier
+For more info see: https://docs.snowflake.com/en/user-guide/admin-account-identifier
+
+### Specify JSON Format for Fetching Results
+
+Please note that starting with Snowflake JDBC driver version 4.x you need to specify JDBC URL parameter `JDBC_QUERY_RESULT_FORMAT=JSON`. Without this, queries against the virtual schema will fail with the following error:
+
+```
+TL-5402: JDBC-Client-Error: Failed to initialize Query: JDBC driver internal error: exception creating result java.lang.ExceptionInInitializerError at net.snowflake.client.jdbc.internal.apache.arrow.memory.unsafe.UnsafeAllocationManager.<clinit>(UnsafeAllocationManager.java:28)
+```
 
 ## Creating a Virtual Schema
 

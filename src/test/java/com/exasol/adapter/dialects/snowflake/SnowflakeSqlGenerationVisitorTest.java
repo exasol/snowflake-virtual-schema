@@ -19,7 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.exasol.adapter.AdapterException;
 import com.exasol.adapter.AdapterProperties;
-import com.exasol.adapter.dialects.DialectTestData;
+import com.exasol.adapter.dialects.JDBCAdapterContext;
 import com.exasol.adapter.dialects.SqlDialect;
 import com.exasol.adapter.dialects.rewriting.SqlGenerationContext;
 import com.exasol.adapter.jdbc.ConnectionFactory;
@@ -33,18 +33,22 @@ class SnowflakeSqlGenerationVisitorTest {
 
     @BeforeEach
     void beforeEach(@Mock final ConnectionFactory connectionFactoryMock) {
-        final SqlDialect dialect = new SnowflakeSqlDialect(connectionFactoryMock, AdapterProperties.emptyProperties());
+        final SqlDialect dialect = new SnowflakeSqlDialect(
+                JDBCAdapterContext.builder()
+                        .properties(AdapterProperties.emptyProperties())
+                        .connectionFactory(connectionFactoryMock)
+                        .build());
         final SqlGenerationContext context = new SqlGenerationContext("test_catalog", "test_schema", false);
         this.visitor = new SnowflakeSqlGenerationVisitor(dialect, context);
     }
 
-    @CsvSource({"ADD_DAYS, days", //
+    @CsvSource({ "ADD_DAYS, days", //
             "ADD_HOURS, hours", //
             "ADD_MINUTES, mins", //
             "ADD_SECONDS, secs", //
             "ADD_YEARS, years", //
             "ADD_WEEKS, weeks", //
-            "ADD_MONTHS, months"})
+            "ADD_MONTHS, months" })
     @ParameterizedTest
     void testVisitSqlFunctionScalarAddDate(final ScalarFunction scalarFunction, final String expected)
             throws AdapterException {
@@ -54,7 +58,7 @@ class SnowflakeSqlGenerationVisitorTest {
     }
 
     private SqlFunctionScalar createSqlFunctionScalarForDateTest(final ScalarFunction scalarFunction,
-                                                                 final int numericValue) {
+            final int numericValue) {
         final List<SqlNode> arguments = new ArrayList<>();
         arguments.add(new SqlColumn(1,
                 ColumnMetadata.builder().name("test_column")
@@ -64,15 +68,15 @@ class SnowflakeSqlGenerationVisitorTest {
         return new SqlFunctionScalar(scalarFunction, arguments);
     }
 
-    @CsvSource({"SECOND, SECOND, 2", //
+    @CsvSource({ "SECOND, SECOND, 2", //
             "MINUTE, MINUTE, 2", //
             "DAY, DAY, 2", //
             "WEEK, WEEK, 2", //
             "MONTH, MONTH, 2", //
-            "YEAR, YEAR, 4"})
+            "YEAR, YEAR, 4" })
     @ParameterizedTest
     void testVisitSqlFunctionScalarDatetime(final ScalarFunction scalarFunction, final String expected,
-                                            final String decimalSize) throws AdapterException {
+            final String decimalSize) throws AdapterException {
         final SqlFunctionScalar sqlFunctionScalar = createSqlFunctionScalarForDateTest(scalarFunction, 0);
         assertThat(this.visitor.visit(sqlFunctionScalar),
                 equalTo("CAST(DATE_PART('" + expected + "',\"test_column\") AS DECIMAL(" + decimalSize + ",0))"));

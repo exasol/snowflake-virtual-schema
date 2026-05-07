@@ -8,11 +8,11 @@ sources:
 version:
   fromSource: pom.xml
 build:
-  runnerOs: ubuntu-22.04
+  runnerOs: ubuntu-24.04
   freeDiskSpace: false
   exasolDbVersions:
-    - "8.34.0"
-    # 7.1.x is disabled for now, more info: https://github.com/exasol/snowflake-virtual-schema/issues/20
+    - "2025.2.1"
+    - "2025.1.10"
   workflows:
     - name: ci-build.yml
       stepCustomizations:
@@ -25,10 +25,14 @@ build:
             id: configure-snowflake-credentials
             run: |
               cat > test.properties <<EOL
-              snowflake.username = ${{ secrets.USERNAME }}
-              snowflake.accountname = ${{ secrets.ACCOUNTNAME }}
-              snowflake.password = ${{ secrets.PASSWORD }}
+              snowflake.username = $USERNAME
+              snowflake.accountname = $ACCOUNTNAME
+              snowflake.password = $PASSWORD
               EOL
+            env:
+              USERNAME: ${{ secrets.USERNAME }}
+              ACCOUNTNAME: ${{ secrets.ACCOUNTNAME }}
+              PASSWORD: ${{ secrets.PASSWORD }}
         - action: INSERT_AFTER
           job: matrix-build
           stepId: configure-snowflake-credentials
@@ -47,10 +51,14 @@ build:
             id: configure-snowflake-credentials
             run: |
               cat > test.properties <<EOL
-              snowflake.username = ${{ secrets.USERNAME }}
-              snowflake.accountname = ${{ secrets.ACCOUNTNAME }}
-              snowflake.password = ${{ secrets.PASSWORD }}
+              snowflake.username = $USERNAME
+              snowflake.accountname = $ACCOUNTNAME
+              snowflake.password = $PASSWORD
               EOL
+            env:
+              USERNAME: ${{ secrets.USERNAME }}
+              ACCOUNTNAME: ${{ secrets.ACCOUNTNAME }}
+              PASSWORD: ${{ secrets.PASSWORD }}
         - action: INSERT_AFTER
           job: release
           stepId: configure-snowflake-credentials

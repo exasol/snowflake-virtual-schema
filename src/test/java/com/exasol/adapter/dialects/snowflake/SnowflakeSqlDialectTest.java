@@ -5,7 +5,6 @@ import static com.exasol.adapter.capabilities.AggregateFunctionCapability.*;
 import static com.exasol.adapter.capabilities.LiteralCapability.*;
 import static com.exasol.adapter.capabilities.MainCapability.*;
 import static com.exasol.adapter.capabilities.PredicateCapability.*;
-import static com.exasol.adapter.dialects.snowflake.SnowflakeSqlDialect.DATABASE_NAME_PROPERTY;
 import static com.exasol.adapter.dialects.snowflake.SnowflakeSqlDialect.ACCOUNT_NAME_PROPERTY;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -27,8 +26,10 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.exasol.ExaMetadata;
 import com.exasol.adapter.AdapterProperties;
 import com.exasol.adapter.capabilities.Capabilities;
+import com.exasol.adapter.dialects.JDBCAdapterContext;
 import com.exasol.adapter.dialects.SqlDialect;
 import com.exasol.adapter.dialects.rewriting.ImportIntoTemporaryTableQueryRewriter;
 import com.exasol.adapter.jdbc.ConnectionFactory;
@@ -37,17 +38,25 @@ import com.exasol.adapter.properties.PropertyValidationException;
 
 @ExtendWith(MockitoExtension.class)
 class SnowflakeSqlDialectTest {
-    private SnowflakeSqlDialect dialect;
+    SnowflakeSqlDialect dialect;
     @Mock
-    private ConnectionFactory connectionFactoryMock;
+    ConnectionFactory connectionFactoryMock;
+    @Mock
+    ExaMetadata exaMetadataMock;
 
     @BeforeEach
     void beforeEach() {
-        this.dialect = new SnowflakeSqlDialect(this.connectionFactoryMock, AdapterProperties.emptyProperties());
+        this.dialect = new SnowflakeSqlDialect(
+                JDBCAdapterContext.builder()
+                        .properties(AdapterProperties.emptyProperties())
+                        .connectionFactory(connectionFactoryMock)
+                        .metadata(exaMetadataMock)
+                        .build());
     }
 
     @Test
     void testCreateRemoteMetadataReader() {
+        when(exaMetadataMock.getDatabaseVersion()).thenReturn("1.2.3");
         assertThat(this.dialect.createRemoteMetadataReader(), instanceOf(SnowflakeMetadataReader.class));
     }
 
@@ -61,6 +70,7 @@ class SnowflakeSqlDialectTest {
 
     @Test
     void testCreateQueryRewriter() {
+        when(exaMetadataMock.getDatabaseVersion()).thenReturn("1.2.3");
         assertThat(this.dialect.createQueryRewriter(), instanceOf(ImportIntoTemporaryTableQueryRewriter.class));
     }
 
@@ -87,8 +97,8 @@ class SnowflakeSqlDialectTest {
         );
     }
 
-    @ValueSource(strings = {"ab:E'ab'", "a'b:E'a''b'", "a''b:E'a''''b'", "'ab':E'''ab'''", "a\\\\b:E'a\\\\\\\\b'",
-            "a\\'b:E'a\\\\''b'"})
+    @ValueSource(strings = { "ab:E'ab'", "a'b:E'a''b'", "a''b:E'a''''b'", "'ab':E'''ab'''", "a\\\\b:E'a\\\\\\\\b'",
+            "a\\'b:E'a\\\\''b'" })
     @ParameterizedTest
     void testGetLiteralString(final String definition) {
         assertThat(this.dialect.getStringLiteral(definition.substring(0, definition.indexOf(':'))),
@@ -102,25 +112,29 @@ class SnowflakeSqlDialectTest {
 
     @Test
     void testValidateDatabaseProperty() throws PropertyValidationException {
-        final SqlDialect sqlDialect = new SnowflakeSqlDialect(null, new AdapterProperties(Map.of( //
-                CONNECTION_NAME_PROPERTY, "MY_CONN", //
-                CATALOG_NAME_PROPERTY, "TESTDB")));
+        final SqlDialect sqlDialect = testee(Map.of(
+                CONNECTION_NAME_PROPERTY, "MY_CONN",
+                CATALOG_NAME_PROPERTY, "TESTDB"));
         sqlDialect.validateProperties();
     }
 
     @Test
     void testValidateAccountProperty() throws PropertyValidationException {
-        final SqlDialect sqlDialect = new SnowflakeSqlDialect(null, new AdapterProperties(Map.of( //
-                CONNECTION_NAME_PROPERTY, "MY_CONN", //
-                ACCOUNT_NAME_PROPERTY, "TESTDB")));
+        final SqlDialect sqlDialect = testee(Map.of(
+                CONNECTION_NAME_PROPERTY, "MY_CONN",
+                ACCOUNT_NAME_PROPERTY, "TESTDB"));
         sqlDialect.validateProperties();
     }
 
     @Test
     void testValidateSchemaProperty() throws PropertyValidationException {
-        final SqlDialect sqlDialect = new SnowflakeSqlDialect(null, new AdapterProperties(Map.of( //
-                CONNECTION_NAME_PROPERTY, "MY_CONN", //
-                SCHEMA_NAME_PROPERTY, "MY_SCHEMA")));
+        final SqlDialect sqlDialect = testee(Map.of(
+                CONNECTION_NAME_PROPERTY, "MY_CONN",
+                SCHEMA_NAME_PROPERTY, "MY_SCHEMA"));
         sqlDialect.validateProperties();
+    }
+
+    private SqlDialect testee(final Map<String, String> properties) {
+        return new SnowflakeSqlDialect(JDBCAdapterContext.builder().properties(new AdapterProperties(properties)).build());
     }
 }

@@ -23,7 +23,7 @@ import com.exasol.dbbuilder.dialects.exasol.VirtualSchema;
 import com.exasol.matcher.TypeMatchMode;
 
 @Tag("integration")
-@ExtendWith({CloseAfterAllExtension.class})
+@ExtendWith({ CloseAfterAllExtension.class })
 class SnowflakeSqlDialectIT {
     @CloseAfterAll
     private static final SnowflakeVirtualSchemaIntegrationTestSetup SETUP = new SnowflakeVirtualSchemaIntegrationTestSetup();
@@ -37,8 +37,8 @@ class SnowflakeSqlDialectIT {
     private static final String TABLE_JOIN_1 = "TABLE_JOIN_1";
     private static final String TABLE_JOIN_2 = "TABLE_JOIN_2";
     private static VirtualSchema virtualSchemaSnowflakePreserveOriginalCase;
-    private static String QUALIFIED_TABLE_JOIN_NAME_1;
-    private static String QUALIFIED_TABLE_JOIN_NAME_2;
+    private static String qualifiedTableJoinName1;
+    private static String qualifiedTableJoinName2;
     private static Statement statementExasol;
 
     @BeforeAll
@@ -55,8 +55,8 @@ class SnowflakeSqlDialectIT {
         statementExasol = SETUP.getExasolStatement();
         virtualSchemaSnowflake = SETUP.createVirtualSchema(SCHEMA_SNOWFLAKE, Map.of());
 
-        QUALIFIED_TABLE_JOIN_NAME_1 = virtualSchemaSnowflake.getName() + "." + TABLE_JOIN_1;
-        QUALIFIED_TABLE_JOIN_NAME_2 = virtualSchemaSnowflake.getName() + "." + TABLE_JOIN_2;
+        qualifiedTableJoinName1 = virtualSchemaSnowflake.getName() + "." + TABLE_JOIN_1;
+        qualifiedTableJoinName2 = virtualSchemaSnowflake.getName() + "." + TABLE_JOIN_2;
         exasolSchema = SETUP.getExasolFactory().createSchema("EXASOL_TEST_SCHEMA");
     }
 
@@ -83,7 +83,8 @@ class SnowflakeSqlDialectIT {
                 + "myCharacterVar CHARACTER, " //
                 + "myDate DATE, " //
                 + "myDouble DOUBLE PRECISION, " //
-                + "myInteger NUMBER(36,0), " // INT(EGER) has (38,0) precision and scale in snowflake, Exasol has (36,0) as a max. The integer datatype causes problems with the EXALOADER.
+                + "myInteger NUMBER(36,0), " // INT(EGER) has (38,0) precision and scale in snowflake, Exasol has (36,0) as a max. The integer datatype causes
+                                             // problems with the EXALOADER.
                 + "myNumeric NUMERIC(36, 10), " // same as NUMBER IN snowflake
                 + "myReal REAL, " //
                 + "mySmallint SMALLINT, " //
@@ -98,7 +99,7 @@ class SnowflakeSqlDialectIT {
                 + "10000000000, " // myBigint
                 + "false, " // myBoolean
                 + "'hajksdf', " // myCharacter
-                + "'h', " // myCharacterVar                // + "'192.168.100.128/25'::cidr, " // myCidr
+                + "'h', " // myCharacterVar // + "'192.168.100.128/25'::cidr, " // myCidr
                 + "'2010-01-01', " // myDate
                 + "192189234.1723854, " // myDouble
                 + "7189234, " // myInteger
@@ -132,8 +133,8 @@ class SnowflakeSqlDialectIT {
 
     @Test
     void testInnerJoin() throws SQLException {
-        final String query = "SELECT * FROM " + QUALIFIED_TABLE_JOIN_NAME_1 + " a INNER JOIN  "
-                + QUALIFIED_TABLE_JOIN_NAME_2 + " b ON a.x=b.x";
+        final String query = "SELECT * FROM " + qualifiedTableJoinName1 + " a INNER JOIN  "
+                + qualifiedTableJoinName2 + " b ON a.x=b.x";
         final ResultSet expected = getExpectedResultSet(
                 List.of("x  DECIMAL(36,0)", "y VARCHAR(100)", "a DECIMAL(36,0)", "b VARCHAR(100)"), //
                 List.of("2,'bbb', 2,'bbb'"));
@@ -143,8 +144,8 @@ class SnowflakeSqlDialectIT {
 
     @Test
     void testInnerJoinWithProjection() throws SQLException {
-        final String query = "SELECT b.y || " + QUALIFIED_TABLE_JOIN_NAME_1 + ".y FROM " + QUALIFIED_TABLE_JOIN_NAME_1
-                + " INNER JOIN  " + QUALIFIED_TABLE_JOIN_NAME_2 + " b ON " + QUALIFIED_TABLE_JOIN_NAME_1 + ".x=b.x";
+        final String query = "SELECT b.y || " + qualifiedTableJoinName1 + ".y FROM " + qualifiedTableJoinName1
+                + " INNER JOIN  " + qualifiedTableJoinName2 + " b ON " + qualifiedTableJoinName1 + ".x=b.x";
         final ResultSet expected = getExpectedResultSet(List.of("y VARCHAR(100)"), //
                 List.of("'bbbbbb'"));
         assertThat(getActualResultSet(query), matchesResultSet(expected));
@@ -152,8 +153,8 @@ class SnowflakeSqlDialectIT {
 
     @Test
     void testLeftJoin() throws SQLException {
-        final String query = "SELECT * FROM " + QUALIFIED_TABLE_JOIN_NAME_1 + " a LEFT OUTER JOIN  "
-                + QUALIFIED_TABLE_JOIN_NAME_2 + " b ON a.x=b.x ORDER BY a.x";
+        final String query = "SELECT * FROM " + qualifiedTableJoinName1 + " a LEFT OUTER JOIN  "
+                + qualifiedTableJoinName2 + " b ON a.x=b.x ORDER BY a.x";
         final ResultSet expected = getExpectedResultSet(
                 List.of("x DECIMAL(36,0)", "y VARCHAR(100)", "a DECIMAL(36,0)", "b VARCHAR(100)"), //
                 List.of("1, 'aaa', null, null", //
@@ -163,8 +164,8 @@ class SnowflakeSqlDialectIT {
 
     @Test
     void testRightJoin() throws SQLException {
-        final String query = "SELECT * FROM " + QUALIFIED_TABLE_JOIN_NAME_1 + " a RIGHT OUTER JOIN  "
-                + QUALIFIED_TABLE_JOIN_NAME_2 + " b ON a.x=b.x ORDER BY a.x";
+        final String query = "SELECT * FROM " + qualifiedTableJoinName1 + " a RIGHT OUTER JOIN  "
+                + qualifiedTableJoinName2 + " b ON a.x=b.x ORDER BY a.x";
         final ResultSet expected = getExpectedResultSet(
                 List.of("x DECIMAL(36,0)", "y VARCHAR(100)", "a DECIMAL(36,0)", "b VARCHAR(100)"), //
                 List.of("2, 'bbb', 2, 'bbb'", //
@@ -174,8 +175,8 @@ class SnowflakeSqlDialectIT {
 
     @Test
     void testFullOuterJoin() throws SQLException {
-        final String query = "SELECT * FROM " + QUALIFIED_TABLE_JOIN_NAME_1 + " a FULL OUTER JOIN  "
-                + QUALIFIED_TABLE_JOIN_NAME_2 + " b ON a.x=b.x ORDER BY a.x";
+        final String query = "SELECT * FROM " + qualifiedTableJoinName1 + " a FULL OUTER JOIN  "
+                + qualifiedTableJoinName2 + " b ON a.x=b.x ORDER BY a.x";
         final ResultSet expected = getExpectedResultSet(
                 List.of("x DECIMAL(36,0)", "y VARCHAR(100)", "a DECIMAL(36,0)", "b VARCHAR(100)"), //
                 List.of("1, 'aaa', null, null", //
@@ -186,8 +187,8 @@ class SnowflakeSqlDialectIT {
 
     @Test
     void testRightJoinWithComplexCondition() throws SQLException {
-        final String query = "SELECT * FROM " + QUALIFIED_TABLE_JOIN_NAME_1 + " a RIGHT OUTER JOIN  "
-                + QUALIFIED_TABLE_JOIN_NAME_2 + " b ON a.x||a.y=b.x||b.y ORDER BY a.x";
+        final String query = "SELECT * FROM " + qualifiedTableJoinName1 + " a RIGHT OUTER JOIN  "
+                + qualifiedTableJoinName2 + " b ON a.x||a.y=b.x||b.y ORDER BY a.x";
         final ResultSet expected = getExpectedResultSet(
                 List.of("x DECIMAL(36,0)", "y VARCHAR(100)", "a DECIMAL(36,0)", "b VARCHAR(100)"), //
                 List.of("2, 'bbb', 2, 'bbb'", //
@@ -197,8 +198,8 @@ class SnowflakeSqlDialectIT {
 
     @Test
     void testFullOuterJoinWithComplexCondition() throws SQLException {
-        final String query = "SELECT * FROM " + QUALIFIED_TABLE_JOIN_NAME_1 + " a FULL OUTER JOIN  "
-                + QUALIFIED_TABLE_JOIN_NAME_2 + " b ON a.x-b.x=0 ORDER BY a.x";
+        final String query = "SELECT * FROM " + qualifiedTableJoinName1 + " a FULL OUTER JOIN  "
+                + qualifiedTableJoinName2 + " b ON a.x-b.x=0 ORDER BY a.x";
         final ResultSet expected = getExpectedResultSet(
                 List.of("x DECIMAL(36,0)", "y VARCHAR(100)", "a DECIMAL(36,0)", "b VARCHAR(100)"), //
                 List.of("1, 'aaa', null, null", //
@@ -283,7 +284,7 @@ class SnowflakeSqlDialectIT {
 
     @Test
     void testDatatypeDouble() throws SQLException {
-        assertSingleValue("myDouble", "DOUBLE", "192189234.1723854");
+        assertSingleValue("myDouble", "DOUBLE", "1.92189234172385E8");
     }
 
     @Test
