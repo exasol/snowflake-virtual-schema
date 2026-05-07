@@ -26,7 +26,7 @@ In order to enable the ExaLoader to fetch data from the external database you mu
 ```properties
 DRIVERNAME=SNOWFLAKE_JDBC_DRIVER
 JAR=<jar file containing the jdbc driver>
-DRIVERMAIN=net.snowflake.client.jdbc.SnowflakeDriver
+DRIVERMAIN=net.snowflake.client.api.driver.SnowflakeDriver
 PREFIX=jdbc:snowflake:
 FETCHSIZE=100000
 INSERTSIZE=-1
@@ -38,7 +38,9 @@ Make sure there's an empty line at the end of the `settings.cfg` file, as shown 
 
 | Variable                                | Description                      |
 |-----------------------------------------|----------------------------------|
-| `<jar file containing the jdbc driver>` | E.g. `snowflake-jdbc-3.16.1.jar` |
+| `<jar file containing the jdbc driver>` | E.g. `snowflake-jdbc-4.1.0.jar`  |
+
+Please note that you will need to change the driver name from `net.snowflake.client.api.driver.SnowflakeDriver` to `net.snowflake.client.api.driver.SnowflakeDriver` when you upgrade the Snowflake JDBC driver from version 3.x to 4.x. See the [Snowflake documentation](https://docs.snowflake.com/en/developer-guide/jdbc/jdbc-configure) for details.
 
 ## Installing the Adapter Script
 
@@ -67,19 +69,25 @@ Define the connection to the Snowflake database as shown below.
 
 ```sql
 CREATE OR REPLACE CONNECTION SNOWFLAKE_CONNECTION
-TO 'jdbc:snowflake://<account name>.snowflakecomputing.com'
+TO 'jdbc:snowflake://<account identfier>.snowflakecomputing.com?JDBC_QUERY_RESULT_FORMAT=JSON'
 USER '<user>'
 IDENTIFIED BY '<password>';
 ```
 
-| Variable        | Description                                                             |
-|-----------------|-------------------------------------------------------------------------|
-| `<account name` | Account name or 'account identifier' of the Snowflake platform account. |
+### Account Identifier
 
-The account name or account identifier is usually in the form of `xxx-xxx`: 
+The account identifier in the JDBC URL is usually in the form of `xxxxxxx-yyyyyyy`: 
 It is part of the specific login url you get upon registering (e.g.:`igzdtnt-du40000` in `https:// igzdtnt-du40000 .snowflakecomputing.com/`). 
 It can also be found under the admin panel in Snowflake. 
-For more info see:https://docs.snowflake.com/en/user-guide/admin-account-identifier
+For more info see: https://docs.snowflake.com/en/user-guide/admin-account-identifier
+
+### Specify JSON Format for Fetching Results
+
+Please note that starting with Snowflake JDBC driver version 4.x you need to specify JDBC URL parameter `JDBC_QUERY_RESULT_FORMAT=JSON`. Without this, queries against the virtual schema will fail with the following error:
+
+```
+TL-5402: JDBC-Client-Error: Failed to initialize Query: JDBC driver internal error: exception creating result java.lang.ExceptionInInitializerError at net.snowflake.client.jdbc.internal.apache.arrow.memory.unsafe.UnsafeAllocationManager.<clinit>(UnsafeAllocationManager.java:28)
+```
 
 ## Creating a Virtual Schema
 

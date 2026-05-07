@@ -103,7 +103,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
 
     private Connection getSnowflakeConnection(final String username, final String password, final String accountname)
             throws SQLException, ClassNotFoundException {
-        Class.forName("net.snowflake.client.jdbc.SnowflakeDriver");
+        Class.forName("net.snowflake.client.api.driver.SnowflakeDriver");
         // build connection properties
         final Properties properties = new Properties();
         properties.put("user", username);
@@ -128,7 +128,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
             container.getDriverManager().install( //
                     JdbcDriver.builder("SNOWFLAKE_JDBC_DRIVER") //
                             .enableSecurityManager(false) //
-                            .mainClass("net.snowflake.client.jdbc.SnowflakeDriver") //
+                            .mainClass("net.snowflake.client.api.driver.SnowflakeDriver") //
                             .prefix("jdbc:snowflake:") //
                             .sourceFile(JDBC_DRIVER_PATH) //
                             .build());
