@@ -284,7 +284,7 @@ class SnowflakeSqlDialectIT {
 
     @Test
     void testDatatypeDouble() throws SQLException {
-        assertSingleValue("myDouble", "DOUBLE", "192189234.1723854");
+        assertSingleValue("myDouble", "DOUBLE", "1.92189234172385E8");
     }
 
     @Test
