@@ -112,9 +112,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
         properties.put("db", this.databaseName);
         properties.put("schema", "TESTSCHEMA");
 
-        final String connectStr = "jdbc:snowflake://" + accountname + ".snowflakecomputing.com"; // replace accountName
-                                                                                                 // with
-        // your account name
+        final String connectStr = "jdbc:snowflake://" + accountname + ".snowflakecomputing.com";
         return DriverManager.getConnection(connectStr, properties);
     }
 
