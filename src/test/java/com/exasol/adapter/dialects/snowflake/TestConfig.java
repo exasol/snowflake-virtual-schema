@@ -33,7 +33,6 @@ public class TestConfig {
         }
     }
 
-
     private String getMandatoryValue(final String param) {
         if (!properties.containsKey(param)) {
             throw new IllegalStateException(
@@ -46,7 +45,7 @@ public class TestConfig {
         return getMandatoryValue("snowflake.username");
     }
 
-    public String getSnowflakeAccountname() {
+    public String getSnowflakeAccountIdentifier() {
         return getMandatoryValue("snowflake.accountname");
     }
 

@@ -44,9 +44,6 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
     private final ExasolObjectFactory exasolFactory;
     private final Connection snowflakeConnection;
     private int virtualSchemaCounter = 0;
-    private String userName;
-    private String password;
-    private String accountName;
     private String databaseName;
 
     public String randomDbAddendum() {
@@ -73,8 +70,8 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
             uploadVsJarToBucket(bucket);
             this.exasolConnection = this.exasolContainer.createConnection("");
             this.exasolStatement = this.exasolConnection.createStatement();
-            getTestCredentials();
-            this.snowflakeConnection = getSnowflakeConnection(userName, password, accountName);
+            final TestConfig testConfig = TestConfig.read();
+            this.snowflakeConnection = getSnowflakeConnection(testConfig, databaseName);
             this.snowflakeStatement = snowflakeConnection.createStatement();
             final String hostIpAddress = getTestHostIpFromInsideExasol();
             assert (hostIpAddress != null);
@@ -84,43 +81,33 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
                     ExasolObjectConfiguration.builder().withJvmOptions(udfTestSetup.getJvmOptions()).build());
             final ExasolSchema exasolSchema = this.exasolFactory.createSchema(SCHEMA_EXASOL);
             this.adapterScript = createAdapterScript(exasolSchema);
-            final String connectionString = getSnowflakeConnectionString(accountName);
-            connectionDefinition = getSnowflakeConnectionDefinition(connectionString, userName, password);
-        } catch (final SQLException | ClassNotFoundException exception) {
+            final String connectionString = getSnowflakeConnectionString(testConfig.getSnowflakeAccountIdentifier());
+            connectionDefinition = getSnowflakeConnectionDefinition(connectionString, testConfig);
+        } catch (final SQLException exception) {
             throw new IllegalStateException("Failed to created snowflake test setup.", exception);
         }
     }
 
-    private ConnectionDefinition getSnowflakeConnectionDefinition(final String connectionString, final String username,
-            final String password) {
+    private ConnectionDefinition getSnowflakeConnectionDefinition(final String connectionString, final TestConfig testConfig) {
         return this.exasolFactory.createConnectionDefinition("SNOWFLAKE_CONNECTION", connectionString,
-                username, password);
+                testConfig.getSnowflakeUsername(), testConfig.getSnowflakePassword());
     }
 
-    private String getSnowflakeConnectionString(final String accountname) {
-        return "jdbc:snowflake://" + accountname + ".snowflakecomputing.com?JDBC_QUERY_RESULT_FORMAT=JSON";
+    private static String getSnowflakeConnectionString(final String accountIdentifier) {
+        return "jdbc:snowflake://" + accountIdentifier + ".snowflakecomputing.com?JDBC_QUERY_RESULT_FORMAT=JSON";
     }
 
-    private Connection getSnowflakeConnection(final String username, final String password, final String accountname)
-            throws SQLException, ClassNotFoundException {
-        Class.forName("net.snowflake.client.api.driver.SnowflakeDriver");
-        // build connection properties
+    private static Connection getSnowflakeConnection(final TestConfig testConfig, final String databaseName)
+            throws SQLException {
         final Properties properties = new Properties();
-        properties.put("user", username);
-        properties.put("password", password);
-        properties.put("account", accountname);
-        properties.put("db", this.databaseName);
+        properties.put("user", testConfig.getSnowflakeUsername());
+        properties.put("password", testConfig.getSnowflakePassword());
+        properties.put("account", testConfig.getSnowflakeAccountIdentifier());
+        properties.put("db", databaseName);
         properties.put("schema", "TESTSCHEMA");
 
-        final String connectStr = "jdbc:snowflake://" + accountname + ".snowflakecomputing.com";
+        final String connectStr = getSnowflakeConnectionString(testConfig.getSnowflakeAccountIdentifier());
         return DriverManager.getConnection(connectStr, properties);
-    }
-
-    private void getTestCredentials() {
-        final TestConfig testConfig = TestConfig.read();
-        this.userName = testConfig.getSnowflakeUsername();
-        this.password = testConfig.getSnowflakePassword();
-        this.accountName = testConfig.getSnowflakeAccountname();
     }
 
     private static void uploadDriverToBucket(final ExasolContainer<? extends ExasolContainer<?>> container) {
