@@ -40,7 +40,7 @@ Make sure there's an empty line at the end of the `settings.cfg` file, as shown 
 |-----------------------------------------|----------------------------------|
 | `<jar file containing the jdbc driver>` | E.g. `snowflake-jdbc-4.1.0.jar`  |
 
-Please note that you will need to change the driver name from `net.snowflake.client.api.driver.SnowflakeDriver` to `net.snowflake.client.api.driver.SnowflakeDriver` when you upgrade the Snowflake JDBC driver from version 3.x to 4.x. See the [Snowflake documentation](https://docs.snowflake.com/en/developer-guide/jdbc/jdbc-configure) for details.
+Please note that you will need to change the driver name from `net.snowflake.client.jdbc.SnowflakeDriver` to `net.snowflake.client.api.driver.SnowflakeDriver` when you upgrade the Snowflake JDBC driver from version 3.x to 4.x. See the [Snowflake documentation](https://docs.snowflake.com/en/developer-guide/jdbc/jdbc-configure) for details.
 
 ## Installing the Adapter Script
 
