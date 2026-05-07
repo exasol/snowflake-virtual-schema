@@ -86,25 +86,19 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
             this.adapterScript = createAdapterScript(exasolSchema);
             final String connectionString = getSnowflakeConnectionString(accountName);
             connectionDefinition = getSnowflakeConnectionDefinition(connectionString, userName, password);
-        } catch (final SQLException | BucketAccessException | TimeoutException | ClassNotFoundException exception) {
+        } catch (final SQLException | ClassNotFoundException exception) {
             throw new IllegalStateException("Failed to created snowflake test setup.", exception);
-        } catch (final InterruptedException exception) {
-            Thread.currentThread().interrupt();
-            throw new IllegalStateException("Thread was interrupted");
         }
     }
 
     private ConnectionDefinition getSnowflakeConnectionDefinition(final String connectionString, final String username,
             final String password) {
-        final ConnectionDefinition connectionDefinition;
-        connectionDefinition = this.exasolFactory.createConnectionDefinition("SNOWFLAKE_CONNECTION", connectionString,
+        return this.exasolFactory.createConnectionDefinition("SNOWFLAKE_CONNECTION", connectionString,
                 username, password);
-        return connectionDefinition;
     }
 
     private String getSnowflakeConnectionString(final String accountname) {
-        final String connectionString = "jdbc:snowflake://" + accountname + ".snowflakecomputing.com";
-        return connectionString;
+        return "jdbc:snowflake://" + accountname + ".snowflakecomputing.com";
     }
 
     private Connection getSnowflakeConnection(final String username, final String password, final String accountname)
@@ -131,8 +125,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
         this.accountName = testConfig.getSnowflakeAccountname();
     }
 
-    private static void uploadDriverToBucket(final ExasolContainer<? extends ExasolContainer<?>> container)
-            throws InterruptedException, TimeoutException, BucketAccessException {
+    private static void uploadDriverToBucket(final ExasolContainer<? extends ExasolContainer<?>> container) {
         try {
             container.getDriverManager().install( //
                     JdbcDriver.builder("SNOWFLAKE_JDBC_DRIVER") //
@@ -187,7 +180,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
         return this.exasolFactory
                 .createVirtualSchemaBuilder("SNOWFLAKE_VIRTUAL_SCHEMA_" + (this.virtualSchemaCounter++))
                 .adapterScript(this.adapterScript).connectionDefinition(this.connectionDefinition)
-                .properties(properties).build();
+                .addProperties(properties).build();
     }
 
     public ExasolObjectFactory getExasolFactory() {

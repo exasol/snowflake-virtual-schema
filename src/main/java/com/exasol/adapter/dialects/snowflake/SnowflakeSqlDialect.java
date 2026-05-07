@@ -1,6 +1,7 @@
 package com.exasol.adapter.dialects.snowflake;
 
-import static com.exasol.adapter.AdapterProperties.*;
+import static com.exasol.adapter.AdapterProperties.CATALOG_NAME_PROPERTY;
+import static com.exasol.adapter.AdapterProperties.SCHEMA_NAME_PROPERTY;
 import static com.exasol.adapter.capabilities.AggregateFunctionCapability.*;
 import static com.exasol.adapter.capabilities.LiteralCapability.*;
 import static com.exasol.adapter.capabilities.MainCapability.*;
@@ -13,13 +14,13 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.function.Predicate;
 
-import com.exasol.adapter.AdapterProperties;
 import com.exasol.adapter.capabilities.Capabilities;
 import com.exasol.adapter.capabilities.ScalarFunctionCapability;
 import com.exasol.adapter.dialects.*;
 import com.exasol.adapter.dialects.rewriting.ImportIntoTemporaryTableQueryRewriter;
 import com.exasol.adapter.dialects.rewriting.SqlGenerationContext;
-import com.exasol.adapter.jdbc.*;
+import com.exasol.adapter.jdbc.RemoteMetadataReader;
+import com.exasol.adapter.jdbc.RemoteMetadataReaderException;
 import com.exasol.adapter.sql.ScalarFunction;
 import com.exasol.errorreporting.ExaError;
 
@@ -94,12 +95,11 @@ public class SnowflakeSqlDialect extends AbstractSqlDialect {
     /**
      * Create a new instance of the {@link SnowflakeSqlDialect}.
      *
-     * @param connectionFactory factory for the JDBC connection to the remote data source
-     * @param properties        user-defined adapter properties
+     * @param context context for the SQL dialect
      */
-    public SnowflakeSqlDialect(final ConnectionFactory connectionFactory, final AdapterProperties properties) {
-        super(connectionFactory, properties, //
-                Set.of(SCHEMA_NAME_PROPERTY, CATALOG_NAME_PROPERTY, ACCOUNT_NAME_PROPERTY), //
+    public SnowflakeSqlDialect(final JDBCAdapterContext context) {
+        super(context,
+                Set.of(SCHEMA_NAME_PROPERTY, CATALOG_NAME_PROPERTY, ACCOUNT_NAME_PROPERTY),
                 List.of());
     }
 
@@ -111,7 +111,7 @@ public class SnowflakeSqlDialect extends AbstractSqlDialect {
     @Override
     protected RemoteMetadataReader createRemoteMetadataReader() {
         try {
-            return new SnowflakeMetadataReader(this.connectionFactory.getConnection(), this.properties);
+            return new SnowflakeMetadataReader(this.connectionFactory.getConnection(), this.properties, this.exaMetadata);
         } catch (final SQLException exception) {
             throw new RemoteMetadataReaderException(ExaError.messageBuilder("E-VSSF-3")
                     .message("Unable to create Snowflake remote metadata reader. Caused by: {{cause}}",
@@ -156,12 +156,13 @@ public class SnowflakeSqlDialect extends AbstractSqlDialect {
     }
 
     @Override
-    public String applyQuote(String identifier) {
+    public String applyQuote(final String identifier) {
         return super.quoteIdentifierWithDoubleQuotes(identifier);
     }
 
-    //Changing this to true fixes java.sql.SQLException: ETL-5402: JDBC-Client-Error: Failed to initialize Query: Cannot perform SELECT. This session does not have a current database. Call 'USE DATABASE', or use a qualified name.
-    //By using database/catalog name as a prefix.
+    // Changing this to true fixes java.sql.SQLException: ETL-5402: JDBC-Client-Error: Failed to initialize Query: Cannot perform SELECT. This session does not
+    // have a current database. Call 'USE DATABASE', or use a qualified name.
+    // By using database/catalog name as a prefix.
     @Override
     public boolean requiresCatalogQualifiedTableNames(final SqlGenerationContext context) {
         return true;
