@@ -23,7 +23,7 @@
         <dependency>
             <groupId>net.snowflake</groupId>
             <artifactId>snowflake-jdbc</artifactId>
-            <version>4.3.1</version>
+            <version>4.3.2</version>
             <scope>runtime</scope>
         </dependency>
         <!--Unit test dependencies -->
@@ -37,7 +37,7 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <!-- Version 6 requires Java 17 -->
-            <version>6.1.2</version>
+            <version>5.14.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -70,7 +70,7 @@
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>exasol-testcontainers</artifactId>
-            <version>7.3.0</version>
+            <version>8.0.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -82,19 +82,19 @@
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>test-db-builder-java</artifactId>
-            <version>4.0.1</version>
+            <version>4.0.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>hamcrest-resultset-matcher</artifactId>
-            <version>1.7.2</version>
+            <version>1.7.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>udf-debugging-java</artifactId>
-            <version>0.6.18</version>
+            <version>0.6.20</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -112,7 +112,7 @@
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>virtual-schema-shared-integration-tests</artifactId>
-            <version>3.0.2</version>
+            <version>3.0.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -145,7 +145,7 @@
             <plugin>
                 <groupId>com.exasol</groupId>
                 <artifactId>project-keeper-maven-plugin</artifactId>
-                <version>5.7.3</version>
+                <version>5.7.4</version>
                 <executions>
                     <execution>
                         <goals>
