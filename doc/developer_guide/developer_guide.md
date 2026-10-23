@@ -14,6 +14,10 @@ snowflake.accountname = <snowflake account identifier>
 snowflake.database = <pre-created test database>
 ```
 
+To create a token, go to "Programmatic access tokens". Click "Generate Token" and select "All of my roles".
+
+**Important:** After creating the token, click on its three-dot-menu, select "Bypass Network Policy Requirement" and click "Grant Access". Access will fail with `SnowflakeSQLException: Fail : Network policy is required` if this is not done.
+
 ### In the GitHub CI
 
 The credentials are stored in the following GitHub repository secrets:
