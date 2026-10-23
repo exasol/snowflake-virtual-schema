@@ -2,7 +2,8 @@ package com.exasol.adapter.dialects.snowflake;
 
 import static java.util.Collections.emptyMap;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.ArgumentMatchers.isNotNull;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +17,6 @@ class SnowflakeTableMetadataReaderTest {
         final AdapterProperties properties = new AdapterProperties(emptyMap());
         final SnowflakeTableMetadataReader reader = new SnowflakeTableMetadataReader(null, null, properties, null,
                 BaseIdentifierConverter.createDefault());
-        assertThat(reader, isNotNull());
+        assertThat(reader, not(nullValue()));
     }
 }
