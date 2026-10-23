@@ -9,7 +9,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.hamcrest.MatcherAssert;
@@ -27,8 +29,10 @@ import com.exasol.matcher.TypeMatchMode;
 class SnowflakeSqlDialectIT {
     @CloseAfterAll
     private static final SnowflakeVirtualSchemaIntegrationTestSetup SETUP = new SnowflakeVirtualSchemaIntegrationTestSetup();
-    private static final String SCHEMA_SNOWFLAKE = "SCHEMA_SNOWFLAKE";
-    private static final String SCHEMA_SNOWFLAKE_UPPERCASE_TABLE = "SCHEMA_SNOWFLAKE_UPPER";
+    private static final String TEST_RUN_ID = UUID.randomUUID().toString().replace("-", "").substring(0, 8)
+            .toUpperCase(Locale.ROOT);
+    private static final String SCHEMA_SNOWFLAKE = "SCHEMA_SNOWFLAKE_" + TEST_RUN_ID;
+    private static final String SCHEMA_SNOWFLAKE_UPPERCASE_TABLE = "SCHEMA_SNOWFLAKE_UPPER_" + TEST_RUN_ID;
     private static final String TABLE_SNOWFLAKE_SIMPLE = "table_snowflake_simple";
     private static final String TABLE_SNOWFLAKE_ALL_DATA_TYPES = "table_snowflake_all_data_types";
     private static Schema exasolSchema;
@@ -43,7 +47,6 @@ class SnowflakeSqlDialectIT {
     static void beforeAll() throws SQLException {
         final Statement statementSnowflake = SETUP.getSnowflakeStatement();
 
-        statementSnowflake.execute("CREATE DATABASE " + SETUP.getDatabaseName());
         statementSnowflake.execute("CREATE SCHEMA " + SCHEMA_SNOWFLAKE);
         statementSnowflake.execute("CREATE SCHEMA " + SCHEMA_SNOWFLAKE_UPPERCASE_TABLE);
 
@@ -61,7 +64,9 @@ class SnowflakeSqlDialectIT {
     @AfterAll
     static void afterAll() throws SQLException {
         final Statement statementSnowflake = SETUP.getSnowflakeStatement();
-        statementSnowflake.execute("DROP DATABASE " + SETUP.getDatabaseName() + " CASCADE;");
+        statementSnowflake.execute("DROP SCHEMA " + SETUP.getDatabaseName() + "." + SCHEMA_SNOWFLAKE + " CASCADE");
+        statementSnowflake.execute("DROP SCHEMA " + SETUP.getDatabaseName() + "." + SCHEMA_SNOWFLAKE_UPPERCASE_TABLE
+                + " CASCADE");
     }
 
     private static void createSnowflakeTestTableSimple(final Statement statementSnowflake) throws SQLException {

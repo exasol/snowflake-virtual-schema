@@ -28,11 +28,13 @@ build:
               snowflake.username = $USERNAME
               snowflake.accountname = $ACCOUNTNAME
               snowflake.password = $PASSWORD
+              snowflake.database = $SNOWFLAKE_TEST_DATABASE
               EOL
             env:
               USERNAME: ${{ secrets.USERNAME }}
               ACCOUNTNAME: ${{ secrets.ACCOUNTNAME }}
               PASSWORD: ${{ secrets.PASSWORD }}
+              SNOWFLAKE_TEST_DATABASE: ${{ secrets.SNOWFLAKE_TEST_DATABASE }}
         - action: INSERT_AFTER
           job: matrix-build
           stepId: configure-snowflake-credentials
@@ -54,11 +56,13 @@ build:
               snowflake.username = $USERNAME
               snowflake.accountname = $ACCOUNTNAME
               snowflake.password = $PASSWORD
+              snowflake.database = $SNOWFLAKE_TEST_DATABASE
               EOL
             env:
               USERNAME: ${{ secrets.USERNAME }}
               ACCOUNTNAME: ${{ secrets.ACCOUNTNAME }}
               PASSWORD: ${{ secrets.PASSWORD }}
+              SNOWFLAKE_TEST_DATABASE: ${{ secrets.SNOWFLAKE_TEST_DATABASE }}
         - action: INSERT_AFTER
           job: release
           stepId: configure-snowflake-credentials

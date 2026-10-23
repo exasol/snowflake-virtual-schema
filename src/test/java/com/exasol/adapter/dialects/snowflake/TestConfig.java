@@ -49,6 +49,10 @@ public class TestConfig {
         return getMandatoryValue("snowflake.accountname");
     }
 
+    public String getSnowflakeDatabaseName() {
+        return getMandatoryValue("snowflake.database");
+    }
+
     public String getSnowflakePassword() {
         return getMandatoryValue("snowflake.password");
     }

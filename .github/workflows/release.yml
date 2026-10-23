@@ -183,11 +183,13 @@ jobs:
           snowflake.username = $USERNAME
           snowflake.accountname = $ACCOUNTNAME
           snowflake.password = $PASSWORD
+          snowflake.database = $SNOWFLAKE_TEST_DATABASE
           EOL
         env: {
           USERNAME: '${{ secrets.USERNAME }}',
           ACCOUNTNAME: '${{ secrets.ACCOUNTNAME }}',
-          PASSWORD: '${{ secrets.PASSWORD }}'
+          PASSWORD: '${{ secrets.PASSWORD }}',
+          SNOWFLAKE_TEST_DATABASE: '${{ secrets.SNOWFLAKE_TEST_DATABASE }}'
         }
       - {
         name: Fix VM Crash in UDFs,
