@@ -33,10 +33,8 @@ class SnowflakeSqlDialectIT {
     private static final String TABLE_SNOWFLAKE_ALL_DATA_TYPES = "table_snowflake_all_data_types";
     private static Schema exasolSchema;
     private static VirtualSchema virtualSchemaSnowflake;
-    private static VirtualSchema virtualSchemaSnowflakeUppercaseTable;
     private static final String TABLE_JOIN_1 = "TABLE_JOIN_1";
     private static final String TABLE_JOIN_2 = "TABLE_JOIN_2";
-    private static VirtualSchema virtualSchemaSnowflakePreserveOriginalCase;
     private static String qualifiedTableJoinName1;
     private static String qualifiedTableJoinName2;
     private static Statement statementExasol;
