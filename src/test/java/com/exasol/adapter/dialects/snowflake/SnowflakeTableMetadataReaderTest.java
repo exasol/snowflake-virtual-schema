@@ -1,28 +1,22 @@
 package com.exasol.adapter.dialects.snowflake;
 
-import static com.exasol.adapter.AdapterProperties.IGNORE_ERRORS_PROPERTY;
+import static java.util.Collections.emptyMap;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.exasol.adapter.AdapterProperties;
 import com.exasol.adapter.dialects.BaseIdentifierConverter;
 
 class SnowflakeTableMetadataReaderTest {
-    private Map<String, String> rawProperties;
-    private SnowflakeTableMetadataReader reader;
 
-    @BeforeEach
-    void beforeEach() {
-        this.rawProperties = new HashMap<>();
-        final AdapterProperties properties = new AdapterProperties(this.rawProperties);
-        this.reader = new SnowflakeTableMetadataReader(null, null, properties, null,
+    @Test
+    void testConstructor() {
+        final AdapterProperties properties = new AdapterProperties(emptyMap());
+        final SnowflakeTableMetadataReader reader = new SnowflakeTableMetadataReader(null, null, properties, null,
                 BaseIdentifierConverter.createDefault());
-    }
-
-    private void ignoreErrors(final String ignoreErrors) {
-        this.rawProperties.put(IGNORE_ERRORS_PROPERTY, ignoreErrors);
+        assertThat(reader, not(nullValue()));
     }
 }

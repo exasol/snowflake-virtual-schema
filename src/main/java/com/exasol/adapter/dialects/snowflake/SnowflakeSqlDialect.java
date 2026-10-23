@@ -55,7 +55,12 @@ public class SnowflakeSqlDialect extends AbstractSqlDialect {
             ST_BUFFER, ST_CENTROID, ST_CONTAINS, ST_CONVEXHULL, ST_CROSSES, ST_DIFFERENCE, ST_DIMENSION, ST_DISJOINT,
             ST_DISTANCE, ST_ENVELOPE, ST_EQUALS, ST_FORCE2D, ST_GEOMETRYTYPE, ST_INTERSECTION, ST_INTERSECTS,
             ST_ISEMPTY, ST_ISSIMPLE, ST_OVERLAPS, ST_SETSRID, ST_SYMDIFFERENCE, ST_TOUCHES, ST_TRANSFORM, ST_UNION,
-            ST_WITHIN);
+            ST_WITHIN,
+
+            // New untested capabilities
+            LAST_DAY, LEFT
+
+    );
     private static final Capabilities CAPABILITIES = createCapabilityList();
     static final String DATABASE_NAME_PROPERTY = "DATABASE_NAME";
     static final String ACCOUNT_NAME_PROPERTY = "ACCOUNT_NAME";

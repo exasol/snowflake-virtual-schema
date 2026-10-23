@@ -11,6 +11,7 @@ You need to add a `test.properties` file to the project folder that has the foll
 snowflake.username = <username>
 snowflake.password = <token>
 snowflake.accountname = <snowflake account identifier>
+snowflake.database = <pre-created test database>
 ```
 
 To create a token, go to "Programmatic access tokens". Click "Generate Token" and select "All of my roles".
@@ -23,4 +24,5 @@ The credentials are stored in the following GitHub repository secrets:
 - `USERNAME`
 - `ACCOUNTNAME`
 - `PASSWORD`
+- `SNOWFLAKE_TEST_DATABASE`
 and get read out by the relevant CI workflows.

@@ -23,7 +23,7 @@ import com.github.dockerjava.api.model.ContainerNetwork;
  * This class contains the common integration test setup for all Snowflake virtual schemas.
  */
 public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
-    private static final String VIRTUAL_SCHEMAS_JAR_NAME_AND_VERSION = "virtual-schema-dist-14.0.4-snowflake-1.0.1.jar";
+    private static final String VIRTUAL_SCHEMAS_JAR_NAME_AND_VERSION = "virtual-schema-dist-14.1.0-snowflake-1.0.2.jar";
     private static final Path PATH_TO_VIRTUAL_SCHEMAS_JAR = Path.of("target", VIRTUAL_SCHEMAS_JAR_NAME_AND_VERSION);
     private static final String SCHEMA_EXASOL = "SCHEMA_EXASOL";
     private static final String ADAPTER_SCRIPT_EXASOL = "ADAPTER_SCRIPT_EXASOL";
@@ -46,24 +46,12 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
     private int virtualSchemaCounter = 0;
     private String databaseName;
 
-    public String randomDbAddendum() {
-        final int leftLimit = 97; // letter 'a'
-        final int rightLimit = 122; // letter 'z'
-        final int targetStringLength = 4;
-        final Random random = new Random();
-
-        return random.ints(leftLimit, rightLimit + 1).limit(targetStringLength)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
-
-    }
-
     public String getDatabaseName() {
         return databaseName;
     }
 
     SnowflakeVirtualSchemaIntegrationTestSetup() {
         try {
-            this.databaseName = "TESTDB" + randomDbAddendum().toUpperCase();
             this.exasolContainer.start();
             final Bucket bucket = this.exasolContainer.getDefaultBucket();
             uploadDriverToBucket(this.exasolContainer);
@@ -71,6 +59,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
             this.exasolConnection = this.exasolContainer.createConnection("");
             this.exasolStatement = this.exasolConnection.createStatement();
             final TestConfig testConfig = TestConfig.read();
+            this.databaseName = testConfig.getSnowflakeDatabaseName();
             this.snowflakeConnection = getSnowflakeConnection(testConfig, databaseName);
             this.snowflakeStatement = snowflakeConnection.createStatement();
             final String hostIpAddress = getTestHostIpFromInsideExasol();
@@ -94,7 +83,7 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
     }
 
     private static String getSnowflakeConnectionString(final String accountIdentifier) {
-        return "jdbc:snowflake://" + accountIdentifier + ".snowflakecomputing.com?JDBC_QUERY_RESULT_FORMAT=JSON";
+        return "jdbc:snowflake://" + accountIdentifier + ".snowflakecomputing.com/?JDBC_QUERY_RESULT_FORMAT=JSON";
     }
 
     private static Connection getSnowflakeConnection(final TestConfig testConfig, final String databaseName)
@@ -104,8 +93,6 @@ public class SnowflakeVirtualSchemaIntegrationTestSetup implements Closeable {
         properties.put("password", testConfig.getSnowflakePassword());
         properties.put("account", testConfig.getSnowflakeAccountIdentifier());
         properties.put("db", databaseName);
-        properties.put("schema", "TESTSCHEMA");
-
         final String connectStr = getSnowflakeConnectionString(testConfig.getSnowflakeAccountIdentifier());
         return DriverManager.getConnection(connectStr, properties);
     }

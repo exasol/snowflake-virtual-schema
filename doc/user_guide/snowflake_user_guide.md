@@ -58,7 +58,7 @@ The SQL statement below creates the adapter script, defines the Java class that 
 --/
 CREATE OR REPLACE JAVA ADAPTER SCRIPT ADAPTER.SNOWFLAKE_JDBC_ADAPTER AS
   %scriptclass com.exasol.adapter.RequestDispatcher;
-  %jar /buckets/<BFS service>/<bucket>/virtual-schema-dist-14.0.4-snowflake-1.0.1.jar;
+  %jar /buckets/<BFS service>/<bucket>/virtual-schema-dist-14.1.0-snowflake-1.0.2.jar;
   %jar /buckets/<BFS service>/<bucket>/drivers/jdbc/snowflake-jdbc-<snowflake-driver-version>.jar;
 /
 ```
@@ -69,17 +69,35 @@ Define the connection to the Snowflake database as shown below.
 
 ```sql
 CREATE OR REPLACE CONNECTION SNOWFLAKE_CONNECTION
-TO 'jdbc:snowflake://<account identfier>.snowflakecomputing.com?JDBC_QUERY_RESULT_FORMAT=JSON'
-USER '<user>'
-IDENTIFIED BY '<password>';
+TO 'jdbc:snowflake://<account identifier>.snowflakecomputing.com?JDBC_QUERY_RESULT_FORMAT=JSON'
+USER '<user login name>'
+IDENTIFIED BY '<token>';
 ```
 
 ### Account Identifier
 
-The account identifier in the JDBC URL is usually in the form of `xxxxxxx-yyyyyyy`: 
-It is part of the specific login url you get upon registering (e.g.:`igzdtnt-du40000` in `https:// igzdtnt-du40000 .snowflakecomputing.com/`). 
-It can also be found under the admin panel in Snowflake. 
+The account identifier in the JDBC URL is usually in the form of `xxxxxxx-yyyyyyy`:
+It is part of the specific login url you get upon registering (e.g.:`igzdtnt-du40000` in `https:// igzdtnt-du40000 .snowflakecomputing.com/`).
+It can also be found under the admin panel in Snowflake.
 For more info see: https://docs.snowflake.com/en/user-guide/admin-account-identifier
+
+### Generate Snowflake Token
+
+Run these commands in Snowflake to create a token:
+
+```sql
+-- Convert user to a SERVICE user
+ALTER USER <user> SET TYPE = SERVICE;
+
+-- Create token
+ALTER USER <user>
+  ADD PROGRAMMATIC ACCESS TOKEN <token_name>
+  DAYS_TO_EXPIRY = 30
+  COMMENT = 'Access for Exasol Snowflake Virtual Schema'
+  ROLE_RESTRICTION = '<role>';
+```
+
+Store the returned token, it will be displayed only once. See Snowflake documentation on [Programmatic Access Tokens](https://docs.snowflake.com/en/user-guide/programmatic-access-tokens) and [`ALTER USER ... ADD PROGRAMMATIC ACCESS TOKEN`](https://docs.snowflake.com/en/sql-reference/sql/alter-user-add-programmatic-access-token).
 
 ### Specify JSON Format for Fetching Results
 
@@ -91,7 +109,7 @@ TL-5402: JDBC-Client-Error: Failed to initialize Query: JDBC driver internal err
 
 ## Creating a Virtual Schema
 
-Use the following SQL statement in the Exasol database to create a Snowflake Virtual Schema 
+Use the following SQL statement in the Exasol database to create a Snowflake Virtual Schema
 (Make sure to use UPPERCASE for the catalog and schema name):
 
 ```sql

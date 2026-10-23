@@ -11,8 +11,8 @@ build:
   runnerOs: ubuntu-24.04
   freeDiskSpace: false
   exasolDbVersions:
-    - "2026.1.0" # Latest version
-    - "2025.1.13" # Latest LTS version
+    - "2026.1.2" # Latest version
+    - "2025.1.16" # Latest LTS version
   workflows:
     - name: ci-build.yml
       stepCustomizations:
@@ -28,11 +28,13 @@ build:
               snowflake.username = $USERNAME
               snowflake.accountname = $ACCOUNTNAME
               snowflake.password = $PASSWORD
+              snowflake.database = $SNOWFLAKE_TEST_DATABASE
               EOL
             env:
               USERNAME: ${{ secrets.USERNAME }}
               ACCOUNTNAME: ${{ secrets.ACCOUNTNAME }}
               PASSWORD: ${{ secrets.PASSWORD }}
+              SNOWFLAKE_TEST_DATABASE: ${{ secrets.SNOWFLAKE_TEST_DATABASE }}
         - action: INSERT_AFTER
           job: matrix-build
           stepId: configure-snowflake-credentials
@@ -54,11 +56,13 @@ build:
               snowflake.username = $USERNAME
               snowflake.accountname = $ACCOUNTNAME
               snowflake.password = $PASSWORD
+              snowflake.database = $SNOWFLAKE_TEST_DATABASE
               EOL
             env:
               USERNAME: ${{ secrets.USERNAME }}
               ACCOUNTNAME: ${{ secrets.ACCOUNTNAME }}
               PASSWORD: ${{ secrets.PASSWORD }}
+              SNOWFLAKE_TEST_DATABASE: ${{ secrets.SNOWFLAKE_TEST_DATABASE }}
         - action: INSERT_AFTER
           job: release
           stepId: configure-snowflake-credentials
